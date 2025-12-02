@@ -5,7 +5,7 @@ nixpkgs = ["php83", "php83Packages.composer", "nodejs_20"]
 cmds = ["composer install --no-dev --optimize-autoloader", "npm ci", "npm run build"]
 
 [phases.build]
-cmds = ["php artisan config:cache", "php artisan view:cache", "php artisan route:cache"]
+cmds = ["mkdir -p storage/framework/views", "php artisan view:cache", "php artisan route:cache"]
 
 [start]
 cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
