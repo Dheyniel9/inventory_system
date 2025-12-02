@@ -32,8 +32,9 @@ RUN npm ci && npm run build
 # Production stage
 FROM php:8.3-fpm
 
-# Install system dependencies
+# Install system dependencies including bash
 RUN apt-get update && apt-get install -y \
+    bash \
     curl \
     libpq-dev \
     mariadb-client-core \
@@ -47,10 +48,12 @@ WORKDIR /app
 # Copy application code and vendor from builder
 COPY --from=builder /app .
 
+# Ensure .env file exists
+RUN if [ ! -f .env ]; then cp .env.production .env 2>/dev/null || echo "APP_KEY=" >> .env; fi
+
 # Create necessary directories with proper permissions
 RUN mkdir -p storage/framework/views storage/framework/cache storage/logs \
-    && chmod -R 755 storage bootstrap/cache \
-    && cp .env.production .env || true
+    && chmod -R 755 storage bootstrap/cache
 
 # Copy startup script
 COPY start.sh /app/start.sh

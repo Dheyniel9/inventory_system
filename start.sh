@@ -1,16 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-echo "Starting Laravel application..."
+echo "=== Starting Laravel Application ==="
 
-# Generate app key if missing
-echo "Generating app key..."
-php artisan key:generate --force 2>/dev/null || true
+echo "Step 1: Generating app key..."
+php artisan key:generate --force || echo "Key already exists"
 
-# Run migrations
-echo "Running database migrations..."
-php artisan migrate --force 2>/dev/null || true
+echo "Step 2: Running migrations..."
+php artisan migrate --force || echo "Migrations failed or already run"
 
-# Start the application server
-echo "Starting server on 0.0.0.0:8000..."
-php artisan serve --host=0.0.0.0 --port=8000
+echo "Step 3: Starting Laravel server..."
+exec php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
