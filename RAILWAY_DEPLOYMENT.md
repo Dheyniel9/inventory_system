@@ -15,7 +15,7 @@
 The following variables will be automatically available from Railway:
 
 ### From MySQL Service (Auto-linked)
-- `MYSQLHOST` 
+- `MYSQLHOST`
 - `MYSQLPORT` (default: 3306)
 - `MYSQL_USER`
 - `MYSQL_PASSWORD`
@@ -37,7 +37,7 @@ LOG_CHANNEL=stderr
 LOG_LEVEL=info
 ```
 
-**Important:** 
+**Important:**
 - Database variables (MYSQL_*) are automatically provided when you link the MySQL service
 - The app key will be generated automatically during deployment
 - If you need to reset, set `APP_KEY=` to trigger regeneration
