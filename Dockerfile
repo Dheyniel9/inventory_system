@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libmcrypt-dev \
     mariadb-client-core \
+    nodejs \
+    npm \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -18,11 +20,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy composer files
-COPY composer.json composer.lock ./
+# Copy entire application first
+COPY . .
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+# Install npm dependencies and build assets
+RUN npm ci && npm run build
 
 # Production stage
 FROM php:8.3-fpm
@@ -37,21 +42,12 @@ RUN apt-get update && apt-get install -y \
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Install Node.js
-RUN apt-get update && apt-get install -y nodejs npm && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
-# Copy application code
-COPY . .
+# Copy application code and vendor from builder
+COPY --from=builder /app .
 
-# Copy vendor from builder
-COPY --from=builder /app/vendor ./vendor
-
-# Install npm dependencies and build assets
-RUN npm ci && npm run build
-
-# Create necessary directories
+# Create necessary directories with proper permissions
 RUN mkdir -p storage/framework/views storage/framework/cache storage/logs \
     && chmod -R 755 storage bootstrap/cache \
     && cp .env.production .env || true
