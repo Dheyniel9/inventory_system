@@ -52,8 +52,12 @@ RUN mkdir -p storage/framework/views storage/framework/cache storage/logs \
     && chmod -R 755 storage bootstrap/cache \
     && cp .env.production .env || true
 
+# Copy startup script
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
 # Expose port
 EXPOSE 8000
 
 # Start command
-CMD ["sh", "-c", "php artisan key:generate --force 2>/dev/null || true && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["/app/start.sh"]
