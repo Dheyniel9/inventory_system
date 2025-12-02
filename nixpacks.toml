@@ -6,9 +6,5 @@ cmds = ["composer install --no-dev --optimize-autoloader", "npm ci", "npm run bu
 
 [phases.build]
 cmds = [
-  "mkdir -p storage/framework/views storage/framework/cache storage/logs",
-  "cp .env.production .env || true"
+  "mkdir -p storage/framework/views storage/framework/cache storage/logs"
 ]
-
-[start]
-cmd = "sh -c 'cp .env.production .env 2>/dev/null || true; php artisan key:generate --force 2>/dev/null || true; php artisan migrate --force; php artisan serve --host=0.0.0.0 --port=$PORT'"
