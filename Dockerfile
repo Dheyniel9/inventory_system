@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     libpq-dev \
     libmcrypt-dev \
-    mysql-client \
+    mariadb-client-core \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -31,7 +31,7 @@ FROM php:8.3-fpm
 RUN apt-get update && apt-get install -y \
     curl \
     libpq-dev \
-    mysql-client \
+    mariadb-client-core \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
