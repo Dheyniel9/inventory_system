@@ -20,14 +20,19 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy entire application first
-COPY . .
-
-# Install PHP dependencies
+# Copy composer files first for better caching
+COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Install npm dependencies and build assets
-RUN npm ci && npm run build
+# Copy npm files
+COPY package.json package-lock.json ./
+RUN npm ci --legacy-peer-deps --prefer-offline --no-audit
+
+# Copy rest of application
+COPY . .
+
+# Build assets
+RUN npm run build
 
 # Production stage
 FROM php:8.3-fpm
