@@ -6,8 +6,9 @@ set -x
 set -e
 
 echo "🚀 Starting Laravel deployment on Render..."
-echo "PHP Version: $(php --version)"
-echo "Node Version: $(node --version)"
+echo "PHP Version: $(php --version | head -1)"
+echo "Composer Version: $(composer --version 2>/dev/null || echo 'Not available')"
+echo "Node Version: $(node --version 2>/dev/null || echo 'Not available')"
 echo "Current directory: $(pwd)"
 echo "Environment variables:"
 env | grep -E '^(APP_|DB_|LOG_|PORT)' || echo "No relevant env vars found"

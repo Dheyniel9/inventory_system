@@ -23,6 +23,8 @@ services:
         value: true  # Enable for first deployment
       - key: APP_URL
         value: https://inventory-system.onrender.com
+      # Database connection will be automatically injected by Render
+      # when you connect the database to this service
 
 databases:
   - name: inventory-db

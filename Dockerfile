@@ -37,16 +37,23 @@ RUN npm run build
 # Production stage
 FROM php:8.3-fpm
 
-# Install system dependencies including bash
+# Install system dependencies including bash, Node.js, and other tools
 RUN apt-get update && apt-get install -y \
     bash \
     curl \
+    git \
+    unzip \
     libpq-dev \
     mariadb-client-core \
+    nodejs \
+    npm \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
+
+# Install composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
@@ -63,7 +70,8 @@ RUN mkdir -p storage/framework/views storage/framework/cache storage/logs \
 # Copy startup scripts
 COPY start.sh /app/start.sh
 COPY render-start.sh /app/render-start.sh
-RUN chmod +x /app/start.sh /app/render-start.sh
+COPY render-simple-start.sh /app/render-simple-start.sh
+RUN chmod +x /app/start.sh /app/render-start.sh /app/render-simple-start.sh
 
 # Expose port
 EXPOSE 8000
@@ -73,5 +81,5 @@ ENV APP_ENV=production \
     LOG_CHANNEL=stderr \
     APP_DEBUG=false
 
-# Start command (default to render-start.sh for Render deployment)
-CMD ["/app/render-start.sh"]
+# Start command (using simple startup script)
+CMD ["/app/render-simple-start.sh"]
