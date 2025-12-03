@@ -62,5 +62,9 @@ RUN chmod +x /app/start.sh
 # Expose port
 EXPOSE 8000
 
+# Set environment variables for Laravel
+ENV APP_ENV=production \
+    LOG_CHANNEL=stderr
+
 # Start command
 CMD ["/app/start.sh"]
