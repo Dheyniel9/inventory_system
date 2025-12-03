@@ -60,16 +60,18 @@ RUN if [ ! -f .env ]; then cp .env.production .env 2>/dev/null || echo "APP_KEY=
 RUN mkdir -p storage/framework/views storage/framework/cache storage/logs \
     && chmod -R 755 storage bootstrap/cache
 
-# Copy startup script
+# Copy startup scripts
 COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
+COPY render-start.sh /app/render-start.sh
+RUN chmod +x /app/start.sh /app/render-start.sh
 
 # Expose port
 EXPOSE 8000
 
 # Set environment variables for Laravel
 ENV APP_ENV=production \
-    LOG_CHANNEL=stderr
+    LOG_CHANNEL=stderr \
+    APP_DEBUG=false
 
-# Start command
-CMD ["/app/start.sh"]
+# Start command (default to render-start.sh for Render deployment)
+CMD ["/app/render-start.sh"]

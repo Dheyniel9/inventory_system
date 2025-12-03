@@ -8,6 +8,37 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+
+// Health check route (no authentication required)
+Route::get('/health', function () {
+    try {
+        // Test database connection
+        DB::connection()->getPdo();
+
+        return response()->json([
+            'status' => 'healthy',
+            'timestamp' => now(),
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'environment' => app()->environment(),
+            'database' => 'connected',
+            'app_key' => config('app.key') ? 'set' : 'not set',
+            'debug_mode' => config('app.debug') ? 'enabled' : 'disabled'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'unhealthy',
+            'timestamp' => now(),
+            'error' => $e->getMessage(),
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'environment' => app()->environment(),
+            'app_key' => config('app.key') ? 'set' : 'not set',
+            'debug_mode' => config('app.debug') ? 'enabled' : 'disabled'
+        ], 500);
+    }
+});
 
 // Guest routes
 Route::middleware('guest')->group(function () {
