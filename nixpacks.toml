@@ -1,5 +1,8 @@
 [phases.setup]
-nixPkgs = ['nodejs', 'php83', 'php83Packages.composer', 'php83Extensions.pdo_mysql', 'php83Extensions.mysqli']
+# PHP, Composer, Node
+nixPkgs = ['nodejs', 'php83', 'php83Packages.composer']
+# PHP extensions
+nixLibs = ['php83Extensions.pdo_mysql', 'php83Extensions.mysqli']
 
 [phases.install]
 cmds = [
@@ -10,7 +13,7 @@ cmds = [
 [phases.build]
 cmds = [
     'npm run build',
-    'php -m | grep pdo_mysql',
+    'php artisan migrate --force',
     'php artisan config:clear',
     'php artisan cache:clear',
     'php artisan route:clear',
