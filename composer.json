@@ -6,6 +6,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-mbstring": "*",
+        "ext-xml": "*",
+        "ext-curl": "*",
+        "ext-zip": "*",
+        "ext-bcmath": "*",
+        "ext-tokenizer": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10",
         "spatie/laravel-permission": "^6.10"
