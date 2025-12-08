@@ -1,6 +1,5 @@
 [phases.setup]
-nixPkgs = ['nodejs', 'php83', 'php83Packages.composer']
-nixLibs = ['php83Extensions.pdo_mysql', 'php83Extensions.mysqli']
+nixPkgs = ['nodejs', 'php83', 'php83Packages.composer', 'php83Extensions.pdo_mysql', 'php83Extensions.mysqli']
 
 [phases.install]
 cmds = [
@@ -11,6 +10,7 @@ cmds = [
 [phases.build]
 cmds = [
     'npm run build',
+    'php -m | grep pdo_mysql',
     'php artisan config:clear',
     'php artisan cache:clear',
     'php artisan route:clear',
@@ -18,4 +18,4 @@ cmds = [
 ]
 
 [start]
-cmd = 'php -c php.ini artisan serve --host=0.0.0.0 --port=${PORT:-8080}'
+cmd = 'php artisan serve --host=0.0.0.0 --port=${PORT:-8080}'
