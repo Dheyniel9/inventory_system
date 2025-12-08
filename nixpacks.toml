@@ -15,3 +15,7 @@ cmds = [
     'php artisan route:clear',
     'php artisan view:clear'
 ]
+
+[env]
+NIXPACKS_PHP_ROOT_DIR = '/app/public'
+NIXPACKS_PHP_FALLBACK_PATH = '/index.php'
