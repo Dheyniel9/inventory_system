@@ -15,6 +15,3 @@ cmds = [
     'php artisan route:clear',
     'php artisan view:clear'
 ]
-
-[start]
-cmd = 'bash start.sh'
