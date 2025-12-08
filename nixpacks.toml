@@ -1,6 +1,6 @@
 [phases.setup]
 nixPkgs = ['nodejs', 'php83', 'php83Packages.composer']
-aptPkgs = ['php8.3-mysql']
+nixLibs = ['php83Extensions.pdo_mysql', 'php83Extensions.mysqli']
 
 [phases.install]
 cmds = [
