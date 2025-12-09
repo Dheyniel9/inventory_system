@@ -1,170 +1,351 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'User Details')
 
 @section('content')
-<style>
-  .space-y-6 > * + * { margin-top: 1.5rem; }
-</style>
-<div class="space-y-6">
-  <div style="display: flex; align-items: center; justify-content: space-between;">
-    <div style="flex: 1;">
-      <h1 style="font-size: 1.5rem; font-weight: bold; color: #111827;">{{ $user->name }}</h1>
-      <p style="margin-top: 0.25rem; font-size: 0.875rem; color: #6b7280;">User details and information</p>
+<div class="content-stack">
+  <div class="header-row">
+    <div class="header-title">
+      <h1>{{ $user->name }}</h1>
+      <p class="subhead">User details and information</p>
     </div>
-    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
-      <a href="{{ route('users.edit', $user) }}"
-         style="display: inline-flex; align-items: center; border-radius: 0.375rem; background-color: #2563eb; padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s;" onmouseover="this.style.backgroundColor='#3b82f6'" onmouseout="this.style.backgroundColor='#2563eb'">
-        <svg style="margin-left: -0.125rem; margin-right: 0.375rem; width: 1.25rem; height: 1.25rem;"
-             fill="none"
-             viewBox="0 0 24 24"
-             stroke-width="1.5"
-             stroke="currentColor">
-          <path stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+    <div class="header-actions">
+      <a href="{{ route('users.edit', $user) }}" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
         </svg>
         Edit
       </a>
-      <a href="{{ route('users.index') }}"
-         style="display: inline-flex; align-items: center; border-radius: 0.375rem; background-color: white; padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: #111827; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: 1px solid #d1d5db; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#f9fafb'" onmouseout="this.style.backgroundColor='white'">←
-        Back</a>
+      <a href="{{ route('users.index') }}" class="btn btn-outline">← Back</a>
     </div>
   </div>
 
-  <!-- User Information -->
-  <div style="overflow: hidden; border-radius: 0.5rem; background-color: white; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-    <div style="padding: 1rem;">
-      <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
-        <div style="flex-shrink: 0;">
-          <img style="height: 5rem; width: 5rem; border-radius: 9999px;"
-               src="{{ $user->avatar_url }}"
-               alt="">
+  <div class="card-panel">
+    <div class="card-body">
+      <div class="user-top">
+        <div class="avatar-wrapper">
+          <img src="{{ $user->avatar_url }}" alt="" class="avatar">
         </div>
         <div>
-          <h3 style="font-size: 1.125rem; font-weight: 500; color: #111827;">{{ $user->name }}</h3>
-          <p style="font-size: 0.875rem; color: #6b7280;">{{ $user->email }}</p>
-          <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.75rem;">
-            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: #dbeafe; color: #1e40af;">
-              {{ ucfirst($user->roles->first()->name ?? 'No Role') }}
-            </span>
-            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: {{ $user->is_active ? '#dcfce7' : '#f3f4f6' }}; color: {{ $user->is_active ? '#166534' : '#374151' }};">
+          <h3>{{ $user->name }}</h3>
+          <p class="subhead">{{ $user->email }}</p>
+          <div class="badge-row">
+            <span class="badge status">{{ ucfirst($user->roles->first()->name ?? 'No Role') }}</span>
+            <span class="badge {{ $user->is_active ? 'badge-success' : 'badge-muted' }}">
               {{ $user->is_active ? 'Active' : 'Inactive' }}
             </span>
           </div>
         </div>
       </div>
 
-      <h4 style="font-size: 1rem; font-weight: 600; color: #111827; margin-bottom: 1rem;">User Information</h4>
-      <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); column-gap: 1rem; row-gap: 1.5rem;">
+      <h4>User Information</h4>
+      <div class="info-grid">
         <div>
-          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Full Name</dt>
-          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">{{ $user->name }}</dd>
+          <dt class="info-label">Full Name</dt>
+          <dd class="info-value">{{ $user->name }}</dd>
         </div>
 
         <div>
-          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Email Address</dt>
-          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">
-            <a href="mailto:{{ $user->email }}" style="color: #2563eb; text-decoration: none;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#2563eb'">{{ $user->email }}</a>
+          <dt class="info-label">Email Address</dt>
+          <dd class="info-value">
+            <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
           </dd>
         </div>
 
         @if($user->phone)
         <div>
-          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Phone</dt>
-          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">
-            <a href="tel:{{ $user->phone }}" style="color: #2563eb; text-decoration: none;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#2563eb'">{{ $user->phone }}</a>
+          <dt class="info-label">Phone</dt>
+          <dd class="info-value">
+            <a href="tel:{{ $user->phone }}">{{ $user->phone }}</a>
           </dd>
         </div>
         @endif
 
         <div>
-          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Role</dt>
-          <dd style="margin-top: 0.25rem;">
-            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: #dbeafe; color: #1e40af;">
-              {{ ucfirst($user->roles->first()->name ?? 'No Role') }}
-            </span>
+          <dt class="info-label">Role</dt>
+          <dd class="info-value">
+            <span class="badge status">{{ ucfirst($user->roles->first()->name ?? 'No Role') }}</span>
           </dd>
         </div>
 
         <div>
-          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Account Status</dt>
-          <dd style="margin-top: 0.25rem;">
-            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: {{ $user->is_active ? '#dcfce7' : '#f3f4f6' }}; color: {{ $user->is_active ? '#166534' : '#374151' }};">
+          <dt class="info-label">Account Status</dt>
+          <dd class="info-value">
+            <span class="badge {{ $user->is_active ? 'badge-success' : 'badge-muted' }}">
               {{ $user->is_active ? 'Active' : 'Inactive' }}
             </span>
           </dd>
         </div>
 
         <div>
-          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Email Verified</dt>
-          <dd style="margin-top: 0.25rem;">
-            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: {{ $user->email_verified_at ? '#dcfce7' : '#fef08a' }}; color: {{ $user->email_verified_at ? '#166534' : '#92400e' }};">
+          <dt class="info-label">Email Verified</dt>
+          <dd class="info-value">
+            <span class="badge {{ $user->email_verified_at ? 'badge-success' : 'badge-warning' }}">
               {{ $user->email_verified_at ? 'Verified' : 'Unverified' }}
             </span>
           </dd>
         </div>
 
         <div>
-          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Member Since</dt>
-          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">{{ $user->created_at->format('F j, Y') }}</dd>
+          <dt class="info-label">Member Since</dt>
+          <dd class="info-value">{{ $user->created_at->format('F j, Y') }}</dd>
         </div>
 
         <div>
-          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Last Updated</dt>
-          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">{{ $user->updated_at->format('F j, Y g:i A') }}</dd>
+          <dt class="info-label">Last Updated</dt>
+          <dd class="info-value">{{ $user->updated_at->format('F j, Y g:i A') }}</dd>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Permissions -->
   @if($user->roles->first())
-  <div style="overflow: hidden; border-radius: 0.5rem; background-color: white; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-    <div style="padding: 1rem;">
-      <h4 style="font-size: 1rem; font-weight: 600; color: #111827; margin-bottom: 1rem;">Permissions</h4>
-      <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 0.5rem;">
+  <div class="card-panel">
+    <div class="card-body">
+      <h4>Permissions</h4>
+      <div class="permissions-grid">
         @forelse($user->roles->first()->permissions as $permission)
-        <div style="display: flex; align-items: center;">
-          <svg style="height: 1rem; width: 1rem; color: #22c55e; margin-right: 0.5rem;"
-               fill="currentColor"
-               viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clip-rule="evenodd"></path>
+        <div class="permission-row">
+          <svg viewBox="0 0 20 20" fill="currentColor" class="permission-icon">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
           </svg>
-          <span style="font-size: 0.875rem; color: #374151;">{{ $permission->name }}</span>
+          <span>{{ $permission->name }}</span>
         </div>
         @empty
-        <p style="font-size: 0.875rem; color: #6b7280; grid-column: 1 / -1;">No permissions assigned to this role.</p>
+        <p class="info-muted">No permissions assigned to this role.</p>
         @endforelse
       </div>
     </div>
   </div>
   @endif
 
-  <!-- Actions -->
   @if($user->id !== auth()->id())
-  <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
-    <form method="POST"
-          action="{{ route('users.toggle-status', $user) }}"
-          class="inline">
+  <div class="actions-row">
+    <form method="POST" action="{{ route('users.toggle-status', $user) }}">
       @csrf @method('PATCH')
-      <button type="submit"
-              style="border-radius: 0.375rem; background-color: #ca8a04; padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: none; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#eab308'" onmouseout="this.style.backgroundColor='#ca8a04'">
+      <button type="submit" class="btn btn-warning">
         {{ $user->is_active ? 'Deactivate' : 'Activate' }} User
       </button>
     </form>
-    <form method="POST"
-          action="{{ route('users.destroy', $user) }}"
-          class="inline"
-          onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
+    <form method="POST" action="{{ route('users.destroy', $user) }}" onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
       @csrf @method('DELETE')
-      <button type="submit"
-              style="border-radius: 0.375rem; background-color: #dc2626; padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: none; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#ef4444'" onmouseout="this.style.backgroundColor='#dc2626'">Delete
-        User</button>
+      <button type="submit" class="btn btn-danger">Delete User</button>
     </form>
   </div>
   @endif
 </div>
+
+<style>
+  :root {
+    --border: 1px solid #d1d5db;
+    --shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  }
+
+  .content-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-title h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .subhead {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.25rem;
+  }
+
+  .btn-primary {
+    background-color: #2563eb;
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: #3b82f6;
+  }
+
+  .btn-outline {
+    background-color: #fff;
+    color: #111827;
+    border: var(--border);
+  }
+
+  .btn-outline:hover {
+    background-color: #f9fafb;
+  }
+
+  .card-panel {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .user-top {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .avatar {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 9999px;
+    object-fit: cover;
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .badge {
+    border-radius: 9999px;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .badge.status {
+    background-color: #dbeafe;
+    color: #1e40af;
+  }
+
+  .badge-success {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+
+  .badge-muted {
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+
+  .badge-warning {
+    background-color: #fef08a;
+    color: #92400e;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .info-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+  }
+
+  .info-value {
+    font-size: 0.875rem;
+    color: #111827;
+    margin-top: 0.25rem;
+  }
+
+  .info-value a {
+    color: #2563eb;
+  }
+
+  .info-value a:hover {
+    color: #3b82f6;
+  }
+
+  .permissions-grid {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .permission-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #374151;
+    font-size: 0.875rem;
+  }
+
+  .permission-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #22c55e;
+  }
+
+  .info-muted {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+
+  .actions-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .btn-warning {
+    background-color: #ca8a04;
+    color: #fff;
+  }
+
+  .btn-warning:hover {
+    background-color: #eab308;
+  }
+
+  .btn-danger {
+    background-color: #dc2626;
+    color: #fff;
+  }
+
+  .btn-danger:hover {
+    background-color: #ef4444;
+  }
+
+  @media (min-width: 768px) {
+    .info-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
 @endsection
