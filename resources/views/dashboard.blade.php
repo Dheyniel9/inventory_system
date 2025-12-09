@@ -336,8 +336,13 @@
         <div class="stat-card">
             <div class="stat-card-content">
                 <div class="stat-icon primary">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                    <svg fill="none"
+                         viewBox="0 0 24 24"
+                         stroke-width="1.5"
+                         stroke="currentColor">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                     </svg>
                 </div>
                 <div class="stat-content">
@@ -351,8 +356,13 @@
         <div class="stat-card">
             <div class="stat-card-content">
                 <div class="stat-icon green">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                    <svg fill="none"
+                         viewBox="0 0 24 24"
+                         stroke-width="1.5"
+                         stroke="currentColor">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
                     </svg>
                 </div>
                 <div class="stat-content">
@@ -366,8 +376,13 @@
         <div class="stat-card">
             <div class="stat-card-content">
                 <div class="stat-icon yellow">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    <svg fill="none"
+                         viewBox="0 0 24 24"
+                         stroke-width="1.5"
+                         stroke="currentColor">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                     </svg>
                 </div>
                 <div class="stat-content">
@@ -381,8 +396,13 @@
         <div class="stat-card">
             <div class="stat-card-content">
                 <div class="stat-icon purple">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg fill="none"
+                         viewBox="0 0 24 24"
+                         stroke-width="1.5"
+                         stroke="currentColor">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
                 <div class="stat-content">
@@ -404,28 +424,29 @@
             <div class="card-body">
                 <div class="table-wrapper">
                     @if($lowStockProducts->count() > 0)
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>SKU</th>
-                                    <th>Qty</th>
-                                    <th>Min</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($lowStockProducts as $product)
-                                    <tr>
-                                        <td>{{ $product->name }}</td>
-                                        <td>{{ $product->sku }}</td>
-                                        <td><span class="{{ $product->quantity <= 0 ? 'text-red' : 'text-yellow' }}">{{ $product->quantity }}</span></td>
-                                        <td>{{ $product->min_stock_level }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>SKU</th>
+                                <th>Qty</th>
+                                <th>Min</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($lowStockProducts as $product)
+                            <tr>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ $product->sku }}</td>
+                                <td><span class="{{ $product->quantity <= 0 ? 'text-red' : 'text-yellow' }}">{{
+                                        $product->quantity }}</span></td>
+                                <td>{{ $product->min_stock_level }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                     @else
-                        <p class="empty-state">No low stock items</p>
+                    <p class="empty-state">No low stock items</p>
                     @endif
                 </div>
             </div>
@@ -440,37 +461,37 @@
             <div class="card-body">
                 <div class="table-wrapper">
                     @if($recentTransactions->count() > 0)
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Reference</th>
-                                    <th>Type</th>
-                                    <th>Qty</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($recentTransactions as $transaction)
-                                    <tr>
-                                        <td>{{ $transaction->reference_number }}</td>
-                                        <td>
-                                            <span class="badge 
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($recentTransactions as $transaction)
+                            <tr>
+                                <td>{{ $transaction->reference_number }}</td>
+                                <td>
+                                    <span class="badge
                                                 @if($transaction->type === 'in') badge-green
                                                 @elseif($transaction->type === 'out') badge-red
                                                 @elseif($transaction->type === 'adjustment') badge-yellow
                                                 @elseif($transaction->type === 'return') badge-blue
                                                 @endif">
-                                                {{ $transaction->type_label }}
-                                            </span>
-                                        </td>
-                                        <td>{{ $transaction->quantity_change }}</td>
-                                        <td>{{ $transaction->created_at->diffForHumans() }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                        {{ $transaction->type_label }}
+                                    </span>
+                                </td>
+                                <td>{{ $transaction->quantity_change }}</td>
+                                <td>{{ $transaction->created_at->diffForHumans() }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                     @else
-                        <p class="empty-state">No recent transactions</p>
+                    <p class="empty-state">No recent transactions</p>
                     @endif
                 </div>
             </div>
@@ -485,22 +506,26 @@
                 <div class="summary-box green">
                     <div class="summary-label">Stock In</div>
                     <div class="summary-count">{{ $stockSummary['today']['stock_in']['count'] }}</div>
-                    <div class="summary-detail">{{ number_format($stockSummary['today']['stock_in']['quantity']) }} units</div>
+                    <div class="summary-detail">{{ number_format($stockSummary['today']['stock_in']['quantity']) }}
+                        units</div>
                 </div>
                 <div class="summary-box red">
                     <div class="summary-label">Stock Out</div>
                     <div class="summary-count">{{ $stockSummary['today']['stock_out']['count'] }}</div>
-                    <div class="summary-detail">{{ number_format($stockSummary['today']['stock_out']['quantity']) }} units</div>
+                    <div class="summary-detail">{{ number_format($stockSummary['today']['stock_out']['quantity']) }}
+                        units</div>
                 </div>
                 <div class="summary-box yellow">
                     <div class="summary-label">Adjustments</div>
                     <div class="summary-count">{{ $stockSummary['today']['adjustments']['count'] }}</div>
-                    <div class="summary-detail">{{ number_format($stockSummary['today']['adjustments']['quantity']) }} units</div>
+                    <div class="summary-detail">{{ number_format($stockSummary['today']['adjustments']['quantity']) }}
+                        units</div>
                 </div>
                 <div class="summary-box blue">
                     <div class="summary-label">Returns</div>
                     <div class="summary-count">{{ $stockSummary['today']['returns']['count'] }}</div>
-                    <div class="summary-detail">{{ number_format($stockSummary['today']['returns']['quantity']) }} units</div>
+                    <div class="summary-detail">{{ number_format($stockSummary['today']['returns']['quantity']) }} units
+                    </div>
                 </div>
             </div>
         </div>

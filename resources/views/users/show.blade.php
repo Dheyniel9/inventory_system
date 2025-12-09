@@ -10,13 +10,21 @@
       <p class="subhead">User details and information</p>
     </div>
     <div class="header-actions">
-      <a href="{{ route('users.edit', $user) }}" class="btn btn-primary">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+      <a href="{{ route('users.edit', $user) }}"
+         class="btn btn-primary">
+        <svg viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.5"
+             class="icon">
+          <path stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
         </svg>
         Edit
       </a>
-      <a href="{{ route('users.index') }}" class="btn btn-outline">← Back</a>
+      <a href="{{ route('users.index') }}"
+         class="btn btn-outline">← Back</a>
     </div>
   </div>
 
@@ -24,7 +32,9 @@
     <div class="card-body">
       <div class="user-top">
         <div class="avatar-wrapper">
-          <img src="{{ $user->avatar_url }}" alt="" class="avatar">
+          <img src="{{ $user->avatar_url }}"
+               alt=""
+               class="avatar">
         </div>
         <div>
           <h3>{{ $user->name }}</h3>
@@ -106,8 +116,12 @@
       <div class="permissions-grid">
         @forelse($user->roles->first()->permissions as $permission)
         <div class="permission-row">
-          <svg viewBox="0 0 20 20" fill="currentColor" class="permission-icon">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
+          <svg viewBox="0 0 20 20"
+               fill="currentColor"
+               class="permission-icon">
+            <path fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
           </svg>
           <span>{{ $permission->name }}</span>
         </div>
@@ -121,15 +135,20 @@
 
   @if($user->id !== auth()->id())
   <div class="actions-row">
-    <form method="POST" action="{{ route('users.toggle-status', $user) }}">
+    <form method="POST"
+          action="{{ route('users.toggle-status', $user) }}">
       @csrf @method('PATCH')
-      <button type="submit" class="btn btn-warning">
+      <button type="submit"
+              class="btn btn-warning">
         {{ $user->is_active ? 'Deactivate' : 'Activate' }} User
       </button>
     </form>
-    <form method="POST" action="{{ route('users.destroy', $user) }}" onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
+    <form method="POST"
+          action="{{ route('users.destroy', $user) }}"
+          onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
       @csrf @method('DELETE')
-      <button type="submit" class="btn btn-danger">Delete User</button>
+      <button type="submit"
+              class="btn btn-danger">Delete User</button>
     </form>
   </div>
   @endif
