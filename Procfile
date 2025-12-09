@@ -1,2 +1,2 @@
 release: php artisan migrate --force
-web: php artisan serve --host=0.0.0.0 --port=${PORT:-8080} --env=production
+web: php -S 0.0.0.0:${PORT:-8080} -t public public/router.php
