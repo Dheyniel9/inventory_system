@@ -15,12 +15,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Paginator::useTailwind();
-
         // Force HTTPS in production and non-local environments
         if (! $this->app->environment('local')) {
             URL::forceScheme('https');
-            
+
             // Get the current request's host and force HTTPS for assets
             if (request()->hasHeader('X-Forwarded-Host')) {
                 $host = request()->header('X-Forwarded-Host');

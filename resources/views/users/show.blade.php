@@ -3,16 +3,19 @@
 @section('title', 'User Details')
 
 @section('content')
+<style>
+  .space-y-6 > * + * { margin-top: 1.5rem; }
+</style>
 <div class="space-y-6">
-  <div class="sm:flex sm:items-center sm:justify-between">
-    <div class="sm:flex-auto">
-      <h1 class="text-2xl font-bold text-gray-900">{{ $user->name }}</h1>
-      <p class="mt-1 text-sm text-gray-500">User details and information</p>
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <div style="flex: 1;">
+      <h1 style="font-size: 1.5rem; font-weight: bold; color: #111827;">{{ $user->name }}</h1>
+      <p style="margin-top: 0.25rem; font-size: 0.875rem; color: #6b7280;">User details and information</p>
     </div>
-    <div class="mt-4 sm:mt-0 sm:flex sm:gap-3">
+    <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
       <a href="{{ route('users.edit', $user) }}"
-         class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500">
-        <svg class="-ml-0.5 mr-1.5 h-5 w-5"
+         style="display: inline-flex; align-items: center; border-radius: 0.375rem; background-color: #2563eb; padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s;" onmouseover="this.style.backgroundColor='#3b82f6'" onmouseout="this.style.backgroundColor='#2563eb'">
+        <svg style="margin-left: -0.125rem; margin-right: 0.375rem; width: 1.25rem; height: 1.25rem;"
              fill="none"
              viewBox="0 0 24 24"
              stroke-width="1.5"
@@ -24,99 +27,92 @@
         Edit
       </a>
       <a href="{{ route('users.index') }}"
-         class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">←
+         style="display: inline-flex; align-items: center; border-radius: 0.375rem; background-color: white; padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: #111827; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: 1px solid #d1d5db; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#f9fafb'" onmouseout="this.style.backgroundColor='white'">←
         Back</a>
     </div>
   </div>
 
   <!-- User Information -->
-  <div class="overflow-hidden rounded-lg bg-white shadow">
-    <div class="px-4 py-5 sm:p-6">
-      <div class="flex items-center space-x-6 mb-6">
-        <div class="flex-shrink-0">
-          <img class="h-20 w-20 rounded-full"
+  <div style="overflow: hidden; border-radius: 0.5rem; background-color: white; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+    <div style="padding: 1rem;">
+      <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+        <div style="flex-shrink: 0;">
+          <img style="height: 5rem; width: 5rem; border-radius: 9999px;"
                src="{{ $user->avatar_url }}"
                alt="">
         </div>
         <div>
-          <h3 class="text-lg font-medium text-gray-900">{{ $user->name }}</h3>
-          <p class="text-sm text-gray-500">{{ $user->email }}</p>
-          <div class="mt-2 flex items-center space-x-3">
-            <span
-                  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-800">
+          <h3 style="font-size: 1.125rem; font-weight: 500; color: #111827;">{{ $user->name }}</h3>
+          <p style="font-size: 0.875rem; color: #6b7280;">{{ $user->email }}</p>
+          <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.75rem;">
+            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: #dbeafe; color: #1e40af;">
               {{ ucfirst($user->roles->first()->name ?? 'No Role') }}
             </span>
-            <span
-                  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: {{ $user->is_active ? '#dcfce7' : '#f3f4f6' }}; color: {{ $user->is_active ? '#166534' : '#374151' }};">
               {{ $user->is_active ? 'Active' : 'Inactive' }}
             </span>
           </div>
         </div>
       </div>
 
-      <h4 class="text-base font-semibold leading-6 text-gray-900 mb-4">User Information</h4>
-      <div class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+      <h4 style="font-size: 1rem; font-weight: 600; color: #111827; margin-bottom: 1rem;">User Information</h4>
+      <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); column-gap: 1rem; row-gap: 1.5rem;">
         <div>
-          <dt class="text-sm font-medium text-gray-500">Full Name</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $user->name }}</dd>
+          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Full Name</dt>
+          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">{{ $user->name }}</dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Email Address</dt>
-          <dd class="mt-1 text-sm text-gray-900">
-            <a href="mailto:{{ $user->email }}"
-               class="text-primary-600 hover:text-primary-500">{{ $user->email }}</a>
+          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Email Address</dt>
+          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">
+            <a href="mailto:{{ $user->email }}" style="color: #2563eb; text-decoration: none;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#2563eb'">{{ $user->email }}</a>
           </dd>
         </div>
 
         @if($user->phone)
         <div>
-          <dt class="text-sm font-medium text-gray-500">Phone</dt>
-          <dd class="mt-1 text-sm text-gray-900">
-            <a href="tel:{{ $user->phone }}"
-               class="text-primary-600 hover:text-primary-500">{{ $user->phone }}</a>
+          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Phone</dt>
+          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">
+            <a href="tel:{{ $user->phone }}" style="color: #2563eb; text-decoration: none;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#2563eb'">{{ $user->phone }}</a>
           </dd>
         </div>
         @endif
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Role</dt>
-          <dd class="mt-1">
-            <span
-                  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-800">
+          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Role</dt>
+          <dd style="margin-top: 0.25rem;">
+            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: #dbeafe; color: #1e40af;">
               {{ ucfirst($user->roles->first()->name ?? 'No Role') }}
             </span>
           </dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Account Status</dt>
-          <dd class="mt-1">
-            <span
-                  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Account Status</dt>
+          <dd style="margin-top: 0.25rem;">
+            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: {{ $user->is_active ? '#dcfce7' : '#f3f4f6' }}; color: {{ $user->is_active ? '#166534' : '#374151' }};">
               {{ $user->is_active ? 'Active' : 'Inactive' }}
             </span>
           </dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Email Verified</dt>
-          <dd class="mt-1">
-            <span
-                  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {{ $user->email_verified_at ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Email Verified</dt>
+          <dd style="margin-top: 0.25rem;">
+            <span style="display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.625rem; font-size: 0.75rem; font-weight: 500; background-color: {{ $user->email_verified_at ? '#dcfce7' : '#fef08a' }}; color: {{ $user->email_verified_at ? '#166534' : '#92400e' }};">
               {{ $user->email_verified_at ? 'Verified' : 'Unverified' }}
             </span>
           </dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Member Since</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $user->created_at->format('F j, Y') }}</dd>
+          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Member Since</dt>
+          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">{{ $user->created_at->format('F j, Y') }}</dd>
         </div>
 
         <div>
-          <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $user->updated_at->format('F j, Y g:i A') }}</dd>
+          <dt style="font-size: 0.875rem; font-weight: 500; color: #6b7280;">Last Updated</dt>
+          <dd style="margin-top: 0.25rem; font-size: 0.875rem; color: #111827;">{{ $user->updated_at->format('F j, Y g:i A') }}</dd>
         </div>
       </div>
     </div>
@@ -124,23 +120,23 @@
 
   <!-- Permissions -->
   @if($user->roles->first())
-  <div class="overflow-hidden rounded-lg bg-white shadow">
-    <div class="px-4 py-5 sm:p-6">
-      <h4 class="text-base font-semibold leading-6 text-gray-900 mb-4">Permissions</h4>
-      <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+  <div style="overflow: hidden; border-radius: 0.5rem; background-color: white; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+    <div style="padding: 1rem;">
+      <h4 style="font-size: 1rem; font-weight: 600; color: #111827; margin-bottom: 1rem;">Permissions</h4>
+      <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 0.5rem;">
         @forelse($user->roles->first()->permissions as $permission)
-        <div class="flex items-center">
-          <svg class="h-4 w-4 text-green-500 mr-2"
+        <div style="display: flex; align-items: center;">
+          <svg style="height: 1rem; width: 1rem; color: #22c55e; margin-right: 0.5rem;"
                fill="currentColor"
                viewBox="0 0 20 20">
             <path fill-rule="evenodd"
                   d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                   clip-rule="evenodd"></path>
           </svg>
-          <span class="text-sm text-gray-700">{{ $permission->name }}</span>
+          <span style="font-size: 0.875rem; color: #374151;">{{ $permission->name }}</span>
         </div>
         @empty
-        <p class="text-sm text-gray-500 col-span-full">No permissions assigned to this role.</p>
+        <p style="font-size: 0.875rem; color: #6b7280; grid-column: 1 / -1;">No permissions assigned to this role.</p>
         @endforelse
       </div>
     </div>
@@ -149,13 +145,13 @@
 
   <!-- Actions -->
   @if($user->id !== auth()->id())
-  <div class="flex justify-end gap-3">
+  <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
     <form method="POST"
           action="{{ route('users.toggle-status', $user) }}"
           class="inline">
       @csrf @method('PATCH')
       <button type="submit"
-              class="rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500">
+              style="border-radius: 0.375rem; background-color: #ca8a04; padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: none; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#eab308'" onmouseout="this.style.backgroundColor='#ca8a04'">
         {{ $user->is_active ? 'Deactivate' : 'Activate' }} User
       </button>
     </form>
@@ -165,7 +161,7 @@
           onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
       @csrf @method('DELETE')
       <button type="submit"
-              class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">Delete
+              style="border-radius: 0.375rem; background-color: #dc2626; padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: none; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#ef4444'" onmouseout="this.style.backgroundColor='#dc2626'">Delete
         User</button>
     </form>
   </div>
