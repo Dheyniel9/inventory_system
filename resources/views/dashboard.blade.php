@@ -3,207 +3,504 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="space-y-6">
+<style>
+    .dashboard-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .page-header {
+        margin-bottom: 0.5rem;
+    }
+
+    .page-header h1 {
+        font-size: 1.875rem;
+        font-weight: bold;
+        color: #111827;
+    }
+
+    .page-header p {
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.25rem;
+    }
+
+    @media (max-width: 640px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .stat-card {
+        overflow: hidden;
+        border-radius: 0.5rem;
+        background: white;
+        padding: 1.5rem;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-card-content {
+        display: flex;
+        align-items: center;
+    }
+
+    .stat-icon {
+        flex-shrink: 0;
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        color: white;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .stat-icon svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .stat-icon.primary {
+        background-color: #3b82f6;
+    }
+
+    .stat-icon.green {
+        background-color: #10b981;
+    }
+
+    .stat-icon.yellow {
+        background-color: #eab308;
+    }
+
+    .stat-icon.purple {
+        background-color: #a855f7;
+    }
+
+    .stat-content {
+        margin-left: 1.25rem;
+        flex: 1;
+    }
+
+    .stat-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #6b7280;
+    }
+
+    .stat-value {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0.25rem;
+    }
+
+    .stat-value.yellow-text {
+        color: #dc2626;
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 1.5rem;
+    }
+
+    @media (max-width: 1024px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .card {
+        overflow: hidden;
+        border-radius: 0.5rem;
+        background: white;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card-header h3 {
+        font-size: 1.125rem;
+        font-weight: 500;
+        color: #111827;
+    }
+
+    .card-header a {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #2563eb;
+    }
+
+    .card-header a:hover {
+        color: #1d4ed8;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        border-bottom: 1px solid #d1d5db;
+        background-color: #f9fafb;
+    }
+
+    th {
+        padding: 0.875rem;
+        text-align: left;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    td {
+        padding: 0.875rem;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 0.875rem;
+        color: #111827;
+    }
+
+    tbody tr:hover {
+        background-color: #f9fafb;
+    }
+
+    .empty-state {
+        text-align: center;
+        font-size: 0.875rem;
+        color: #6b7280;
+        padding: 1rem;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 9999px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .badge-green {
+        background-color: #d1fae5;
+        color: #065f46;
+    }
+
+    .badge-red {
+        background-color: #fee2e2;
+        color: #7f1d1d;
+    }
+
+    .badge-yellow {
+        background-color: #fef08a;
+        color: #713f12;
+    }
+
+    .badge-blue {
+        background-color: #dbeafe;
+        color: #0c2340;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.25rem;
+        margin-top: 1rem;
+    }
+
+    .summary-box {
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+
+    .summary-box.green {
+        background-color: #f0fdf4;
+    }
+
+    .summary-box.red {
+        background-color: #fef2f2;
+    }
+
+    .summary-box.yellow {
+        background-color: #fefce8;
+    }
+
+    .summary-box.blue {
+        background-color: #eff6ff;
+    }
+
+    .summary-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .summary-box.green .summary-label {
+        color: #16a34a;
+    }
+
+    .summary-box.red .summary-label {
+        color: #dc2626;
+    }
+
+    .summary-box.yellow .summary-label {
+        color: #ca8a04;
+    }
+
+    .summary-box.blue .summary-label {
+        color: #2563eb;
+    }
+
+    .summary-count {
+        font-size: 1.875rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .summary-box.green .summary-count {
+        color: #166534;
+    }
+
+    .summary-box.red .summary-count {
+        color: #7f1d1d;
+    }
+
+    .summary-box.yellow .summary-count {
+        color: #713f12;
+    }
+
+    .summary-box.blue .summary-count {
+        color: #0c2340;
+    }
+
+    .summary-detail {
+        font-size: 0.875rem;
+    }
+
+    .summary-box.green .summary-detail {
+        color: #16a34a;
+    }
+
+    .summary-box.red .summary-detail {
+        color: #dc2626;
+    }
+
+    .summary-box.yellow .summary-detail {
+        color: #ca8a04;
+    }
+
+    .summary-box.blue .summary-detail {
+        color: #2563eb;
+    }
+
+    .text-red {
+        color: #dc2626;
+    }
+
+    .text-yellow {
+        color: #ca8a04;
+    }
+</style>
+
+<div class="dashboard-container">
     <!-- Page header -->
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p class="mt-1 text-sm text-gray-500">Welcome back, {{ auth()->user()->name }}!</p>
+    <div class="page-header">
+        <h1>Dashboard</h1>
+        <p>Welcome back, {{ auth()->user()->name }}!</p>
     </div>
 
     <!-- Stats cards -->
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="stats-grid">
         <!-- Total Products -->
-        <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-            <div class="flex items-center">
-                <div class="flex-shrink-0 rounded-md bg-primary-500 p-3">
-                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <div class="stat-card">
+            <div class="stat-card-content">
+                <div class="stat-icon primary">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                     </svg>
                 </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="truncate text-sm font-medium text-gray-500">Total Products</dt>
-                        <dd class="text-lg font-semibold text-gray-900">{{ number_format($stats['total_products']) }}</dd>
-                    </dl>
+                <div class="stat-content">
+                    <div class="stat-label">Total Products</div>
+                    <div class="stat-value">{{ number_format($stats['total_products']) }}</div>
                 </div>
             </div>
         </div>
 
         <!-- Total Categories -->
-        <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-            <div class="flex items-center">
-                <div class="flex-shrink-0 rounded-md bg-green-500 p-3">
-                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <div class="stat-card">
+            <div class="stat-card-content">
+                <div class="stat-icon green">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
                     </svg>
                 </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="truncate text-sm font-medium text-gray-500">Categories</dt>
-                        <dd class="text-lg font-semibold text-gray-900">{{ number_format($stats['total_categories']) }}</dd>
-                    </dl>
+                <div class="stat-content">
+                    <div class="stat-label">Categories</div>
+                    <div class="stat-value">{{ number_format($stats['total_categories']) }}</div>
                 </div>
             </div>
         </div>
 
         <!-- Low Stock Alert -->
-        <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-            <div class="flex items-center">
-                <div class="flex-shrink-0 rounded-md bg-yellow-500 p-3">
-                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <div class="stat-card">
+            <div class="stat-card-content">
+                <div class="stat-icon yellow">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                     </svg>
                 </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="truncate text-sm font-medium text-gray-500">Low Stock Items</dt>
-                        <dd class="text-lg font-semibold text-yellow-600">{{ number_format($stats['low_stock_count']) }}</dd>
-                    </dl>
+                <div class="stat-content">
+                    <div class="stat-label">Low Stock Items</div>
+                    <div class="stat-value yellow-text">{{ number_format($stats['low_stock_count']) }}</div>
                 </div>
             </div>
         </div>
 
         <!-- Total Stock Value -->
-        <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-            <div class="flex items-center">
-                <div class="flex-shrink-0 rounded-md bg-purple-500 p-3">
-                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <div class="stat-card">
+            <div class="stat-card-content">
+                <div class="stat-icon purple">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="truncate text-sm font-medium text-gray-500">Total Stock Value</dt>
-                        <dd class="text-lg font-semibold text-gray-900">${{ number_format($stats['total_stock_value'], 2) }}</dd>
-                    </dl>
+                <div class="stat-content">
+                    <div class="stat-label">Total Stock Value</div>
+                    <div class="stat-value">${{ number_format($stats['total_stock_value'], 2) }}</div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Main content grid -->
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <div class="content-grid">
         <!-- Low Stock Products -->
-        <div class="overflow-hidden rounded-lg bg-white shadow">
-            <div class="p-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-medium text-gray-900">Low Stock Alert</h3>
-                    <a href="{{ route('products.low-stock') }}" class="text-sm font-medium text-primary-600 hover:text-primary-500">View all</a>
-                </div>
-                <div class="mt-4 flow-root">
-                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            @if($lowStockProducts->count() > 0)
-                                <table class="min-w-full divide-y divide-gray-300">
-                                    <thead>
-                                        <tr>
-                                            <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Product</th>
-                                            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">SKU</th>
-                                            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Qty</th>
-                                            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Min</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-200">
-                                        @foreach($lowStockProducts as $product)
-                                            <tr>
-                                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                                                    {{ $product->name }}
-                                                </td>
-                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $product->sku }}</td>
-                                                <td class="whitespace-nowrap px-3 py-4 text-sm">
-                                                    <span class="{{ $product->quantity <= 0 ? 'text-red-600' : 'text-yellow-600' }} font-medium">
-                                                        {{ $product->quantity }}
-                                                    </span>
-                                                </td>
-                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $product->min_stock_level }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <p class="text-center text-sm text-gray-500 py-4">No low stock items</p>
-                            @endif
-                        </div>
-                    </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Low Stock Alert</h3>
+                <a href="{{ route('products.low-stock') }}">View all</a>
+            </div>
+            <div class="card-body">
+                <div class="table-wrapper">
+                    @if($lowStockProducts->count() > 0)
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>SKU</th>
+                                    <th>Qty</th>
+                                    <th>Min</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($lowStockProducts as $product)
+                                    <tr>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->sku }}</td>
+                                        <td><span class="{{ $product->quantity <= 0 ? 'text-red' : 'text-yellow' }}">{{ $product->quantity }}</span></td>
+                                        <td>{{ $product->min_stock_level }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="empty-state">No low stock items</p>
+                    @endif
                 </div>
             </div>
         </div>
 
         <!-- Recent Transactions -->
-        <div class="overflow-hidden rounded-lg bg-white shadow">
-            <div class="p-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-medium text-gray-900">Recent Transactions</h3>
-                    <a href="{{ route('stock.index') }}" class="text-sm font-medium text-primary-600 hover:text-primary-500">View all</a>
-                </div>
-                <div class="mt-4 flow-root">
-                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            @if($recentTransactions->count() > 0)
-                                <table class="min-w-full divide-y divide-gray-300">
-                                    <thead>
-                                        <tr>
-                                            <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Reference</th>
-                                            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Type</th>
-                                            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Qty</th>
-                                            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-200">
-                                        @foreach($recentTransactions as $transaction)
-                                            <tr>
-                                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                                                    {{ $transaction->reference_number }}
-                                                </td>
-                                                <td class="whitespace-nowrap px-3 py-4 text-sm">
-                                                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                                                        {{ $transaction->type === 'in' ? 'bg-green-100 text-green-800' : '' }}
-                                                        {{ $transaction->type === 'out' ? 'bg-red-100 text-red-800' : '' }}
-                                                        {{ $transaction->type === 'adjustment' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                                        {{ $transaction->type === 'return' ? 'bg-blue-100 text-blue-800' : '' }}">
-                                                        {{ $transaction->type_label }}
-                                                    </span>
-                                                </td>
-                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $transaction->quantity_change }}</td>
-                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $transaction->created_at->diffForHumans() }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <p class="text-center text-sm text-gray-500 py-4">No recent transactions</p>
-                            @endif
-                        </div>
-                    </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Recent Transactions</h3>
+                <a href="{{ route('stock.index') }}">View all</a>
+            </div>
+            <div class="card-body">
+                <div class="table-wrapper">
+                    @if($recentTransactions->count() > 0)
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Type</th>
+                                    <th>Qty</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($recentTransactions as $transaction)
+                                    <tr>
+                                        <td>{{ $transaction->reference_number }}</td>
+                                        <td>
+                                            <span class="badge 
+                                                @if($transaction->type === 'in') badge-green
+                                                @elseif($transaction->type === 'out') badge-red
+                                                @elseif($transaction->type === 'adjustment') badge-yellow
+                                                @elseif($transaction->type === 'return') badge-blue
+                                                @endif">
+                                                {{ $transaction->type_label }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $transaction->quantity_change }}</td>
+                                        <td>{{ $transaction->created_at->diffForHumans() }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="empty-state">No recent transactions</p>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Today's Summary -->
-    <div class="overflow-hidden rounded-lg bg-white shadow">
-        <div class="p-6">
-            <h3 class="text-lg font-medium text-gray-900">Today's Summary</h3>
-            <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-4">
-                <div class="rounded-lg bg-green-50 p-4">
-                    <p class="text-sm font-medium text-green-600">Stock In</p>
-                    <p class="mt-1 text-2xl font-semibold text-green-900">{{ $stockSummary['today']['stock_in']['count'] }}</p>
-                    <p class="text-sm text-green-600">{{ number_format($stockSummary['today']['stock_in']['quantity']) }} units</p>
+    <div class="card">
+        <div class="card-body">
+            <h3>Today's Summary</h3>
+            <div class="summary-grid">
+                <div class="summary-box green">
+                    <div class="summary-label">Stock In</div>
+                    <div class="summary-count">{{ $stockSummary['today']['stock_in']['count'] }}</div>
+                    <div class="summary-detail">{{ number_format($stockSummary['today']['stock_in']['quantity']) }} units</div>
                 </div>
-                <div class="rounded-lg bg-red-50 p-4">
-                    <p class="text-sm font-medium text-red-600">Stock Out</p>
-                    <p class="mt-1 text-2xl font-semibold text-red-900">{{ $stockSummary['today']['stock_out']['count'] }}</p>
-                    <p class="text-sm text-red-600">{{ number_format($stockSummary['today']['stock_out']['quantity']) }} units</p>
+                <div class="summary-box red">
+                    <div class="summary-label">Stock Out</div>
+                    <div class="summary-count">{{ $stockSummary['today']['stock_out']['count'] }}</div>
+                    <div class="summary-detail">{{ number_format($stockSummary['today']['stock_out']['quantity']) }} units</div>
                 </div>
-                <div class="rounded-lg bg-yellow-50 p-4">
-                    <p class="text-sm font-medium text-yellow-600">Adjustments</p>
-                    <p class="mt-1 text-2xl font-semibold text-yellow-900">{{ $stockSummary['today']['adjustments']['count'] }}</p>
-                    <p class="text-sm text-yellow-600">{{ number_format($stockSummary['today']['adjustments']['quantity']) }} units</p>
+                <div class="summary-box yellow">
+                    <div class="summary-label">Adjustments</div>
+                    <div class="summary-count">{{ $stockSummary['today']['adjustments']['count'] }}</div>
+                    <div class="summary-detail">{{ number_format($stockSummary['today']['adjustments']['quantity']) }} units</div>
                 </div>
-                <div class="rounded-lg bg-blue-50 p-4">
-                    <p class="text-sm font-medium text-blue-600">Returns</p>
-                    <p class="mt-1 text-2xl font-semibold text-blue-900">{{ $stockSummary['today']['returns']['count'] }}</p>
-                    <p class="text-sm text-blue-600">{{ number_format($stockSummary['today']['returns']['quantity']) }} units</p>
+                <div class="summary-box blue">
+                    <div class="summary-label">Returns</div>
+                    <div class="summary-count">{{ $stockSummary['today']['returns']['count'] }}</div>
+                    <div class="summary-detail">{{ number_format($stockSummary['today']['returns']['quantity']) }} units</div>
                 </div>
             </div>
         </div>
