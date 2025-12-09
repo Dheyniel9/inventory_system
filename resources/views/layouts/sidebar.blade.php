@@ -494,11 +494,8 @@
                   clip-rule="evenodd" />
         </svg>
     </button>
-    <ul x-show="open"
-        x-collapse
-        class="mt-1 px-2">
-        <li>
-            <a href="{{ route('stock.index') }}"
+    <ul class="nav-submenu stock-submenu {{ request()->routeIs('stock.*') ? 'submenu-visible' : 'submenu-hidden' }}">
+        <li><a href="{{ route('stock.index') }}"
                class="{{ request()->routeIs('stock.index') ? 'bg-primary-800 text-white' : 'text-primary-200 hover:text-white hover:bg-primary-800' }} block rounded-md py-2 pl-9 pr-2 text-sm">
                 All Transactions
             </a>
@@ -571,11 +568,8 @@
                   clip-rule="evenodd" />
         </svg>
     </button>
-    <ul x-show="open"
-        x-collapse
-        class="mt-1 px-2">
-        <li>
-            <a href="{{ route('pos.index') }}"
+    <ul class="nav-submenu pos-submenu {{ request()->routeIs('pos.*') ? 'submenu-visible' : 'submenu-hidden' }}">
+        <li><a href="{{ route('pos.index') }}"
                class="{{ request()->routeIs('pos.index') ? 'bg-primary-800 text-white' : 'text-primary-200 hover:text-white hover:bg-primary-800' }} block rounded-md py-2 pl-9 pr-2 text-sm">
                 New Sale
             </a>

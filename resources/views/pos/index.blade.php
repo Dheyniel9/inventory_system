@@ -167,7 +167,7 @@
                         <button @click="showCustomer = !showCustomer" type="button" class="text-sm text-primary-600 hover:text-primary-700">
                             <span x-text="showCustomer ? '− Hide' : '+ Add'"></span> Customer Info
                         </button>
-                        <div x-show="showCustomer" x-collapse class="mt-2 space-y-2">
+                        <div x-show="showCustomer" class="mt-2 space-y-2">
                             <input type="text" x-model="customerName" placeholder="Customer Name" class="w-full text-sm rounded-md border-gray-300">
                             <input type="text" x-model="customerPhone" placeholder="Phone" class="w-full text-sm rounded-md border-gray-300">
                         </div>
