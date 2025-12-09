@@ -16,9 +16,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useTailwind();
-        
-        // Trust proxies for HTTPS in production
-        if ($this->app->environment('production')) {
+
+        // Force HTTPS in production and non-local environments
+        if (! $this->app->environment('local')) {
             URL::forceScheme('https');
         }
     }
