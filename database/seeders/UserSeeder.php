@@ -10,6 +10,9 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
+        // Ensure roles exist first
+        $this->call(RolesAndPermissionsSeeder::class);
+        
         // Admin user
         $admin = User::firstOrCreate(
             ['email' => 'admin@example.com'],
