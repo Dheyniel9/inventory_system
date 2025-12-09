@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+    <meta name="csrf-token"
+          content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Inventory System') }} - @yield('title', 'Dashboard')</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+    <link rel="preconnect"
+          href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="{{ asset('css/global.css') }}">
     <style>
-        html, body {
+        html,
+        body {
             height: 100%;
             background-color: #f3f4f6;
         }
@@ -376,18 +383,28 @@
         }
     </style>
 </head>
+
 <body>
-    <div class="app-layout" x-data="{ sidebarOpen: false }">
+    <div class="app-layout"
+         x-data="{ sidebarOpen: false }">
         <!-- Mobile sidebar -->
-        <div class="mobile-sidebar-overlay" :class="{ 'visible': sidebarOpen, 'hidden': !sidebarOpen }">
-            <div class="sidebar-backdrop" @click="sidebarOpen = false"></div>
+        <div class="mobile-sidebar-overlay"
+             :class="{ 'visible': sidebarOpen, 'hidden': !sidebarOpen }">
+            <div class="sidebar-backdrop"
+                 @click="sidebarOpen = false"></div>
             <div class="sidebar-container">
                 <div class="sidebar-content">
                     <div class="sidebar-close-button">
-                        <button type="button" @click="sidebarOpen = false">
+                        <button type="button"
+                                @click="sidebarOpen = false">
                             <span class="sr-only">Close sidebar</span>
-                            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            <svg fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.5"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
@@ -405,10 +422,17 @@
         <div class="main-content">
             <!-- Top navbar -->
             <div class="navbar">
-                <button type="button" class="mobile-menu-button" @click="sidebarOpen = true">
+                <button type="button"
+                        class="mobile-menu-button"
+                        @click="sidebarOpen = true">
                     <span class="sr-only">Open sidebar</span>
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    <svg fill="none"
+                         viewBox="0 0 24 24"
+                         stroke-width="1.5"
+                         stroke="currentColor">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </button>
 
@@ -418,21 +442,36 @@
                     <div class="navbar-spacer"></div>
                     <div class="navbar-actions">
                         <!-- User dropdown -->
-                        <div class="user-dropdown" x-data="{ open: false }">
-                            <button type="button" @click="open = !open" class="user-menu-button">
-                                <img class="user-avatar" src="{{ auth()->user()->avatar_url }}" alt="">
+                        <div class="user-dropdown"
+                             x-data="{ open: false }">
+                            <button type="button"
+                                    @click="open = !open"
+                                    class="user-menu-button">
+                                <img class="user-avatar"
+                                     src="{{ auth()->user()->avatar_url }}"
+                                     alt="">
                                 <span class="user-info">
                                     <span class="user-name">{{ auth()->user()->name }}</span>
-                                    <svg class="user-dropdown-icon" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                    <svg class="user-dropdown-icon"
+                                         viewBox="0 0 20 20"
+                                         fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                              clip-rule="evenodd" />
                                     </svg>
                                 </span>
                             </button>
-                            <div class="dropdown-menu" :class="{ 'visible': open, 'hidden': !open }" @click.outside="open = false">
-                                <a href="{{ route('profile') }}" class="dropdown-item">Profile</a>
-                                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                            <div class="dropdown-menu"
+                                 :class="{ 'visible': open, 'hidden': !open }"
+                                 @click.outside="open = false">
+                                <a href="{{ route('profile') }}"
+                                   class="dropdown-item">Profile</a>
+                                <form method="POST"
+                                      action="{{ route('logout') }}"
+                                      class="w-full">
                                     @csrf
-                                    <button type="submit" class="dropdown-item-button">Sign out</button>
+                                    <button type="submit"
+                                            class="dropdown-item-button">Sign out</button>
                                 </form>
                             </div>
                         </div>
@@ -443,37 +482,46 @@
             <!-- Page content -->
             <main class="page-content">
                 @if(session('success'))
-                    <div class="alert alert-success" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)">
-                        <div class="alert-content">
-                            <div class="alert-icon">
-                                <svg viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="alert-message">
-                                <p>{{ session('success') }}</p>
-                            </div>
+                <div class="alert alert-success"
+                     x-data="{ show: true }"
+                     x-show="show"
+                     x-init="setTimeout(() => show = false, 5000)">
+                    <div class="alert-content">
+                        <div class="alert-icon">
+                            <svg viewBox="0 0 20 20"
+                                 fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                                      clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="alert-message">
+                            <p>{{ session('success') }}</p>
                         </div>
                     </div>
+                </div>
                 @endif
 
                 @if($errors->any())
-                    <div class="alert alert-error">
-                        <div class="alert-content">
-                            <div class="alert-icon">
-                                <svg viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="alert-message">
-                                <ul>
-                                    @foreach($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                <div class="alert alert-error">
+                    <div class="alert-content">
+                        <div class="alert-icon">
+                            <svg viewBox="0 0 20 20"
+                                 fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                                      clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="alert-message">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
+                </div>
                 @endif
 
                 @yield('content')
@@ -481,6 +529,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+            defer></script>
 </body>
+
 </html>
