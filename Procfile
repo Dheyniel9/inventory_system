@@ -1,2 +1,2 @@
 release: php artisan migrate --force
-web: php artisan serve --host=0.0.0.0 --port=${PORT}
+web: php artisan serve --host=0.0.0.0 --port=${PORT:-8080}

@@ -10,6 +10,7 @@ cmds = [
 [phases.build]
 cmds = [
     'npm run build',
+    'php artisan storage:link',
     'php artisan config:clear',
     'php artisan cache:clear',
     'php artisan route:clear',
@@ -19,3 +20,4 @@ cmds = [
 [env]
 NIXPACKS_PHP_ROOT_DIR = '/app/public'
 NIXPACKS_PHP_FALLBACK_PATH = '/index.php'
+
