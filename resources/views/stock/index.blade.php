@@ -319,166 +319,72 @@
         </div>
         @can('manage stock')
         <div class="stock-actions">
-            <a href="{{ route('stock.in') }}"
-               class="stock-btn stock-btn-in">
+            <x-button tag="link"
+                      href="{{ route('stock.in') }}"
+                      variant="primary"
+                      icon="<path stroke-linecap='round' stroke-linejoin='round' d='M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75' />">
                 Stock In
-            </a>
-            <a href="{{ route('stock.out') }}"
-               class="stock-btn stock-btn-out">
+            </x-button>
+            <x-button tag="link"
+                      href="{{ route('stock.out') }}"
+                      variant="danger"
+                      icon="<path stroke-linecap='round' stroke-linejoin='round' d='M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75' />">
                 Stock Out
-            </a>
-            <a href="{{ route('stock.adjustment') }}"
-               class="stock-btn stock-btn-adjustment">
+            </x-button>
+            <x-button tag="link"
+                      href="{{ route('stock.adjustment') }}"
+                      variant="secondary"
+                      icon="<path stroke-linecap='round' stroke-linejoin='round' d='M9 12h6m-6 4h6m2-5a9 9 0 11-18 0 9 9 0 0118 0z' />">
                 Adjustment
-            </a>
+            </x-button>
         </div>
         @endcan
     </div>
 
-    <!-- Filters -->
-    <div class="stock-filters">
-        <form method="GET"
-              class="stock-filter-form">
-            <div class="stock-filter-group">
-                <label for="search"
-                       class="stock-filter-label">Search</label>
-                <input type="text"
-                       name="search"
-                       id="search"
-                       value="{{ request('search') }}"
-                       placeholder="Reference, Product..."
-                       class="stock-filter-input">
-            </div>
-            <div class="stock-filter-group">
-                <label for="type"
-                       class="stock-filter-label">Type</label>
-                <select name="type"
-                        id="type"
-                        class="stock-filter-select">
-                    <option value="">All Types</option>
-                    <option value="in"
-                            {{
-                            request('type')==='in'
-                            ? 'selected'
-                            : ''
-                            }}>Stock In</option>
-                    <option value="out"
-                            {{
-                            request('type')==='out'
-                            ? 'selected'
-                            : ''
-                            }}>Stock Out</option>
-                    <option value="adjustment"
-                            {{
-                            request('type')==='adjustment'
-                            ? 'selected'
-                            : ''
-                            }}>Adjustment</option>
-                    <option value="return"
-                            {{
-                            request('type')==='return'
-                            ? 'selected'
-                            : ''
-                            }}>Return</option>
-                </select>
-            </div>
-            <div class="stock-filter-group">
-                <label for="start_date"
-                       class="stock-filter-label">From Date</label>
-                <input type="date"
-                       name="start_date"
-                       id="start_date"
-                       value="{{ request('start_date') }}"
-                       class="stock-filter-input">
-            </div>
-            <div class="stock-filter-group">
-                <label for="end_date"
-                       class="stock-filter-label">To Date</label>
-                <input type="date"
-                       name="end_date"
-                       id="end_date"
-                       value="{{ request('end_date') }}"
-                       class="stock-filter-input">
-            </div>
-            <div class="stock-filter-buttons">
-                <button type="submit"
-                        class="stock-filter-btn stock-filter-btn-submit">
-                    Filter
-                </button>
-                <a href="{{ route('stock.index') }}"
-                   class="stock-filter-btn stock-filter-btn-reset">
-                    Reset
-                </a>
-            </div>
-        </form>
-    </div>
+    <x-filter-form method="GET"
+                   :fields="[
+            ['name' => 'search', 'label' => 'Search', 'type' => 'text', 'placeholder' => 'Reference, Product...'],
+            ['name' => 'type', 'label' => 'Type', 'type' => 'select', 'options' => ['in' => 'Stock In', 'out' => 'Stock Out', 'adjustment' => 'Adjustment', 'return' => 'Return']],
+            ['name' => 'start_date', 'label' => 'From Date', 'type' => 'date'],
+            ['name' => 'end_date', 'label' => 'To Date', 'type' => 'date']
+        ]"
+                   resetUrl="{{ route('stock.index') }}" />
 
-    <!-- Transactions table -->
-    <div class="stock-table-container">
-        <div class="stock-table-wrapper">
-            <table class="stock-table">
-                <thead>
-                    <tr>
-                        <th scope="col">Reference</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Before → After</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($transactions as $transaction)
-                    <tr>
-                        <td class="stock-table td nowrap">
-                            {{ $transaction->reference_number }}
-                        </td>
-                        <td class="stock-table td nowrap">
-                            <a href="{{ route('products.show', $transaction->product) }}"
-                               class="stock-table-link">
-                                {{ $transaction->product->name }}
-                            </a>
-                        </td>
-                        <td class="stock-table td nowrap">
-                            <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                                    {{ $transaction->type === 'in' ? 'bg-green-100 text-green-800' : '' }}
-                                    {{ $transaction->type === 'out' ? 'bg-red-100 text-red-800' : '' }}
-                                    {{ $transaction->type === 'adjustment' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                    {{ $transaction->type === 'return' ? 'bg-blue-100 text-blue-800' : '' }}">
-                                {{ $transaction->type_label }}
-                            </span>
-                        </td>
-                        <td
-                            class="whitespace-nowrap px-3 py-4 text-sm font-medium {{ $transaction->is_stock_in ? 'text-green-600' : 'text-red-600' }}">
-                            {{ $transaction->quantity_change }}
-                        </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ $transaction->quantity_before }} → {{ $transaction->quantity_after }}
-                        </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ $transaction->user->name }}
-                        </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ $transaction->transaction_date->format('M d, Y H:i') }}
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="7"
-                            class="px-6 py-12 text-center text-sm text-gray-500">
-                            No transactions found.
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-        @if($transactions->hasPages())
-        <div class="border-t border-gray-200 px-4 py-3 sm:px-6">
-            {{ $transactions->links() }}
-        </div>
-        @endif
-    </div>
+    @php
+    $tableHeaders = [
+    ['label' => 'Reference', 'render' => fn($t) => $t['reference']],
+    ['label' => 'Product', 'render' => fn($t) => '<a
+       href="' . route('products.show', ['product' => $t['product_id']]) . '"
+       class="table-link">' . $t['product_name'] . '</a>'],
+    ['label' => 'Type', 'render' => fn($t) => '<span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ' .
+            ($t['type'] === 'in' ? 'bg-green-100 text-green-800' : '') .
+            ($t['type'] === 'out' ? 'bg-red-100 text-red-800' : '') .
+            ($t['type'] === 'adjustment' ? 'bg-yellow-100 text-yellow-800' : '') .
+            ($t['type'] === 'return' ? 'bg-blue-100 text-blue-800' : '') . '">' . $t['type_label'] . '</span>'],
+    ['label' => 'Quantity', 'render' => fn($t) => '<span
+          class="' . ($t['is_stock_in'] ? 'text-green-600' : 'text-red-600') . ' font-medium">' . $t['quantity'] .
+        '</span>'],
+    ['label' => 'Before → After', 'render' => fn($t) => $t['before_after']],
+    ['label' => 'User', 'render' => fn($t) => $t['user_name']],
+    ['label' => 'Date', 'render' => fn($t) => $t['date']],
+    ];
+    $tableRows = $transactions->map(fn($transaction) => [
+    'reference' => $transaction->reference_number,
+    'product_id' => $transaction->product_id,
+    'product_name' => $transaction->product->name,
+    'type' => $transaction->type,
+    'type_label' => $transaction->type_label,
+    'quantity' => $transaction->quantity_change,
+    'is_stock_in' => $transaction->is_stock_in,
+    'before_after' => $transaction->quantity_before . ' → ' . $transaction->quantity_after,
+    'user_name' => $transaction->user->name,
+    'date' => $transaction->transaction_date->format('M d, Y H:i')
+    ])->toArray();
+    @endphp
+
+    <x-table :headers="$tableHeaders"
+             :rows="$tableRows"
+             :pagination="$transactions->hasPages() ? $transactions->links() : null"
+             emptyMessage="No transactions found." />
 </div>
 @endsection

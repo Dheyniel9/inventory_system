@@ -4,126 +4,151 @@
 
 <?php $__env->startSection('css'); ?>
 <style>
-    /* POS Terminal Layout */
-    .pos-container {
-        height: calc(100vh - 10rem);
+    /* Base Layout */
+    .pos-layout {
         display: flex;
-        gap: 1.5rem;
+        flex-direction: column;
+        min-height: calc(100vh - 10rem);
+        gap: 1rem;
     }
 
-    .pos-products {
+    @media (min-width: 1024px) {
+        .pos-layout {
+            flex-direction: row;
+            gap: 1.5rem;
+        }
+    }
+
+    /* Products Panel */
+    .products-panel {
+        display: flex;
+        flex-direction: column;
         flex: 1;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        min-height: 0;
+    }
+
+    /* Cart Panel */
+    .cart-panel {
         display: flex;
         flex-direction: column;
         background: white;
         border-radius: 0.5rem;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         overflow: hidden;
+        min-height: 0;
     }
 
-    .pos-cart {
-        width: 24rem;
-        display: flex;
-        flex-direction: column;
-        background: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
+    @media (min-width: 1024px) {
+        .cart-panel {
+            width: 24rem;
+            max-height: calc(100vh - 10rem);
+        }
     }
 
-    /* Search & Categories */
-    .pos-search-section {
+    /* Search Section */
+    .search-section {
         padding: 1rem;
         border-bottom: 1px solid #e5e7eb;
+        flex-shrink: 0;
+    }
+
+    .search-container {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.75rem;
     }
 
-    .pos-search-wrapper {
-        display: flex;
-        gap: 1rem;
+    @media (min-width: 640px) {
+        .search-container {
+            flex-direction: row;
+            gap: 1rem;
+        }
     }
 
-    .pos-search-input-container {
-        flex: 1;
+    .search-input-wrapper {
         position: relative;
+        flex: 1;
     }
 
-    .pos-search-input {
+    .search-input {
         width: 100%;
-        padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+        padding: 0.625rem 0.75rem 0.625rem 2.75rem;
         border: 1px solid #d1d5db;
-        border-radius: 0.375rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        transition: all 0.2s;
     }
 
-    .pos-search-input:focus {
+    .search-input:focus {
         outline: none;
         border-color: #3b82f6;
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
-    .pos-search-icon {
+    .search-icon {
         position: absolute;
-        left: 0.75rem;
+        left: 0.875rem;
         top: 50%;
         transform: translateY(-50%);
         width: 1.25rem;
         height: 1.25rem;
         color: #9ca3af;
+        pointer-events: none;
     }
 
-    .pos-category-select {
-        padding: 0.5rem;
+    .category-select {
+        padding: 0.625rem 0.75rem;
         border: 1px solid #d1d5db;
-        border-radius: 0.375rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        min-width: 10rem;
+        background: white;
+        transition: all 0.2s;
     }
 
-    .pos-category-select:focus {
+    .category-select:focus {
         outline: none;
         border-color: #3b82f6;
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
-    /* Products Grid */
-    .pos-products-container {
+    /* Products Grid Container */
+    .products-container {
         flex: 1;
         overflow-y: auto;
         padding: 1rem;
+        min-height: 0;
     }
 
-    .pos-products-grid {
+    .products-grid {
         display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 1rem;
-        grid-template-columns: repeat(2, 1fr);
     }
 
     @media (min-width: 640px) {
-        .pos-products-grid {
-            grid-template-columns: repeat(3, 1fr);
+        .products-grid {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         }
     }
 
     @media (min-width: 1024px) {
-        .pos-products-grid {
-            grid-template-columns: repeat(4, 1fr);
+        .products-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         }
     }
 
-    @media (min-width: 1280px) {
-        .pos-products-grid {
-            grid-template-columns: repeat(5, 1fr);
-        }
-    }
-
-    .pos-product-button {
+    /* Product Card */
+    .product-card {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 0.75rem;
-        border: 1px solid #e5e7eb;
+        padding: 1rem;
+        border: 2px solid #e5e7eb;
         border-radius: 0.5rem;
         background: white;
         cursor: pointer;
@@ -131,578 +156,697 @@
         text-align: center;
     }
 
-    .pos-product-button:hover {
+    .product-card:hover {
         border-color: #3b82f6;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
     }
 
-    .pos-product-image {
-        width: 4rem;
-        height: 4rem;
-        margin-bottom: 0.5rem;
+    .product-card:active {
+        transform: translateY(0);
+    }
+
+    .product-image-container {
+        width: 5rem;
+        height: 5rem;
+        margin-bottom: 0.75rem;
         border-radius: 0.5rem;
-        background-color: #f3f4f6;
+        background: #f9fafb;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
     }
 
-    .pos-product-image img {
+    .product-image-container img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    .pos-product-image svg {
-        width: 2rem;
-        height: 2rem;
+    .product-image-placeholder {
+        width: 2.5rem;
+        height: 2.5rem;
         color: #d1d5db;
     }
 
-    .pos-product-name {
+    .product-name {
         font-size: 0.875rem;
-        font-weight: 500;
+        font-weight: 600;
         color: #111827;
-        line-height: 1.2;
+        line-height: 1.3;
+        margin-bottom: 0.25rem;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        word-break: break-word;
     }
 
-    .pos-product-sku {
+    .product-sku {
         font-size: 0.75rem;
         color: #6b7280;
+        margin-bottom: 0.5rem;
     }
 
-    .pos-product-price {
-        font-size: 0.875rem;
+    .product-price {
+        font-size: 1rem;
         font-weight: 700;
         color: #059669;
-        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
     }
 
-    .pos-product-stock {
+    .product-stock {
         font-size: 0.75rem;
         color: #6b7280;
+        padding: 0.125rem 0.5rem;
+        background: #f3f4f6;
+        border-radius: 0.25rem;
     }
 
-    .pos-product-stock.low {
-        color: #ca8a04;
+    .product-stock.low-stock {
+        color: #d97706;
+        background: #fef3c7;
     }
 
     /* Cart Header */
-    .pos-cart-header {
-        padding: 1rem;
-        border-bottom: 1px solid #e5e7eb;
-        background-color: #3b82f6;
+    .cart-header {
+        padding: 1rem 1.25rem;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         color: white;
+        flex-shrink: 0;
     }
 
-    .pos-cart-header h2 {
+    .cart-title {
         font-size: 1.125rem;
-        font-weight: 600;
-        margin: 0;
+        font-weight: 700;
+        margin: 0 0 0.25rem 0;
     }
 
-    .pos-cart-header p {
+    .cart-item-count {
         font-size: 0.875rem;
         color: #dbeafe;
         margin: 0;
     }
 
-    /* Cart Items */
-    .pos-cart-items {
+    /* Cart Items Container */
+    .cart-items-container {
         flex: 1;
         overflow-y: auto;
         padding: 1rem;
+        min-height: 200px;
+        max-height: 400px;
+    }
+
+    @media (min-width: 1024px) {
+        .cart-items-container {
+            max-height: none;
+        }
+    }
+
+    .cart-items-list {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
     }
 
-    .pos-cart-empty {
-        flex: 1;
+    /* Empty Cart State */
+    .empty-cart-state {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        min-height: 200px;
         text-align: center;
-        color: #6b7280;
+        color: #9ca3af;
     }
 
-    .pos-cart-empty-icon {
-        width: 3rem;
-        height: 3rem;
+    .empty-cart-icon {
+        width: 4rem;
+        height: 4rem;
         color: #d1d5db;
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
     }
 
-    .pos-cart-item {
+    .empty-cart-title {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #6b7280;
+        margin: 0 0 0.25rem 0;
+    }
+
+    .empty-cart-subtitle {
+        font-size: 0.875rem;
+        color: #9ca3af;
+        margin: 0;
+    }
+
+    /* Cart Item */
+    .cart-item {
         display: flex;
         gap: 0.75rem;
-        padding: 0.75rem;
-        background-color: #f9fafb;
+        padding: 0.875rem;
+        background: #f9fafb;
         border-radius: 0.5rem;
-        align-items: flex-start;
+        border: 1px solid #e5e7eb;
     }
 
-    .pos-cart-item-info {
+    .cart-item-details {
         flex: 1;
         min-width: 0;
     }
 
-    .pos-cart-item-name {
-        font-weight: 500;
+    .cart-item-name {
+        font-weight: 600;
+        font-size: 0.875rem;
         color: #111827;
+        margin: 0 0 0.25rem 0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        margin: 0;
     }
 
-    .pos-cart-item-price {
-        font-size: 0.875rem;
+    .cart-item-price {
+        font-size: 0.8125rem;
         color: #6b7280;
         margin: 0;
     }
 
-    .pos-cart-item-controls {
+    /* Quantity Controls */
+    .quantity-controls {
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
 
-    .pos-qty-button {
-        width: 1.75rem;
-        height: 1.75rem;
+    .quantity-button {
+        width: 2rem;
+        height: 2rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 0.375rem;
-        background-color: #e5e7eb;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        color: #4b5563;
-    }
-
-    .pos-qty-button:hover {
-        background-color: #d1d5db;
-    }
-
-    .pos-qty-input {
-        width: 3rem;
-        text-align: center;
-        font-size: 0.875rem;
         border: 1px solid #d1d5db;
         border-radius: 0.375rem;
-        padding: 0.25rem;
+        background: white;
+        color: #4b5563;
+        cursor: pointer;
+        transition: all 0.2s;
     }
 
-    .pos-qty-input:focus {
+    .quantity-button:hover {
+        background: #f3f4f6;
+        border-color: #9ca3af;
+    }
+
+    .quantity-button:active {
+        transform: scale(0.95);
+    }
+
+    .quantity-button svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .quantity-input {
+        width: 3.5rem;
+        text-align: center;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        padding: 0.375rem;
+    }
+
+    .quantity-input:focus {
         outline: none;
         border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
-    .pos-cart-item-total {
+    /* Cart Item Actions */
+    .cart-item-actions {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        gap: 0.25rem;
+        gap: 0.5rem;
     }
 
-    .pos-cart-item-amount {
-        font-weight: 600;
+    .cart-item-total {
+        font-weight: 700;
+        font-size: 0.9375rem;
         color: #111827;
-        margin: 0;
     }
 
-    .pos-remove-btn {
+    .remove-item-button {
         font-size: 0.75rem;
         color: #dc2626;
         background: none;
         border: none;
         cursor: pointer;
         padding: 0;
+        transition: color 0.2s;
     }
 
-    .pos-remove-btn:hover {
+    .remove-item-button:hover {
         color: #991b1b;
     }
 
     /* Cart Summary */
-    .pos-cart-summary {
+    .cart-summary {
+        padding: 1rem 1.25rem;
+        background: #f9fafb;
         border-top: 1px solid #e5e7eb;
-        padding: 1rem;
+        flex-shrink: 0;
+    }
+
+    .summary-section {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
-        background-color: #f9fafb;
     }
 
-    .pos-discount-section {
+    /* Discount Section */
+    .discount-container {
         display: flex;
-        align-items: center;
         gap: 0.5rem;
+        align-items: center;
     }
 
-    .pos-discount-select {
-        font-size: 0.875rem;
-        padding: 0.25rem 0.5rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.375rem;
-    }
-
-    .pos-discount-input {
-        flex: 1;
-        font-size: 0.875rem;
+    .discount-type-select {
         padding: 0.5rem;
         border: 1px solid #d1d5db;
         border-radius: 0.375rem;
-    }
-
-    .pos-discount-input:focus {
-        outline: none;
-        border-color: #3b82f6;
-    }
-
-    .pos-tax-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         font-size: 0.875rem;
+        background: white;
     }
 
-    .pos-tax-label {
-        color: #4b5563;
-    }
-
-    .pos-tax-input {
-        width: 5rem;
-        text-align: right;
-        font-size: 0.875rem;
+    .discount-value-input {
+        flex: 1;
+        padding: 0.5rem;
         border: 1px solid #d1d5db;
         border-radius: 0.375rem;
-        padding: 0.25rem 0.5rem;
-    }
-
-    .pos-tax-input:focus {
-        outline: none;
-        border-color: #3b82f6;
-    }
-
-    .pos-totals {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-        padding-top: 0.75rem;
-        border-top: 1px solid #d1d5db;
-    }
-
-    .pos-total-row {
-        display: flex;
-        justify-content: space-between;
         font-size: 0.875rem;
     }
 
-    .pos-total-label {
-        color: #4b5563;
+    .discount-value-input:focus,
+    .discount-type-select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
-    .pos-total-value {
-        color: #111827;
-    }
-
-    .pos-total-row.discount .pos-total-value {
-        color: #dc2626;
-    }
-
-    .pos-grand-total {
+    /* Tax Section */
+    .tax-container {
         display: flex;
         justify-content: space-between;
-        font-size: 1.125rem;
-        font-weight: 700;
-        padding-top: 0.5rem;
+        align-items: center;
+    }
+
+    .tax-label {
+        font-size: 0.875rem;
+        color: #4b5563;
+        font-weight: 500;
+    }
+
+    .tax-input {
+        width: 5rem;
+        text-align: right;
+        padding: 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+    }
+
+    .tax-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Totals Display */
+    .totals-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding-top: 0.75rem;
         border-top: 1px solid #d1d5db;
         margin-top: 0.5rem;
     }
 
-    .pos-grand-total-value {
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.875rem;
+    }
+
+    .total-label {
+        color: #6b7280;
+    }
+
+    .total-value {
+        font-weight: 500;
+        color: #111827;
+    }
+
+    .discount-row .total-value {
+        color: #dc2626;
+    }
+
+    .grand-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0.75rem;
+        margin-top: 0.5rem;
+        border-top: 2px solid #d1d5db;
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .grand-total-label {
+        color: #111827;
+    }
+
+    .grand-total-value {
         color: #3b82f6;
     }
 
     /* Payment Section */
-    .pos-payment-section {
+    .payment-container {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
         padding-top: 0.75rem;
+        margin-top: 0.75rem;
+        border-top: 1px solid #d1d5db;
     }
 
-    .pos-payment-select {
+    .payment-method-select {
         width: 100%;
-        padding: 0.5rem;
+        padding: 0.625rem;
         border: 1px solid #d1d5db;
         border-radius: 0.375rem;
-    }
-
-    .pos-payment-select:focus {
-        outline: none;
-        border-color: #3b82f6;
-    }
-
-    .pos-payment-input {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.375rem;
-    }
-
-    .pos-payment-input:focus {
-        outline: none;
-        border-color: #3b82f6;
-    }
-
-    .pos-change-display {
         font-size: 0.875rem;
-        margin-top: 0.25rem;
+        background: white;
     }
 
-    .pos-change-amount {
-        font-weight: 600;
+    .payment-method-select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .cash-payment-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .input-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #4b5563;
+    }
+
+    .amount-input {
+        width: 100%;
+        padding: 0.625rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+    }
+
+    .amount-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .change-display {
+        font-size: 0.875rem;
+        color: #4b5563;
+        padding: 0.5rem;
+        background: #f0fdf4;
+        border-radius: 0.375rem;
+        text-align: center;
+    }
+
+    .change-amount {
+        font-weight: 700;
         color: #16a34a;
+        font-size: 1rem;
     }
 
-    /* Customer Info */
-    .pos-customer-section {
-        border-bottom: 1px solid #d1d5db;
+    /* Customer Info Section */
+    .customer-section {
         padding-bottom: 0.75rem;
+        border-bottom: 1px solid #d1d5db;
     }
 
-    .pos-customer-toggle {
+    .customer-toggle-button {
         font-size: 0.875rem;
         color: #3b82f6;
         background: none;
         border: none;
         cursor: pointer;
         padding: 0;
+        font-weight: 500;
+        transition: color 0.2s;
     }
 
-    .pos-customer-toggle:hover {
+    .customer-toggle-button:hover {
         color: #2563eb;
     }
 
-    .pos-customer-inputs {
+    .customer-inputs {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-        margin-top: 0.5rem;
+        margin-top: 0.75rem;
     }
 
-    .pos-customer-input {
+    .customer-input {
         width: 100%;
-        font-size: 0.875rem;
-        padding: 0.5rem;
+        padding: 0.625rem;
         border: 1px solid #d1d5db;
         border-radius: 0.375rem;
+        font-size: 0.875rem;
     }
 
-    .pos-customer-input:focus {
+    .customer-input:focus {
         outline: none;
         border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
     /* Action Buttons */
-    .pos-actions {
+    .action-buttons {
         display: flex;
-        gap: 0.5rem;
+        gap: 0.75rem;
         padding-top: 0.75rem;
     }
 
-    .pos-btn-clear {
+    .button {
         flex: 1;
-        padding: 0.5rem 1rem;
-        border: 1px solid #d1d5db;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+    }
+
+    .button-secondary {
         background: white;
         color: #4b5563;
-        border-radius: 0.375rem;
-        cursor: pointer;
-        transition: background-color 0.2s;
+        border: 2px solid #d1d5db;
     }
 
-    .pos-btn-clear:hover {
-        background-color: #f3f4f6;
+    .button-secondary:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
     }
 
-    .pos-btn-checkout {
-        flex: 1;
-        padding: 0.5rem 1rem;
-        border: none;
-        background-color: #16a34a;
+    .button-primary {
+        background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
         color: white;
-        border-radius: 0.375rem;
-        cursor: pointer;
-        transition: background-color 0.2s;
     }
 
-    .pos-btn-checkout:hover {
-        background-color: #15803d;
+    .button-primary:hover {
+        background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
     }
 
-    .pos-btn-checkout:disabled {
-        opacity: 0.5;
+    .button-primary:active {
+        transform: translateY(0);
+    }
+
+    .button-primary:disabled {
+        opacity: 0.6;
         cursor: not-allowed;
+        transform: none;
     }
 
     /* Success Modal */
-    .pos-modal {
+    .modal-overlay {
         display: none;
         position: fixed;
         inset: 0;
         z-index: 50;
-        overflow-y: auto;
-    }
-
-    .pos-modal.show {
-        display: flex;
+        background: rgba(0, 0, 0, 0.5);
         align-items: center;
         justify-content: center;
+        padding: 1rem;
     }
 
-    .pos-modal-overlay {
-        position: fixed;
-        inset: 0;
-        background-color: rgba(107, 114, 128, 0.75);
-        transition: background-color 0.2s;
+    .modal-overlay.active {
+        display: flex;
     }
 
-    .pos-modal-content {
-        position: relative;
+    .modal-content {
         background: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+        border-radius: 1rem;
+        padding: 2rem;
         max-width: 28rem;
         width: 100%;
-        padding: 1.5rem;
         text-align: center;
+        box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
     }
 
-    .pos-modal-icon {
-        width: 4rem;
-        height: 4rem;
-        margin: 0 auto 1rem;
+    .modal-icon {
+        width: 5rem;
+        height: 5rem;
+        margin: 0 auto 1.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 9999px;
-        background-color: #dcfce7;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
     }
 
-    .pos-modal-icon svg {
-        width: 2.5rem;
-        height: 2.5rem;
+    .modal-icon svg {
+        width: 3rem;
+        height: 3rem;
         color: #16a34a;
     }
 
-    .pos-modal-title {
-        font-size: 1.25rem;
-        font-weight: 600;
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 700;
         color: #111827;
-        margin-bottom: 0.5rem;
+        margin: 0 0 0.5rem 0;
     }
 
-    .pos-modal-invoice {
-        color: #4b5563;
-        margin-bottom: 0.5rem;
+    .modal-invoice {
         font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0 0 1rem 0;
     }
 
-    .pos-modal-invoice-number {
-        font-family: monospace;
-        font-weight: 600;
+    .invoice-number {
+        font-family: 'Courier New', monospace;
+        font-weight: 700;
+        color: #111827;
     }
 
-    .pos-modal-amount {
-        font-size: 1.875rem;
+    .modal-amount {
+        font-size: 2.5rem;
         font-weight: 700;
         color: #3b82f6;
-        margin-bottom: 0.25rem;
+        margin: 0 0 0.5rem 0;
     }
 
-    .pos-modal-change {
-        color: #4b5563;
-        font-size: 0.875rem;
+    .modal-change {
+        font-size: 0.9375rem;
+        color: #6b7280;
+        margin: 0 0 2rem 0;
     }
 
-    .pos-modal-change-amount {
-        font-weight: 600;
+    .change-value {
+        font-weight: 700;
         color: #16a34a;
     }
 
-    .pos-modal-actions {
+    .modal-actions {
         display: flex;
         gap: 0.75rem;
-        justify-content: center;
-        margin-top: 1.5rem;
     }
 
-    .pos-modal-btn {
-        padding: 0.5rem 1rem;
-        border-radius: 0.375rem;
-        font-size: 0.875rem;
+    .modal-button {
+        flex: 1;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
         cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-block;
         border: none;
-        transition: background-color 0.2s;
     }
 
-    .pos-modal-btn-secondary {
-        background-color: #f3f4f6;
+    .modal-button-secondary {
+        background: #f3f4f6;
         color: #4b5563;
     }
 
-    .pos-modal-btn-secondary:hover {
-        background-color: #e5e7eb;
+    .modal-button-secondary:hover {
+        background: #e5e7eb;
     }
 
-    .pos-modal-btn-primary {
-        background-color: #3b82f6;
+    .modal-button-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         color: white;
     }
 
-    .pos-modal-btn-primary:hover {
-        background-color: #2563eb;
+    .modal-button-primary:hover {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     }
 
-    @media (max-width: 768px) {
-        .pos-container {
-            flex-direction: column;
-            height: auto;
-        }
+    /* Scrollbar Styling */
+    .products-container::-webkit-scrollbar,
+    .cart-items-container::-webkit-scrollbar {
+        width: 0.5rem;
+    }
 
-        .pos-cart {
-            width: 100%;
-        }
+    .products-container::-webkit-scrollbar-track,
+    .cart-items-container::-webkit-scrollbar-track {
+        background: #f3f4f6;
+        border-radius: 0.25rem;
+    }
+
+    .products-container::-webkit-scrollbar-thumb,
+    .cart-items-container::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 0.25rem;
+    }
+
+    .products-container::-webkit-scrollbar-thumb:hover,
+    .cart-items-container::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
     }
 </style>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-<div x-data="posTerminal()"
-     class="pos-container">
-    <div class="pos-products">
-        <!-- Search and Categories -->
-        <div class="pos-search-section">
-            <div class="pos-search-wrapper">
-                <div class="pos-search-input-container">
+<div class="pos-layout"
+     x-data="posTerminal()">
+    <!-- Products Panel -->
+    <div class="products-panel">
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-input-wrapper">
                     <input type="text"
                            x-model="searchQuery"
                            @input.debounce.300ms="filterProducts()"
-                           placeholder="Search products or scan barcode..."
                            @keydown.enter.prevent="handleBarcodeSearch()"
-                           class="pos-search-input">
-                    <svg class="pos-search-icon"
+                           placeholder="Search products or scan barcode..."
+                           class="search-input">
+                    <svg class="search-icon"
                          fill="none"
                          viewBox="0 0 24 24"
                          stroke="currentColor">
@@ -714,7 +858,7 @@
                 </div>
                 <select x-model="selectedCategory"
                         @change="filterProducts()"
-                        class="pos-category-select">
+                        class="category-select">
                     <option value="">All Categories</option>
                     <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <option value="<?php echo e($category->id); ?>"><?php echo e($category->name); ?></option>
@@ -724,8 +868,8 @@
         </div>
 
         <!-- Products Grid -->
-        <div class="pos-products-container">
-            <div class="pos-products-grid">
+        <div class="products-container">
+            <div class="products-grid">
                 <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <button type="button"
                         @click="addToCart(<?php echo e(json_encode([
@@ -738,13 +882,14 @@
                         'category_id' => $product->category_id,
                     ])); ?>)"
                         x-show="shouldShowProduct(<?php echo e($product->category_id ?? 'null'); ?>, '<?php echo e(strtolower($product->name)); ?>', '<?php echo e(strtolower($product->sku)); ?>')"
-                        class="pos-product-button">
-                    <div class="pos-product-image">
+                        class="product-card">
+                    <div class="product-image-container">
                         <?php if($product->image_url): ?>
                         <img src="<?php echo e($product->image_url); ?>"
-                             alt="">
+                             alt="<?php echo e($product->name); ?>">
                         <?php else: ?>
-                        <svg fill="none"
+                        <svg class="product-image-placeholder"
+                             fill="none"
                              viewBox="0 0 24 24"
                              stroke="currentColor">
                             <path stroke-linecap="round"
@@ -754,80 +899,33 @@
                         </svg>
                         <?php endif; ?>
                     </div>
-                    <span class="pos-product-name"><?php echo e($product->name); ?></span>
-                    <span class="pos-product-sku"><?php echo e($product->sku); ?></span>
-                    <span class="pos-product-price">$<?php echo e(number_format($product->selling_price, 2)); ?></span>
-                    <span class="pos-product-stock <?php echo e($product->quantity <= $product->min_stock_level ? 'low' : ''); ?>">
+                    <div class="product-name"><?php echo e($product->name); ?></div>
+                    <div class="product-sku"><?php echo e($product->sku); ?></div>
+                    <div class="product-price">$<?php echo e(number_format($product->selling_price, 2)); ?></div>
+                    <div class="product-stock <?php echo e($product->quantity <= $product->min_stock_level ? 'low-stock' : ''); ?>">
                         Stock: <?php echo e($product->quantity); ?>
 
-                    </span>
+                    </div>
                 </button>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
     </div>
 
-    <!-- Cart Section -->
-    <div class="pos-cart">
+    <!-- Cart Panel -->
+    <div class="cart-panel">
         <!-- Cart Header -->
-        <div class="pos-cart-header">
-            <h2>Current Sale</h2>
-            <p x-text="cart.length + ' item(s)'"></p>
+        <div class="cart-header">
+            <h2 class="cart-title">Current Sale</h2>
+            <p class="cart-item-count"
+               x-text="cart.length + ' item(s)'"></p>
         </div>
 
         <!-- Cart Items -->
-        <div class="pos-cart-items">
-            <template x-for="(item, index) in cart"
-                      :key="item.id">
-                <div class="pos-cart-item">
-                    <div class="pos-cart-item-info">
-                        <p class="pos-cart-item-name"
-                           x-text="item.name"></p>
-                        <p class="pos-cart-item-price"
-                           x-text="'$' + item.price.toFixed(2) + ' × ' + item.qty"></p>
-                    </div>
-                    <div class="pos-cart-item-controls">
-                        <button @click="decrementQty(index)"
-                                class="pos-qty-button">
-                            <svg fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="M20 12H4" />
-                            </svg>
-                        </button>
-                        <input type="number"
-                               x-model.number="item.qty"
-                               @change="validateQty(index)"
-                               min="1"
-                               :max="item.maxQty"
-                               class="pos-qty-input">
-                        <button @click="incrementQty(index)"
-                                class="pos-qty-button">
-                            <svg fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="pos-cart-item-total">
-                        <p class="pos-cart-item-amount"
-                           x-text="'$' + (item.price * item.qty).toFixed(2)"></p>
-                        <button @click="removeFromCart(index)"
-                                class="pos-remove-btn">Remove</button>
-                    </div>
-                </div>
-            </template>
-
+        <div class="cart-items-container">
             <div x-show="cart.length === 0"
-                 class="pos-cart-empty">
-                <svg class="pos-cart-empty-icon"
+                 class="empty-cart-state">
+                <svg class="empty-cart-icon"
                      fill="none"
                      viewBox="0 0 24 24"
                      stroke="currentColor">
@@ -836,137 +934,195 @@
                           stroke-width="2"
                           d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <p>Cart is empty</p>
-                <p style="font-size: 0.875rem;">Add products to start a sale</p>
+                <p class="empty-cart-title">Cart is empty</p>
+                <p class="empty-cart-subtitle">Add products to start a sale</p>
+            </div>
+
+            <div x-show="cart.length > 0"
+                 class="cart-items-list">
+                <template x-for="(item, index) in cart"
+                          :key="item.id">
+                    <div class="cart-item">
+                        <div class="cart-item-details">
+                            <p class="cart-item-name"
+                               x-text="item.name"></p>
+                            <p class="cart-item-price"
+                               x-text="'$' + item.price.toFixed(2) + ' × ' + item.qty"></p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button @click="decrementQty(index)"
+                                    class="quantity-button"
+                                    type="button">
+                                <svg fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M20 12H4" />
+                                </svg>
+                            </button>
+                            <input type="number"
+                                   x-model.number="item.qty"
+                                   @change="validateQty(index)"
+                                   min="1"
+                                   :max="item.maxQty"
+                                   class="quantity-input">
+                            <button @click="incrementQty(index)"
+                                    class="quantity-button"
+                                    type="button">
+                                <svg fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="cart-item-actions">
+                            <p class="cart-item-total"
+                               x-text="'$' + (item.price * item.qty).toFixed(2)"></p>
+                            <button @click="removeFromCart(index)"
+                                    class="remove-item-button"
+                                    type="button">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
 
         <!-- Cart Summary -->
-        <div class="pos-cart-summary">
-            <!-- Discount -->
-            <div class="pos-discount-section">
-                <select x-model="discountType"
-                        class="pos-discount-select">
-                    <option value="">No Discount</option>
-                    <option value="percentage">%</option>
-                    <option value="fixed">$</option>
-                </select>
-                <input type="number"
-                       x-model.number="discountValue"
-                       x-show="discountType"
-                       min="0"
-                       step="0.01"
-                       placeholder="0"
-                       class="pos-discount-input">
-            </div>
-
-            <!-- Tax -->
-            <div class="pos-tax-row">
-                <span class="pos-tax-label">Tax Rate (%)</span>
-                <input type="number"
-                       x-model.number="taxRate"
-                       min="0"
-                       max="100"
-                       step="0.01"
-                       class="pos-tax-input">
-            </div>
-
-            <!-- Totals -->
-            <div class="pos-totals">
-                <div class="pos-total-row">
-                    <span class="pos-total-label">Subtotal</span>
-                    <span class="pos-total-value"
-                          x-text="'$' + subtotal.toFixed(2)"></span>
-                </div>
-                <div class="pos-total-row discount"
-                     x-show="discountAmount > 0">
-                    <span class="pos-total-label">Discount</span>
-                    <span class="pos-total-value"
-                          x-text="'-$' + discountAmount.toFixed(2)"></span>
-                </div>
-                <div class="pos-total-row"
-                     x-show="taxAmount > 0">
-                    <span class="pos-total-label">Tax (<span x-text="taxRate"></span>%)</span>
-                    <span class="pos-total-value"
-                          x-text="'$' + taxAmount.toFixed(2)"></span>
-                </div>
-                <div class="pos-grand-total">
-                    <span>Total</span>
-                    <span class="pos-grand-total-value"
-                          x-text="'$' + total.toFixed(2)"></span>
-                </div>
-            </div>
-
-            <!-- Payment -->
-            <div class="pos-payment-section">
-                <select x-model="paymentMethod"
-                        class="pos-payment-select">
-                    <option value="cash">Cash</option>
-                    <option value="card">Card</option>
-                    <option value="transfer">Bank Transfer</option>
-                </select>
-
-                <div x-show="paymentMethod === 'cash'">
-                    <label style="font-size: 0.875rem; color: #4b5563;">Amount Received</label>
+        <div class="cart-summary">
+            <div class="summary-section">
+                <!-- Discount -->
+                <div class="discount-container">
+                    <select x-model="discountType"
+                            class="discount-type-select">
+                        <option value="">No Discount</option>
+                        <option value="percentage">%</option>
+                        <option value="fixed">$</option>
+                    </select>
                     <input type="number"
-                           x-model.number="amountPaid"
+                           x-model.number="discountValue"
+                           x-show="discountType"
                            min="0"
                            step="0.01"
-                           class="pos-payment-input">
-                    <p class="pos-change-display"
-                       x-show="change >= 0">
-                        Change: <span class="pos-change-amount"
-                              x-text="'$' + change.toFixed(2)"></span>
-                    </p>
+                           placeholder="Discount amount"
+                           class="discount-value-input">
                 </div>
 
-                <!-- Customer Info (optional) -->
-                <div x-data="{ showCustomer: false }">
-                    <button @click="showCustomer = !showCustomer"
-                            type="button"
-                            class="pos-customer-toggle">
-                        <span x-text="showCustomer ? '− Hide' : '+ Add'"></span> Customer Info
-                    </button>
-                    <div x-show="showCustomer"
-                         class="pos-customer-inputs">
-                        <input type="text"
-                               x-model="customerName"
-                               placeholder="Customer Name"
-                               class="pos-customer-input">
-                        <input type="text"
-                               x-model="customerPhone"
-                               placeholder="Phone"
-                               class="pos-customer-input">
+                <!-- Tax -->
+                <div class="tax-container">
+                    <span class="tax-label">Tax Rate (%)</span>
+                    <input type="number"
+                           x-model.number="taxRate"
+                           min="0"
+                           max="100"
+                           step="0.01"
+                           class="tax-input">
+                </div>
+
+                <!-- Totals -->
+                <div class="totals-container">
+                    <div class="total-row">
+                        <span class="total-label">Subtotal</span>
+                        <span class="total-value"
+                              x-text="'$' + subtotal.toFixed(2)"></span>
+                    </div>
+                    <div class="total-row discount-row"
+                         x-show="discountAmount > 0">
+                        <span class="total-label">Discount</span>
+                        <span class="total-value"
+                              x-text="'-$' + discountAmount.toFixed(2)"></span>
+                    </div>
+                    <div class="total-row"
+                         x-show="taxAmount > 0">
+                        <span class="total-label">Tax (<span x-text="taxRate"></span>%)</span>
+                        <span class="total-value"
+                              x-text="'$' + taxAmount.toFixed(2)"></span>
+                    </div>
+                    <div class="grand-total-row">
+                        <span class="grand-total-label">Total</span>
+                        <span class="grand-total-value"
+                              x-text="'$' + total.toFixed(2)"></span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Actions -->
-            <div class="pos-actions">
-                <button @click="clearCart()"
-                        type="button"
-                        class="pos-btn-clear">
-                    Clear
-                </button>
-                <button @click="checkout()"
-                        type="button"
-                        :disabled="cart.length === 0 || processing"
-                        class="pos-btn-checkout">
-                    <span x-show="!processing">Complete Sale</span>
-                    <span x-show="processing">Processing...</span>
-                </button>
+                <!-- Payment -->
+                <div class="payment-container">
+                    <select x-model="paymentMethod"
+                            class="payment-method-select">
+                        <option value="cash">Cash</option>
+                        <option value="card">Card</option>
+                        <option value="transfer">Bank Transfer</option>
+                    </select>
+
+                    <div x-show="paymentMethod === 'cash'"
+                         class="cash-payment-section">
+                        <label class="input-label">Amount Received</label>
+                        <input type="number"
+                               x-model.number="amountPaid"
+                               min="0"
+                               step="0.01"
+                               placeholder="0.00"
+                               class="amount-input">
+                        <div x-show="change >= 0"
+                             class="change-display">
+                            Change: <span class="change-amount"
+                                  x-text="'$' + change.toFixed(2)"></span>
+                        </div>
+                    </div>
+
+                    <!-- Customer Info -->
+                    <div class="customer-section"
+                         x-data="{ showCustomer: false }">
+                        <button @click="showCustomer = !showCustomer"
+                                type="button"
+                                class="customer-toggle-button">
+                            <span x-text="showCustomer ? '− Hide' : '+ Add'"></span> Customer Info
+                        </button>
+                        <div x-show="showCustomer"
+                             class="customer-inputs">
+                            <input type="text"
+                                   x-model="customerName"
+                                   placeholder="Customer Name"
+                                   class="customer-input">
+                            <input type="text"
+                                   x-model="customerPhone"
+                                   placeholder="Phone Number"
+                                   class="customer-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button @click="clearCart()"
+                            type="button"
+                            class="button button-secondary">
+                        Clear Cart
+                    </button>
+                    <button @click="checkout()"
+                            type="button"
+                            :disabled="cart.length === 0 || processing"
+                            class="button button-primary">
+                        <span x-show="!processing">Complete Sale</span>
+                        <span x-show="processing">Processing...</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Success Modal -->
-    <div class="pos-modal"
-         :class="{ 'show': showSuccessModal }">
-        <div style="position: fixed; inset: 0;"
-             class="pos-modal-overlay"
-             @click="closeSuccessModal()"></div>
-        <div class="pos-modal-content">
-            <div class="pos-modal-icon">
+    <div class="modal-overlay"
+         :class="{ 'active': showSuccessModal }">
+        <div class="modal-content">
+            <div class="modal-icon">
                 <svg fill="none"
                      viewBox="0 0 24 24"
                      stroke="currentColor">
@@ -976,22 +1132,27 @@
                           d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h3 class="pos-modal-title">Sale Completed!</h3>
-            <p class="pos-modal-invoice">Invoice: <span class="pos-modal-invoice-number"
-                      x-text="lastSale?.invoice_number"></span></p>
-            <p class="pos-modal-amount"
+            <h3 class="modal-title">Sale Completed!</h3>
+            <p class="modal-invoice">
+                Invoice: <span class="invoice-number"
+                      x-text="lastSale?.invoice_number"></span>
+            </p>
+            <p class="modal-amount"
                x-text="'$' + (lastSale?.total || 0).toFixed(2)"></p>
-            <p class="pos-modal-change"
-               x-show="lastSale?.change_amount > 0">Change: <span class="pos-modal-change-amount"
-                      x-text="'$' + (lastSale?.change_amount || 0).toFixed(2)"></span></p>
-            <div class="pos-modal-actions">
+            <p class="modal-change"
+               x-show="lastSale?.change_amount > 0">
+                Change: <span class="change-value"
+                      x-text="'$' + (lastSale?.change_amount || 0).toFixed(2)"></span>
+            </p>
+            <div class="modal-actions">
                 <a :href="'/pos/sales/' + lastSale?.id + '/receipt'"
                    target="_blank"
-                   class="pos-modal-btn pos-modal-btn-secondary">
+                   class="modal-button modal-button-secondary">
                     Print Receipt
                 </a>
                 <button @click="closeSuccessModal()"
-                        class="pos-modal-btn pos-modal-btn-primary">
+                        type="button"
+                        class="modal-button modal-button-primary">
                     New Sale
                 </button>
             </div>
@@ -1017,15 +1178,11 @@
         lastSale: null,
 
         get subtotal() {
-            return this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            return this.calculateSubtotal();
         },
 
         get discountAmount() {
-            if (!this.discountType || !this.discountValue) return 0;
-            if (this.discountType === 'percentage') {
-                return this.subtotal * (this.discountValue / 100);
-            }
-            return Math.min(this.discountValue, this.subtotal);
+            return this.calculateDiscount();
         },
 
         get taxableAmount() {
@@ -1033,41 +1190,78 @@
         },
 
         get taxAmount() {
-            return this.taxableAmount * (this.taxRate / 100);
+            return this.calculateTax();
         },
 
         get total() {
-            return this.taxableAmount + this.taxAmount;
+            return this.calculateTotal();
         },
 
         get change() {
+            return this.calculateChange();
+        },
+
+        calculateSubtotal() {
+            return this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        },
+
+        calculateDiscount() {
+            if (!this.discountType || !this.discountValue) return 0;
+
+            if (this.discountType === 'percentage') {
+                return this.subtotal * (this.discountValue / 100);
+            }
+
+            return Math.min(this.discountValue, this.subtotal);
+        },
+
+        calculateTax() {
+            return this.taxableAmount * (this.taxRate / 100);
+        },
+
+        calculateTotal() {
+            return this.taxableAmount + this.taxAmount;
+        },
+
+        calculateChange() {
             return this.amountPaid - this.total;
         },
 
         shouldShowProduct(categoryId, name, sku) {
-            if (this.selectedCategory && categoryId != this.selectedCategory) return false;
+            if (this.selectedCategory && categoryId != this.selectedCategory) {
+                return false;
+            }
+
             if (this.searchQuery) {
                 const search = this.searchQuery.toLowerCase();
                 return name.includes(search) || sku.includes(search);
             }
+
             return true;
         },
 
         filterProducts() {
-            // Handled by x-show
+            // Handled by x-show directive
         },
 
         handleBarcodeSearch() {
             if (!this.searchQuery) return;
-            fetch(`<?php echo e(route('pos.search-product')); ?>?barcode=${encodeURIComponent(this.searchQuery)}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
-                },
-            })
-            .then(r => r.json())
-            .then(data => {
+
+            this.searchProductByBarcode(this.searchQuery);
+        },
+
+        async searchProductByBarcode(barcode) {
+            try {
+                const response = await fetch(`<?php echo e(route('pos.search-product')); ?>?barcode=${encodeURIComponent(barcode)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
+                    },
+                });
+
+                const data = await response.json();
+
                 if (data.success && data.product) {
                     this.addToCart({
                         id: data.product.id,
@@ -1078,26 +1272,42 @@
                     });
                     this.searchQuery = '';
                 }
-            });
+            } catch (error) {
+                console.error('Barcode search failed:', error);
+            }
         },
 
         addToCart(product) {
-            const existing = this.cart.find(item => item.id === product.id);
-            if (existing) {
-                if (existing.qty < product.quantity) {
-                    existing.qty++;
-                }
+            const existingItem = this.findCartItem(product.id);
+
+            if (existingItem) {
+                this.incrementExistingItem(existingItem, product.quantity);
             } else {
-                this.cart.push({
-                    id: product.id,
-                    name: product.name,
-                    sku: product.sku,
-                    price: parseFloat(product.price),
-                    qty: 1,
-                    maxQty: product.quantity,
-                });
+                this.addNewItemToCart(product);
             }
+
             this.updateAmountPaid();
+        },
+
+        findCartItem(productId) {
+            return this.cart.find(item => item.id === productId);
+        },
+
+        incrementExistingItem(item, maxQuantity) {
+            if (item.qty < maxQuantity) {
+                item.qty++;
+            }
+        },
+
+        addNewItemToCart(product) {
+            this.cart.push({
+                id: product.id,
+                name: product.name,
+                sku: product.sku,
+                price: parseFloat(product.price),
+                qty: 1,
+                maxQty: product.quantity,
+            });
         },
 
         removeFromCart(index) {
@@ -1106,15 +1316,19 @@
         },
 
         incrementQty(index) {
-            if (this.cart[index].qty < this.cart[index].maxQty) {
-                this.cart[index].qty++;
+            const item = this.cart[index];
+
+            if (item.qty < item.maxQty) {
+                item.qty++;
                 this.updateAmountPaid();
             }
         },
 
         decrementQty(index) {
-            if (this.cart[index].qty > 1) {
-                this.cart[index].qty--;
+            const item = this.cart[index];
+
+            if (item.qty > 1) {
+                item.qty--;
                 this.updateAmountPaid();
             }
         },
@@ -1132,70 +1346,91 @@
         },
 
         clearCart() {
-            if (this.cart.length && confirm('Clear all items from cart?')) {
-                this.cart = [];
-                this.discountType = '';
-                this.discountValue = 0;
-                this.customerName = '';
-                this.customerPhone = '';
-            }
-        },
-
-        async checkout() {
             if (this.cart.length === 0) return;
-            if (this.paymentMethod === 'cash' && this.amountPaid < this.total) {
-                alert('Amount paid is less than total');
-                return;
-            }
 
-            this.processing = true;
-
-            try {
-                const response = await fetch('<?php echo e(route('pos.checkout')); ?>', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
-                    },
-                    body: JSON.stringify({
-                        items: this.cart.map(item => ({
-                            product_id: item.id,
-                            quantity: item.qty,
-                            unit_price: item.price,
-                        })),
-                        discount_type: this.discountType || null,
-                        discount_value: this.discountValue,
-                        tax_rate: this.taxRate,
-                        payment_method: this.paymentMethod,
-                        amount_paid: this.paymentMethod === 'cash' ? this.amountPaid : this.total,
-                        customer_name: this.customerName || null,
-                        customer_phone: this.customerPhone || null,
-                    }),
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    this.lastSale = data.sale;
-                    this.showSuccessModal = true;
-                } else {
-                    alert(data.message || 'Error processing sale');
-                }
-            } catch (error) {
-                alert('Error processing sale');
-            } finally {
-                this.processing = false;
+            if (confirm('Clear all items from cart?')) {
+                this.resetCart();
             }
         },
 
-        closeSuccessModal() {
-            this.showSuccessModal = false;
+        resetCart() {
             this.cart = [];
             this.discountType = '';
             this.discountValue = 0;
             this.amountPaid = 0;
             this.customerName = '';
             this.customerPhone = '';
+        },
+
+        async checkout() {
+            if (!this.canCheckout()) return;
+
+            this.processing = true;
+
+            try {
+                const response = await this.submitSale();
+                const data = await response.json();
+
+                if (data.success) {
+                    this.handleSuccessfulSale(data.sale);
+                } else {
+                    alert(data.message || 'Error processing sale');
+                }
+            } catch (error) {
+                alert('Error processing sale');
+                console.error('Checkout error:', error);
+            } finally {
+                this.processing = false;
+            }
+        },
+
+        canCheckout() {
+            if (this.cart.length === 0) return false;
+
+            if (this.paymentMethod === 'cash' && this.amountPaid < this.total) {
+                alert('Amount paid is less than total');
+                return false;
+            }
+
+            return true;
+        },
+
+        async submitSale() {
+            return await fetch('<?php echo e(route('pos.checkout')); ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
+                },
+                body: JSON.stringify(this.prepareSaleData()),
+            });
+        },
+
+        prepareSaleData() {
+            return {
+                items: this.cart.map(item => ({
+                    product_id: item.id,
+                    quantity: item.qty,
+                    unit_price: item.price,
+                })),
+                discount_type: this.discountType || null,
+                discount_value: this.discountValue,
+                tax_rate: this.taxRate,
+                payment_method: this.paymentMethod,
+                amount_paid: this.paymentMethod === 'cash' ? this.amountPaid : this.total,
+                customer_name: this.customerName || null,
+                customer_phone: this.customerPhone || null,
+            };
+        },
+
+        handleSuccessfulSale(sale) {
+            this.lastSale = sale;
+            this.showSuccessModal = true;
+        },
+
+        closeSuccessModal() {
+            this.showSuccessModal = false;
+            this.resetCart();
         }
     };
 }

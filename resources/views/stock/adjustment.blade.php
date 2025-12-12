@@ -235,12 +235,12 @@
       <h1>Stock Adjustment</h1>
       <p>Adjust inventory quantities to match physical counts</p>
     </div>
-    <div>
-      <a href="{{ route('stock.index') }}"
-         class="stock-back-link">
-        ← Back to Transactions
-      </a>
-    </div>
+    <x-button tag="link"
+              href="{{ route('stock.index') }}"
+              variant="link"
+              icon="<path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18' />">
+      Back to Transactions
+    </x-button>
   </div>
 
   <div class="stock-form-card">
@@ -250,30 +250,13 @@
           x-data="stockAdjustment()">
       @csrf
       <div class="stock-grid">
-        <div class="stock-grid-full">
-          <label for="product_id"
-                 class="stock-form-label">Product *</label>
-          <select name="product_id"
-                  id="product_id"
-                  required
-                  x-model="selectedProduct"
-                  @change="updateCurrentStock()"
-                  class="stock-form-select">
-            <option value="">Select Product</option>
-            @foreach($products as $product)
-            <option value="{{ $product->id }}"
-                    data-current-stock="{{ $product->quantity }}"
-                    data-product-name="{{ $product->name }}"
-                    {{
-                    (old('product_id')
-                    ??
-                    request('product_id'))==$product->id ? 'selected' : '' }}>
-              {{ $product->name }} ({{ $product->sku }}) - Current: {{ $product->quantity }}
-            </option>
-            @endforeach
-          </select>
-          @error('product_id') <p class="stock-form-error">{{ $message }}</p> @enderror
-        </div>
+        <x-form-group name="product_id"
+                      label="Product *"
+                      type="select"
+                      required
+                      :options="$products->mapWithKeys(fn($p) => [$p->id => $p->name . ' (' . $p->sku . ') - Current: ' . $p->quantity])->toArray()"
+                      :value="old('product_id') ?? request('product_id')"
+                      class="stock-grid-full" />
 
         <!-- Current Stock Display -->
         <div x-show="currentStock !== null"
@@ -297,80 +280,45 @@
           </div>
         </div>
 
-        <div>
-          <label for="new_quantity"
-                 class="stock-form-label">New Quantity *</label>
-          <input type="number"
-                 name="new_quantity"
-                 id="new_quantity"
-                 required
-                 min="0"
-                 value="{{ old('new_quantity', 0) }}"
-                 x-model="newQuantity"
-                 class="stock-form-input">
-          @error('new_quantity') <p class="stock-form-error">{{ $message }}</p> @enderror
+        <x-form-group name="new_quantity"
+                      label="New Quantity *"
+                      type="number"
+                      required
+                      min="0"
+                      :value="old('new_quantity', 0)" />
 
-          <!-- Adjustment Preview -->
-          <div x-show="currentStock !== null && newQuantity !== ''"
-               class="stock-adjustment-preview"
-               :class="adjustmentDifference > 0 ? 'increase' : adjustmentDifference < 0 ? 'decrease' : 'neutral'">
-            <span x-show="adjustmentDifference > 0">
-              Increase by <span x-text="Math.abs(adjustmentDifference)"></span> units
-            </span>
-            <span x-show="adjustmentDifference < 0">
-              Decrease by <span x-text="Math.abs(adjustmentDifference)"></span> units
-            </span>
-            <span x-show="adjustmentDifference === 0">
-              No change in quantity
-            </span>
-          </div>
-        </div>
+        <x-form-group name="transaction_date"
+                      label="Transaction Date"
+                      type="date"
+                      :value="old('transaction_date', now()->format('Y-m-d'))" />
 
-        <div>
-          <label for="transaction_date"
-                 class="stock-form-label">Transaction Date</label>
-          <input type="datetime-local"
-                 name="transaction_date"
-                 id="transaction_date"
-                 value="{{ old('transaction_date', now()->format('Y-m-d\TH:i')) }}"
-                 class="stock-form-input">
-          @error('transaction_date') <p class="stock-form-error">{{ $message }}</p> @enderror
-        </div>
+        <x-form-group name="reason"
+                      label="Reason *"
+                      type="text"
+                      required
+                      placeholder="e.g., Physical count adjustment, Damaged goods, Inventory correction"
+                      :value="old('reason')"
+                      class="stock-grid-full" />
 
-        <div class="stock-grid-full">
-          <label for="reason"
-                 class="stock-form-label">Reason *</label>
-          <input type="text"
-                 name="reason"
-                 id="reason"
-                 required
-                 value="{{ old('reason') }}"
-                 placeholder="e.g., Physical count adjustment, Damaged goods, Inventory correction"
-                 class="stock-form-input">
-          @error('reason') <p class="stock-form-error">{{ $message }}</p> @enderror
-        </div>
-
-        <div class="stock-grid-full">
-          <label for="notes"
-                 class="stock-form-label">Notes</label>
-          <textarea name="notes"
-                    id="notes"
-                    rows="3"
-                    placeholder="Additional details about the adjustment..."
-                    class="stock-form-textarea">{{ old('notes') }}</textarea>
-          @error('notes') <p class="stock-form-error">{{ $message }}</p> @enderror
-        </div>
+        <x-form-group name="notes"
+                      label="Notes"
+                      type="textarea"
+                      rows="3"
+                      placeholder="Additional details about the adjustment..."
+                      :value="old('notes')"
+                      class="stock-grid-full" />
       </div>
 
       <div class="stock-form-actions">
-        <a href="{{ route('stock.index') }}"
-           class="stock-btn stock-btn-cancel">
+        <x-button tag="link"
+                  href="{{ route('stock.index') }}"
+                  variant="secondary">
           Cancel
-        </a>
-        <button type="submit"
-                class="stock-btn stock-btn-submit">
+        </x-button>
+        <x-button type="submit"
+                  variant="secondary">
           Record Stock Adjustment
-        </button>
+        </x-button>
       </div>
     </form>
   </div>

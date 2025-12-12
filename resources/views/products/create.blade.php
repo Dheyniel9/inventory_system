@@ -11,19 +11,12 @@
             <p class="page-description">Create a new product in your inventory</p>
         </div>
         <div class="header-actions">
-            <a href="{{ route('products.index') }}"
-               class="btn-back">
-                <svg class="icon-small"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="1.5"
-                     stroke="currentColor">
-                    <path stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-                <span class="btn-text">Back</span>
-            </a>
+            <x-button tag="link"
+                      href="{{ route('products.index') }}"
+                      variant="secondary"
+                      icon="<path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18' />">
+                Back
+            </x-button>
         </div>
     </div>
 
@@ -39,116 +32,49 @@
             <h2 class="section-title">Basic Information</h2>
 
             <div class="form-grid">
-                <!-- Product Name -->
-                <div class="form-group form-group-full">
-                    <label for="name"
-                           class="form-label">
-                        Product Name <span class="required">*</span>
-                    </label>
-                    <input type="text"
-                           name="name"
-                           id="name"
-                           required
-                           value="{{ old('name') }}"
-                           placeholder="Enter product name"
-                           class="form-input @error('name') input-error @enderror">
-                    @error('name')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="name"
+                              label="Product Name"
+                              type="text"
+                              placeholder="Enter product name"
+                              value="{{ old('name') }}"
+                              required
+                              error="{{ $errors->has('name') ? $errors->first('name') : false }}" />
 
-                <!-- SKU -->
-                <div class="form-group">
-                    <label for="sku"
-                           class="form-label">SKU</label>
-                    <input type="text"
-                           name="sku"
-                           id="sku"
-                           value="{{ old('sku') }}"
-                           placeholder="Auto-generated if empty"
-                           class="form-input @error('sku') input-error @enderror">
-                    @error('sku')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="sku"
+                              label="SKU"
+                              type="text"
+                              placeholder="Auto-generated if empty"
+                              value="{{ old('sku') }}"
+                              help="Stock Keeping Unit"
+                              error="{{ $errors->has('sku') ? $errors->first('sku') : false }}" />
 
-                <!-- Barcode -->
-                <div class="form-group">
-                    <label for="barcode"
-                           class="form-label">Barcode</label>
-                    <input type="text"
-                           name="barcode"
-                           id="barcode"
-                           value="{{ old('barcode') }}"
-                           placeholder="Enter barcode"
-                           class="form-input @error('barcode') input-error @enderror">
-                    @error('barcode')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="barcode"
+                              label="Barcode"
+                              type="text"
+                              placeholder="Enter barcode"
+                              value="{{ old('barcode') }}"
+                              error="{{ $errors->has('barcode') ? $errors->first('barcode') : false }}" />
 
-                <!-- Description -->
-                <div class="form-group form-group-full">
-                    <label for="description"
-                           class="form-label">Description</label>
-                    <textarea name="description"
-                              id="description"
-                              rows="3"
+                <x-form-group name="description"
+                              label="Description"
+                              type="textarea"
                               placeholder="Enter product description"
-                              class="form-textarea @error('description') input-error @enderror">{{ old('description') }}</textarea>
-                    @error('description')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                              value="{{ old('description') }}"
+                              error="{{ $errors->has('description') ? $errors->first('description') : false }}" />
 
-                <!-- Category -->
-                <div class="form-group">
-                    <label for="category_id"
-                           class="form-label">Category</label>
-                    <select name="category_id"
-                            id="category_id"
-                            class="form-select @error('category_id') input-error @enderror">
-                        <option value="">Select Category</option>
-                        @if(isset($categories))
-                        @foreach($categories as $category)
-                        <option value="{{ $category['id'] }}"
-                                {{
-                                old('category_id')==$category['id']
-                                ? 'selected'
-                                : ''
-                                }}>
-                            {{ $category['name'] }}
-                        </option>
-                        @endforeach
-                        @endif
-                    </select>
-                    @error('category_id')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="category_id"
+                              label="Category"
+                              type="select"
+                              :options="isset($categories) ? collect($categories)->pluck('name', 'id')->toArray() : []"
+                              value="{{ old('category_id') }}"
+                              error="{{ $errors->has('category_id') ? $errors->first('category_id') : false }}" />
 
-                <!-- Supplier -->
-                <div class="form-group">
-                    <label for="supplier_id"
-                           class="form-label">Supplier</label>
-                    <select name="supplier_id"
-                            id="supplier_id"
-                            class="form-select @error('supplier_id') input-error @enderror">
-                        <option value="">Select Supplier</option>
-                        @if(isset($suppliers))
-                        @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}"
-                                {{
-                                old('supplier_id')==$supplier->id ? 'selected' : '' }}>
-                            {{ $supplier->name }}
-                        </option>
-                        @endforeach
-                        @endif
-                    </select>
-                    @error('supplier_id')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="supplier_id"
+                              label="Supplier"
+                              type="select"
+                              :options="isset($suppliers) ? $suppliers->pluck('name', 'id')->toArray() : []"
+                              value="{{ old('supplier_id') }}"
+                              error="{{ $errors->has('supplier_id') ? $errors->first('supplier_id') : false }}" />
             </div>
         </div>
 
@@ -157,153 +83,47 @@
             <h2 class="section-title">Pricing & Stock</h2>
 
             <div class="form-grid form-grid-3">
-                <!-- Cost Price -->
-                <div class="form-group">
-                    <label for="cost_price"
-                           class="form-label">
-                        Cost Price <span class="required">*</span>
-                    </label>
-                    <div class="input-with-prefix">
-                        <span class="input-prefix">₱</span>
-                        <input type="number"
-                               name="cost_price"
-                               id="cost_price"
-                               required
-                               step="0.01"
-                               min="0"
-                               value="{{ old('cost_price', '0.00') }}"
-                               class="form-input input-with-prefix-field @error('cost_price') input-error @enderror">
-                    </div>
-                    @error('cost_price')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="cost_price"
+                              label="Cost Price"
+                              type="number"
+                              value="{{ old('cost_price', '0.00') }}"
+                              required
+                              error="{{ $errors->has('cost_price') ? $errors->first('cost_price') : false }}" />
 
-                <!-- Selling Price -->
-                <div class="form-group">
-                    <label for="selling_price"
-                           class="form-label">
-                        Selling Price <span class="required">*</span>
-                    </label>
-                    <div class="input-with-prefix">
-                        <span class="input-prefix">₱</span>
-                        <input type="number"
-                               name="selling_price"
-                               id="selling_price"
-                               required
-                               step="0.01"
-                               min="0"
-                               value="{{ old('selling_price', '0.00') }}"
-                               class="form-input input-with-prefix-field @error('selling_price') input-error @enderror">
-                    </div>
-                    @error('selling_price')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="selling_price"
+                              label="Selling Price"
+                              type="number"
+                              value="{{ old('selling_price', '0.00') }}"
+                              required
+                              error="{{ $errors->has('selling_price') ? $errors->first('selling_price') : false }}" />
 
-                <!-- Initial Quantity -->
-                <div class="form-group">
-                    <label for="quantity"
-                           class="form-label">
-                        Initial Quantity <span class="required">*</span>
-                    </label>
-                    <input type="number"
-                           name="quantity"
-                           id="quantity"
-                           required
-                           min="0"
-                           value="{{ old('quantity', '0') }}"
-                           class="form-input @error('quantity') input-error @enderror">
-                    @error('quantity')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="quantity"
+                              label="Initial Quantity"
+                              type="number"
+                              value="{{ old('quantity', '0') }}"
+                              required
+                              error="{{ $errors->has('quantity') ? $errors->first('quantity') : false }}" />
 
-                <!-- Min Stock Level -->
-                <div class="form-group">
-                    <label for="min_stock_level"
-                           class="form-label">
-                        Min Stock Level <span class="required">*</span>
-                    </label>
-                    <input type="number"
-                           name="min_stock_level"
-                           id="min_stock_level"
-                           required
-                           min="0"
-                           value="{{ old('min_stock_level', '0') }}"
-                           class="form-input @error('min_stock_level') input-error @enderror">
-                    @error('min_stock_level')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="min_stock_level"
+                              label="Min Stock Level"
+                              type="number"
+                              value="{{ old('min_stock_level', '0') }}"
+                              required
+                              error="{{ $errors->has('min_stock_level') ? $errors->first('min_stock_level') : false }}" />
 
-                <!-- Max Stock Level -->
-                <div class="form-group">
-                    <label for="max_stock_level"
-                           class="form-label">Max Stock Level</label>
-                    <input type="number"
-                           name="max_stock_level"
-                           id="max_stock_level"
-                           min="0"
-                           value="{{ old('max_stock_level') }}"
-                           class="form-input @error('max_stock_level') input-error @enderror">
-                    @error('max_stock_level')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="max_stock_level"
+                              label="Max Stock Level"
+                              type="number"
+                              value="{{ old('max_stock_level') }}"
+                              error="{{ $errors->has('max_stock_level') ? $errors->first('max_stock_level') : false }}" />
 
-                <!-- Unit -->
-                <div class="form-group">
-                    <label for="unit"
-                           class="form-label">
-                        Unit <span class="required">*</span>
-                    </label>
-                    <select name="unit"
-                            id="unit"
-                            required
-                            class="form-select @error('unit') input-error @enderror">
-                        <option value="pcs"
-                                {{
-                                old('unit', 'pcs'
-                                )==='pcs'
-                                ? 'selected'
-                                : ''
-                                }}>Pieces (pcs)</option>
-                        <option value="box"
-                                {{
-                                old('unit')==='box'
-                                ? 'selected'
-                                : ''
-                                }}>Box</option>
-                        <option value="kg"
-                                {{
-                                old('unit')==='kg'
-                                ? 'selected'
-                                : ''
-                                }}>Kilogram (kg)</option>
-                        <option value="ltr"
-                                {{
-                                old('unit')==='ltr'
-                                ? 'selected'
-                                : ''
-                                }}>Liter (ltr)</option>
-                        <option value="m"
-                                {{
-                                old('unit')==='m'
-                                ? 'selected'
-                                : ''
-                                }}>Meter (m)</option>
-                        <option value="ream"
-                                {{
-                                old('unit')==='ream'
-                                ? 'selected'
-                                : ''
-                                }}>Ream</option>
-                    </select>
-                    @error('unit')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="unit"
+                              label="Unit"
+                              type="select"
+                              :options="['pcs' => 'Pieces (pcs)', 'box' => 'Box', 'kg' => 'Kilogram (kg)', 'ltr' => 'Liter (ltr)', 'm' => 'Meter (m)', 'ream' => 'Ream']"
+                              value="{{ old('unit', 'pcs') }}"
+                              required
+                              error="{{ $errors->has('unit') ? $errors->first('unit') : false }}" />
             </div>
         </div>
 
@@ -312,80 +132,52 @@
             <h2 class="section-title">Additional Information</h2>
 
             <div class="form-grid">
-                <!-- Storage Location -->
-                <div class="form-group">
-                    <label for="location"
-                           class="form-label">Storage Location</label>
-                    <input type="text"
-                           name="location"
-                           id="location"
-                           value="{{ old('location') }}"
-                           placeholder="e.g., Warehouse A - Shelf 1"
-                           class="form-input @error('location') input-error @enderror">
-                    @error('location')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="location"
+                              label="Storage Location"
+                              type="text"
+                              placeholder="e.g., Warehouse A - Shelf 1"
+                              value="{{ old('location') }}"
+                              error="{{ $errors->has('location') ? $errors->first('location') : false }}" />
 
-                <!-- Product Image -->
-                <div class="form-group">
-                    <label for="image"
-                           class="form-label">Product Image</label>
-                    <input type="file"
-                           name="image"
-                           id="image"
-                           accept="image/*"
-                           class="form-file @error('image') input-error @enderror">
-                    @error('image')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form-group name="image"
+                              label="Product Image"
+                              type="file"
+                              error="{{ $errors->has('image') ? $errors->first('image') : false }}" />
+            </div>
 
-                <!-- Active Status -->
-                <div class="form-group form-group-full">
-                    <div class="checkbox-container">
-                        <input type="hidden"
-                               name="is_active"
-                               value="0">
-                        <input type="checkbox"
-                               name="is_active"
-                               id="is_active"
-                               value="1"
-                               {{
-                               old('is_active',
-                               true)
-                               ? 'checked'
-                               : ''
-                               }}
-                               class="form-checkbox">
-                        <label for="is_active"
-                               class="checkbox-label">
-                            Active product
-                        </label>
-                    </div>
+            <div class="form-group form-group-full">
+                <div class="checkbox-container">
+                    <input type="hidden"
+                           name="is_active"
+                           value="0">
+                    <input type="checkbox"
+                           name="is_active"
+                           id="is_active"
+                           value="1"
+                           {{
+                           old('is_active',
+                           true)
+                           ? 'checked'
+                           : ''
+                           }}
+                           class="form-checkbox">
+                    <label for="is_active"
+                           class="checkbox-label">Active product</label>
                 </div>
             </div>
         </div>
 
         <!-- Form Actions -->
         <div class="form-actions">
-            <a href="{{ route('products.index') }}"
-               class="btn-secondary">
+            <x-button tag="link"
+                      href="{{ route('products.index') }}"
+                      variant="secondary">
                 Cancel
-            </a>
-            <button type="submit"
-                    class="btn-primary">
-                <svg class="icon-small"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="1.5"
-                     stroke="currentColor">
-                    <path stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
+            </x-button>
+            <x-button type="submit"
+                      variant="primary">
                 Create Product
-            </button>
+            </x-button>
         </div>
     </form>
 </div>

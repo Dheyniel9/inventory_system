@@ -317,91 +317,103 @@
         </div>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage stock')): ?>
         <div class="stock-actions">
-            <a href="<?php echo e(route('stock.in')); ?>"
-               class="stock-btn stock-btn-in">
+            <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['tag' => 'link','href' => ''.e(route('stock.in')).'','variant' => 'primary','icon' => '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75\' />']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['tag' => 'link','href' => ''.e(route('stock.in')).'','variant' => 'primary','icon' => '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75\' />']); ?>
                 Stock In
-            </a>
-            <a href="<?php echo e(route('stock.out')); ?>"
-               class="stock-btn stock-btn-out">
+             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['tag' => 'link','href' => ''.e(route('stock.out')).'','variant' => 'danger','icon' => '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75\' />']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['tag' => 'link','href' => ''.e(route('stock.out')).'','variant' => 'danger','icon' => '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75\' />']); ?>
                 Stock Out
-            </a>
-            <a href="<?php echo e(route('stock.adjustment')); ?>"
-               class="stock-btn stock-btn-adjustment">
+             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['tag' => 'link','href' => ''.e(route('stock.adjustment')).'','variant' => 'secondary','icon' => '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M9 12h6m-6 4h6m2-5a9 9 0 11-18 0 9 9 0 0118 0z\' />']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['tag' => 'link','href' => ''.e(route('stock.adjustment')).'','variant' => 'secondary','icon' => '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M9 12h6m-6 4h6m2-5a9 9 0 11-18 0 9 9 0 0118 0z\' />']); ?>
                 Adjustment
-            </a>
+             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
         </div>
         <?php endif; ?>
     </div>
 
-    <!-- Filters -->
-    <div class="stock-filters">
-        <form method="GET"
-              class="stock-filter-form">
-            <div class="stock-filter-group">
-                <label for="search"
-                       class="stock-filter-label">Search</label>
-                <input type="text"
-                       name="search"
-                       id="search"
-                       value="<?php echo e(request('search')); ?>"
-                       placeholder="Reference, Product..."
-                       class="stock-filter-input">
-            </div>
-            <div class="stock-filter-group">
-                <label for="type"
-                       class="stock-filter-label">Type</label>
-                <select name="type"
-                        id="type"
-                        class="stock-filter-select">
-                    <option value="">All Types</option>
-                    <option value="in"
-                            <?php echo e(request('type')==='in'
-                            ? 'selected'
-                            : ''); ?>>Stock In</option>
-                    <option value="out"
-                            <?php echo e(request('type')==='out'
-                            ? 'selected'
-                            : ''); ?>>Stock Out</option>
-                    <option value="adjustment"
-                            <?php echo e(request('type')==='adjustment'
-                            ? 'selected'
-                            : ''); ?>>Adjustment</option>
-                    <option value="return"
-                            <?php echo e(request('type')==='return'
-                            ? 'selected'
-                            : ''); ?>>Return</option>
-                </select>
-            </div>
-            <div class="stock-filter-group">
-                <label for="start_date"
-                       class="stock-filter-label">From Date</label>
-                <input type="date"
-                       name="start_date"
-                       id="start_date"
-                       value="<?php echo e(request('start_date')); ?>"
-                       class="stock-filter-input">
-            </div>
-            <div class="stock-filter-group">
-                <label for="end_date"
-                       class="stock-filter-label">To Date</label>
-                <input type="date"
-                       name="end_date"
-                       id="end_date"
-                       value="<?php echo e(request('end_date')); ?>"
-                       class="stock-filter-input">
-            </div>
-            <div class="stock-filter-buttons">
-                <button type="submit"
-                        class="stock-filter-btn stock-filter-btn-submit">
-                    Filter
-                </button>
-                <a href="<?php echo e(route('stock.index')); ?>"
-                   class="stock-filter-btn stock-filter-btn-reset">
-                    Reset
-                </a>
-            </div>
-        </form>
-    </div>
+    <?php if (isset($component)) { $__componentOriginal934f921620666b609fa7806109faa21b = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal934f921620666b609fa7806109faa21b = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.filter-form','data' => ['method' => 'GET','fields' => [
+            ['name' => 'search', 'label' => 'Search', 'type' => 'text', 'placeholder' => 'Reference, Product...'],
+            ['name' => 'type', 'label' => 'Type', 'type' => 'select', 'options' => ['in' => 'Stock In', 'out' => 'Stock Out', 'adjustment' => 'Adjustment', 'return' => 'Return']],
+            ['name' => 'start_date', 'label' => 'From Date', 'type' => 'date'],
+            ['name' => 'end_date', 'label' => 'To Date', 'type' => 'date']
+        ],'resetUrl' => ''.e(route('stock.index')).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filter-form'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['method' => 'GET','fields' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute([
+            ['name' => 'search', 'label' => 'Search', 'type' => 'text', 'placeholder' => 'Reference, Product...'],
+            ['name' => 'type', 'label' => 'Type', 'type' => 'select', 'options' => ['in' => 'Stock In', 'out' => 'Stock Out', 'adjustment' => 'Adjustment', 'return' => 'Return']],
+            ['name' => 'start_date', 'label' => 'From Date', 'type' => 'date'],
+            ['name' => 'end_date', 'label' => 'To Date', 'type' => 'date']
+        ]),'resetUrl' => ''.e(route('stock.index')).'']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal934f921620666b609fa7806109faa21b)): ?>
+<?php $attributes = $__attributesOriginal934f921620666b609fa7806109faa21b; ?>
+<?php unset($__attributesOriginal934f921620666b609fa7806109faa21b); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal934f921620666b609fa7806109faa21b)): ?>
+<?php $component = $__componentOriginal934f921620666b609fa7806109faa21b; ?>
+<?php unset($__componentOriginal934f921620666b609fa7806109faa21b); ?>
+<?php endif; ?>
 
     <!-- Transactions table -->
     <div class="stock-table-container">

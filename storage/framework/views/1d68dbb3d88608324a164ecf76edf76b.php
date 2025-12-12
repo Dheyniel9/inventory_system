@@ -174,12 +174,27 @@
             <h1>Stock Out</h1>
             <p>Record outgoing inventory</p>
         </div>
-        <div>
-            <a href="<?php echo e(route('stock.index')); ?>"
-               class="stock-back-link">
-                ← Back to Transactions
-            </a>
-        </div>
+        <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['tag' => 'link','href' => ''.e(route('stock.index')).'','variant' => 'link','icon' => '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\' />']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['tag' => 'link','href' => ''.e(route('stock.index')).'','variant' => 'link','icon' => '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18\' />']); ?>
+            Back to Transactions
+         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
     </div>
 
     <div class="stock-form-card">
@@ -188,118 +203,155 @@
               class="stock-form">
             <?php echo csrf_field(); ?>
             <div class="stock-grid">
-                <div class="stock-form-group stock-grid-full">
-                    <label for="product_id"
-                           class="stock-form-label">Product *</label>
-                    <select name="product_id"
-                            id="product_id"
-                            required
-                            class="stock-form-select">
-                        <option value="">Select Product</option>
-                        <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($product->id); ?>"
-                                <?php echo e((old('product_id')
-                                ??
-                                request('product_id'))==$product->id ? 'selected' : ''); ?>>
-                            <?php echo e($product->name); ?> (<?php echo e($product->sku); ?>) - Available: <?php echo e($product->quantity); ?>
+                <?php if (isset($component)) { $__componentOriginal9855f61cf324bb44a86bed9db080852c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9855f61cf324bb44a86bed9db080852c = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.form-group','data' => ['name' => 'product_id','label' => 'Product *','type' => 'select','required' => true,'options' => $products->mapWithKeys(fn($p) => [$p->id => $p->name . ' (' . $p->sku . ') - Available: ' . $p->quantity])->toArray(),'value' => old('product_id') ?? request('product_id'),'class' => 'stock-grid-full']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('form-group'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'product_id','label' => 'Product *','type' => 'select','required' => true,'options' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($products->mapWithKeys(fn($p) => [$p->id => $p->name . ' (' . $p->sku . ') - Available: ' . $p->quantity])->toArray()),'value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(old('product_id') ?? request('product_id')),'class' => 'stock-grid-full']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $attributes = $__attributesOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__attributesOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $component = $__componentOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__componentOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
 
-                        </option>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </select>
-                    <?php $__errorArgs = ['product_id'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                </div>
+                <?php if (isset($component)) { $__componentOriginal9855f61cf324bb44a86bed9db080852c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9855f61cf324bb44a86bed9db080852c = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.form-group','data' => ['name' => 'quantity','label' => 'Quantity *','type' => 'number','required' => true,'min' => '1','value' => old('quantity', 1)]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('form-group'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'quantity','label' => 'Quantity *','type' => 'number','required' => true,'min' => '1','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(old('quantity', 1))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $attributes = $__attributesOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__attributesOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $component = $__componentOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__componentOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
 
-                <div class="stock-form-group">
-                    <label for="quantity"
-                           class="stock-form-label">Quantity *</label>
-                    <input type="number"
-                           name="quantity"
-                           id="quantity"
-                           required
-                           min="1"
-                           value="<?php echo e(old('quantity', 1)); ?>"
-                           class="stock-form-input">
-                    <?php $__errorArgs = ['quantity'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                </div>
+                <?php if (isset($component)) { $__componentOriginal9855f61cf324bb44a86bed9db080852c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9855f61cf324bb44a86bed9db080852c = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.form-group','data' => ['name' => 'transaction_date','label' => 'Transaction Date','type' => 'date','value' => old('transaction_date', now()->format('Y-m-d'))]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('form-group'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'transaction_date','label' => 'Transaction Date','type' => 'date','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(old('transaction_date', now()->format('Y-m-d')))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $attributes = $__attributesOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__attributesOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $component = $__componentOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__componentOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
 
-                <div class="stock-form-group">
-                    <label for="transaction_date"
-                           class="stock-form-label">Transaction Date</label>
-                    <input type="datetime-local"
-                           name="transaction_date"
-                           id="transaction_date"
-                           value="<?php echo e(old('transaction_date', now()->format('Y-m-d\TH:i'))); ?>"
-                           class="stock-form-input">
-                    <?php $__errorArgs = ['transaction_date'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                </div>
+                <?php if (isset($component)) { $__componentOriginal9855f61cf324bb44a86bed9db080852c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9855f61cf324bb44a86bed9db080852c = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.form-group','data' => ['name' => 'reason','label' => 'Reason','type' => 'text','placeholder' => 'e.g., Sale, Transfer, Damaged','value' => old('reason'),'class' => 'stock-grid-full']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('form-group'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'reason','label' => 'Reason','type' => 'text','placeholder' => 'e.g., Sale, Transfer, Damaged','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(old('reason')),'class' => 'stock-grid-full']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $attributes = $__attributesOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__attributesOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $component = $__componentOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__componentOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
 
-                <div class="stock-form-group stock-grid-full">
-                    <label for="reason"
-                           class="stock-form-label">Reason</label>
-                    <input type="text"
-                           name="reason"
-                           id="reason"
-                           value="<?php echo e(old('reason')); ?>"
-                           placeholder="e.g., Sale, Transfer, Damaged"
-                           class="stock-form-input">
-                    <?php $__errorArgs = ['reason'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                </div>
-
-                <div class="stock-form-group stock-grid-full">
-                    <label for="notes"
-                           class="stock-form-label">Notes</label>
-                    <textarea name="notes"
-                              id="notes"
-                              rows="3"
-                              class="stock-form-textarea"><?php echo e(old('notes')); ?></textarea>
-                    <?php $__errorArgs = ['notes'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                </div>
+                <?php if (isset($component)) { $__componentOriginal9855f61cf324bb44a86bed9db080852c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9855f61cf324bb44a86bed9db080852c = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.form-group','data' => ['name' => 'notes','label' => 'Notes','type' => 'textarea','rows' => '3','value' => old('notes'),'class' => 'stock-grid-full']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('form-group'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'notes','label' => 'Notes','type' => 'textarea','rows' => '3','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(old('notes')),'class' => 'stock-grid-full']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $attributes = $__attributesOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__attributesOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9855f61cf324bb44a86bed9db080852c)): ?>
+<?php $component = $__componentOriginal9855f61cf324bb44a86bed9db080852c; ?>
+<?php unset($__componentOriginal9855f61cf324bb44a86bed9db080852c); ?>
+<?php endif; ?>
             </div>
 
             <div class="stock-form-actions">
-                <a href="<?php echo e(route('stock.index')); ?>"
-                   class="stock-btn stock-btn-cancel">
+                <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['tag' => 'link','href' => ''.e(route('stock.index')).'','variant' => 'secondary']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['tag' => 'link','href' => ''.e(route('stock.index')).'','variant' => 'secondary']); ?>
                     Cancel
-                </a>
-                <button type="submit"
-                        class="stock-btn stock-btn-submit">
+                 <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+                <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['type' => 'submit','variant' => 'danger']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'submit','variant' => 'danger']); ?>
                     Record Stock Out
-                </button>
+                 <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
             </div>
         </form>
     </div>

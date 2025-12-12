@@ -7,64 +7,36 @@
     <!-- Page Header -->
     <div class="page-header">
         <div class="header-content">
-            <a href="{{ route('products.index') }}"
-               class="back-link">
-                <svg class="icon-small"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="1.5"
-                     stroke="currentColor">
-                    <path stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
+            <x-button tag="link"
+                      href="{{ route('products.index') }}"
+                      variant="link"
+                      icon="<path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18' />">
                 Back to Products
-            </a>
+            </x-button>
             <h1 class="page-title">{{ $product->name }}</h1>
         </div>
         <div class="header-actions">
             @can('manage stock')
-            <a href="{{ route('stock.in') }}?product_id={{ $product->id }}"
-               class="btn-stock-in">
-                <svg class="icon-small"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="1.5"
-                     stroke="currentColor">
-                    <path stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" />
-                </svg>
-                <span class="btn-text">Stock In</span>
-            </a>
-            <a href="{{ route('stock.out') }}?product_id={{ $product->id }}"
-               class="btn-stock-out">
-                <svg class="icon-small"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="1.5"
-                     stroke="currentColor">
-                    <path stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75" />
-                </svg>
-                <span class="btn-text">Stock Out</span>
-            </a>
+            <x-button tag="link"
+                      href="{{ route('stock.in') }}?product_id={{ $product->id }}"
+                      variant="primary"
+                      icon="<path stroke-linecap='round' stroke-linejoin='round' d='M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75' />">
+                Stock In
+            </x-button>
+            <x-button tag="link"
+                      href="{{ route('stock.out') }}?product_id={{ $product->id }}"
+                      variant="secondary"
+                      icon="<path stroke-linecap='round' stroke-linejoin='round' d='M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75' />">
+                Stock Out
+            </x-button>
             @endcan
             @can('manage products')
-            <a href="{{ route('products.edit', $product) }}"
-               class="btn-primary">
-                <svg class="icon-small"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="1.5"
-                     stroke="currentColor">
-                    <path stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                </svg>
-                <span class="btn-text">Edit</span>
-            </a>
+            <x-button tag="link"
+                      href="{{ route('products.edit', $product) }}"
+                      variant="primary"
+                      icon="<path stroke-linecap='round' stroke-linejoin='round' d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10' />">
+                Edit
+            </x-button>
             @endcan
         </div>
     </div>
@@ -144,64 +116,25 @@
                 </div>
 
                 @if($product->stockTransactions && $product->stockTransactions->count() > 0)
-                <!-- Desktop Table View -->
-                <div class="table-wrapper desktop-only">
-                    <table class="transactions-table">
-                        <thead>
-                            <tr>
-                                <th class="table-header-cell">Reference</th>
-                                <th class="table-header-cell">Type</th>
-                                <th class="table-header-cell">Quantity</th>
-                                <th class="table-header-cell">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($product->stockTransactions as $transaction)
-                            <tr class="table-row">
-                                <td class="table-cell">
-                                    <span class="transaction-ref">{{ $transaction->reference_number }}</span>
-                                </td>
-                                <td class="table-cell">
-                                    <span class="badge badge-{{ $transaction->type }}">
-                                        {{ $transaction->type_label }}
-                                    </span>
-                                </td>
-                                <td class="table-cell">
-                                    <span class="transaction-qty">{{ $transaction->quantity_change }}</span>
-                                </td>
-                                <td class="table-cell">
-                                    <span class="transaction-date">{{ $transaction->created_at->format('M d, Y H:i')
-                                        }}</span>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Mobile Card View -->
-                <div class="transactions-list mobile-only">
-                    @foreach($product->stockTransactions as $transaction)
-                    <div class="transaction-card">
-                        <div class="transaction-header">
-                            <span class="transaction-ref">{{ $transaction->reference_number }}</span>
-                            <span class="badge badge-{{ $transaction->type }}">
-                                {{ $transaction->type_label }}
-                            </span>
-                        </div>
-                        <div class="transaction-details">
-                            <div class="transaction-detail">
-                                <span class="detail-label">Quantity:</span>
-                                <span class="detail-value">{{ $transaction->quantity_change }}</span>
-                            </div>
-                            <div class="transaction-detail">
-                                <span class="detail-label">Date:</span>
-                                <span class="detail-value">{{ $transaction->created_at->format('M d, Y H:i') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
+                @php
+                $transactionHeaders = [
+                ['label' => 'Reference', 'render' => fn($t) => '<span class="transaction-ref">' . $t['reference'] .
+                    '</span>'],
+                ['label' => 'Type', 'render' => fn($t) => '<span class="badge badge-' . strtolower($t['type']) . '">' .
+                    $t['type'] . '</span>'],
+                ['label' => 'Quantity', 'render' => fn($t) => '<span class="transaction-qty">' . $t['quantity'] .
+                    '</span>'],
+                ['label' => 'Date', 'render' => fn($t) => '<span class="transaction-date">' . $t['date'] . '</span>'],
+                ];
+                $transactionRows = $product->stockTransactions->map(fn($transaction) => [
+                'reference' => $transaction->reference_number,
+                'type' => $transaction->type_label,
+                'quantity' => $transaction->quantity_change,
+                'date' => $transaction->created_at->format('M d, Y H:i')
+                ])->toArray();
+                @endphp
+                <x-table :headers="$transactionHeaders"
+                         :rows="$transactionRows" />
                 @else
                 <div class="empty-state">
                     <p class="empty-state-text">No transactions yet</p>

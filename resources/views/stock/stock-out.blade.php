@@ -176,12 +176,12 @@
             <h1>Stock Out</h1>
             <p>Record outgoing inventory</p>
         </div>
-        <div>
-            <a href="{{ route('stock.index') }}"
-               class="stock-back-link">
-                ← Back to Transactions
-            </a>
-        </div>
+        <x-button tag="link"
+                  href="{{ route('stock.index') }}"
+                  variant="link"
+                  icon="<path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18' />">
+            Back to Transactions
+        </x-button>
     </div>
 
     <div class="stock-form-card">
@@ -190,83 +190,51 @@
               class="stock-form">
             @csrf
             <div class="stock-grid">
-                <div class="stock-form-group stock-grid-full">
-                    <label for="product_id"
-                           class="stock-form-label">Product *</label>
-                    <select name="product_id"
-                            id="product_id"
-                            required
-                            class="stock-form-select">
-                        <option value="">Select Product</option>
-                        @foreach($products as $product)
-                        <option value="{{ $product->id }}"
-                                {{
-                                (old('product_id')
-                                ??
-                                request('product_id'))==$product->id ? 'selected' : '' }}>
-                            {{ $product->name }} ({{ $product->sku }}) - Available: {{ $product->quantity }}
-                        </option>
-                        @endforeach
-                    </select>
-                    @error('product_id') <p class="stock-form-error">{{ $message }}</p> @enderror
-                </div>
+                <x-form-group name="product_id"
+                              label="Product *"
+                              type="select"
+                              required
+                              :options="$products->mapWithKeys(fn($p) => [$p->id => $p->name . ' (' . $p->sku . ') - Available: ' . $p->quantity])->toArray()"
+                              :value="old('product_id') ?? request('product_id')"
+                              class="stock-grid-full" />
 
-                <div class="stock-form-group">
-                    <label for="quantity"
-                           class="stock-form-label">Quantity *</label>
-                    <input type="number"
-                           name="quantity"
-                           id="quantity"
-                           required
-                           min="1"
-                           value="{{ old('quantity', 1) }}"
-                           class="stock-form-input">
-                    @error('quantity') <p class="stock-form-error">{{ $message }}</p> @enderror
-                </div>
+                <x-form-group name="quantity"
+                              label="Quantity *"
+                              type="number"
+                              required
+                              min="1"
+                              :value="old('quantity', 1)" />
 
-                <div class="stock-form-group">
-                    <label for="transaction_date"
-                           class="stock-form-label">Transaction Date</label>
-                    <input type="datetime-local"
-                           name="transaction_date"
-                           id="transaction_date"
-                           value="{{ old('transaction_date', now()->format('Y-m-d\TH:i')) }}"
-                           class="stock-form-input">
-                    @error('transaction_date') <p class="stock-form-error">{{ $message }}</p> @enderror
-                </div>
+                <x-form-group name="transaction_date"
+                              label="Transaction Date"
+                              type="date"
+                              :value="old('transaction_date', now()->format('Y-m-d'))" />
 
-                <div class="stock-form-group stock-grid-full">
-                    <label for="reason"
-                           class="stock-form-label">Reason</label>
-                    <input type="text"
-                           name="reason"
-                           id="reason"
-                           value="{{ old('reason') }}"
-                           placeholder="e.g., Sale, Transfer, Damaged"
-                           class="stock-form-input">
-                    @error('reason') <p class="stock-form-error">{{ $message }}</p> @enderror
-                </div>
+                <x-form-group name="reason"
+                              label="Reason"
+                              type="text"
+                              placeholder="e.g., Sale, Transfer, Damaged"
+                              :value="old('reason')"
+                              class="stock-grid-full" />
 
-                <div class="stock-form-group stock-grid-full">
-                    <label for="notes"
-                           class="stock-form-label">Notes</label>
-                    <textarea name="notes"
-                              id="notes"
+                <x-form-group name="notes"
+                              label="Notes"
+                              type="textarea"
                               rows="3"
-                              class="stock-form-textarea">{{ old('notes') }}</textarea>
-                    @error('notes') <p class="stock-form-error">{{ $message }}</p> @enderror
-                </div>
+                              :value="old('notes')"
+                              class="stock-grid-full" />
             </div>
 
             <div class="stock-form-actions">
-                <a href="{{ route('stock.index') }}"
-                   class="stock-btn stock-btn-cancel">
+                <x-button tag="link"
+                          href="{{ route('stock.index') }}"
+                          variant="secondary">
                     Cancel
-                </a>
-                <button type="submit"
-                        class="stock-btn stock-btn-submit">
+                </x-button>
+                <x-button type="submit"
+                          variant="danger">
                     Record Stock Out
-                </button>
+                </x-button>
             </div>
         </form>
     </div>

@@ -12,266 +12,116 @@
         </div>
         @can('manage products')
         <div class="header-actions">
-            <a href="{{ route('products.create') }}"
-               class="btn-primary">
-                <svg class="icon-small"
-                     fill="currentColor"
-                     viewBox="0 0 20 20">
-                    <path
-                          d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                </svg>
-                <span>Add Product</span>
-            </a>
+            <x-button tag="link"
+                      href="{{ route('products.create') }}"
+                      variant="primary"
+                      icon="<path d='M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z' />">
+                Add Product
+            </x-button>
         </div>
         @endcan
     </div>
 
     <!-- Filters Section -->
-    <div class="filters-section">
-        <form method="GET"
-              class="filters-form">
-            <div class="filters-grid">
-                <!-- Search -->
-                <div class="filter-group">
-                    <label for="search"
-                           class="filter-label">Search</label>
-                    <input type="text"
-                           name="search"
-                           id="search"
-                           value="{{ request('search') }}"
-                           placeholder="Name, SKU, Barcode..."
-                           class="filter-input">
-                </div>
+    @php
+    $filterFields = [
+    [
+    'name' => 'search',
+    'label' => 'Search',
+    'type' => 'text',
+    'placeholder' => 'Name, SKU, Barcode...',
+    ],
+    [
+    'name' => 'category_id',
+    'label' => 'Category',
+    'type' => 'select',
+    'placeholder' => 'All Categories',
+    'options' => collect($categories)->pluck('name', 'id')->toArray(),
+    ],
+    [
+    'name' => 'supplier_id',
+    'label' => 'Supplier',
+    'type' => 'select',
+    'placeholder' => 'All Suppliers',
+    'options' => $suppliers->pluck('name', 'id')->toArray(),
+    ],
+    [
+    'name' => 'stock_status',
+    'label' => 'Stock Status',
+    'type' => 'select',
+    'placeholder' => 'All Status',
+    'options' => [
+    'in_stock' => 'In Stock',
+    'low_stock' => 'Low Stock',
+    'out_of_stock' => 'Out of Stock',
+    ],
+    ],
+    ];
+    @endphp
 
-                <!-- Category -->
-                <div class="filter-group">
-                    <label for="category_id"
-                           class="filter-label">Category</label>
-                    <select name="category_id"
-                            id="category_id"
-                            class="filter-select">
-                        <option value="">All Categories</option>
-                        @foreach($categories as $category)
-                        <option value="{{ $category['id'] }}"
-                                {{
-                                request('category_id')==$category['id']
-                                ? 'selected'
-                                : ''
-                                }}>
-                            {{ $category['name'] }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Supplier -->
-                <div class="filter-group">
-                    <label for="supplier_id"
-                           class="filter-label">Supplier</label>
-                    <select name="supplier_id"
-                            id="supplier_id"
-                            class="filter-select">
-                        <option value="">All Suppliers</option>
-                        @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}"
-                                {{
-                                request('supplier_id')==$supplier->id ? 'selected' : '' }}>
-                            {{ $supplier->name }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Stock Status -->
-                <div class="filter-group">
-                    <label for="stock_status"
-                           class="filter-label">Stock Status</label>
-                    <select name="stock_status"
-                            id="stock_status"
-                            class="filter-select">
-                        <option value="">All Status</option>
-                        <option value="in_stock"
-                                {{
-                                request('stock_status')==='in_stock'
-                                ? 'selected'
-                                : ''
-                                }}>In Stock</option>
-                        <option value="low_stock"
-                                {{
-                                request('stock_status')==='low_stock'
-                                ? 'selected'
-                                : ''
-                                }}>Low Stock</option>
-                        <option value="out_of_stock"
-                                {{
-                                request('stock_status')==='out_of_stock'
-                                ? 'selected'
-                                : ''
-                                }}>Out of Stock</option>
-                    </select>
-                </div>
-
-                <!-- Filter Actions -->
-                <div class="filter-actions">
-                    <button type="submit"
-                            class="btn-filter">
-                        <svg class="icon-small"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="currentColor">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
-                        </svg>
-                        Filter
-                    </button>
-                    <a href="{{ route('products.index') }}"
-                       class="btn-reset">
-                        Reset
-                    </a>
-                </div>
-            </div>
-        </form>
-    </div>
+    <x-filter-form :fields="$filterFields"
+                   action="{{ route('products.index') }}"
+                   resetUrl="{{ route('products.index') }}" />
 
     <!-- Desktop Table View -->
-    <div class="table-container desktop-only">
-        <div class="table-wrapper">
-            <table class="data-table">
-                <thead class="table-header">
-                    <tr>
-                        <th class="table-header-cell">Product</th>
-                        <th class="table-header-cell">SKU</th>
-                        <th class="table-header-cell">Category</th>
-                        <th class="table-header-cell">Price</th>
-                        <th class="table-header-cell">Quantity</th>
-                        <th class="table-header-cell">Status</th>
-                        <th class="table-header-cell table-header-actions">
-                            <span class="sr-only">Actions</span>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="table-body">
-                    @forelse($products as $product)
-                    <tr class="table-row">
-                        <td class="table-cell">
-                            <div class="product-info">
-                                <div class="product-image-wrapper">
-                                    @if($product->image_url)
-                                    <img class="product-image"
-                                         src="{{ $product->image_url }}"
-                                         alt="{{ $product->name }}">
-                                    @else
-                                    <div class="product-image-placeholder">
-                                        <svg class="placeholder-icon"
-                                             fill="none"
-                                             viewBox="0 0 24 24"
-                                             stroke="currentColor">
-                                            <path stroke-linecap="round"
-                                                  stroke-linejoin="round"
-                                                  stroke-width="2"
-                                                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                        </svg>
-                                    </div>
-                                    @endif
-                                </div>
-                                <div class="product-details">
-                                    <div class="product-name">{{ $product->name }}</div>
-                                    @if($product->barcode)
-                                    <div class="product-barcode">{{ $product->barcode }}</div>
-                                    @endif
-                                </div>
-                            </div>
-                        </td>
-                        <td class="table-cell">
-                            <span class="text-secondary">{{ $product->sku }}</span>
-                        </td>
-                        <td class="table-cell">
-                            <span class="text-secondary">{{ $product->category?->name ?? '-' }}</span>
-                        </td>
-                        <td class="table-cell">
-                            <div class="price-info">
-                                <div class="selling-price">₱{{ number_format($product->selling_price, 2) }}</div>
-                                <div class="cost-price">Cost: ₱{{ number_format($product->cost_price, 2) }}</div>
-                            </div>
-                        </td>
-                        <td class="table-cell">
-                            <span
-                                  class="quantity {{ $product->quantity <= 0 ? 'quantity-out' : ($product->is_low_stock ? 'quantity-low' : 'quantity-normal') }}">
-                                {{ number_format($product->quantity) }} {{ $product->unit }}
-                            </span>
-                        </td>
-                        <td class="table-cell">
-                            <span class="badge badge-{{ $product->stock_status }}">
-                                {{ $product->stock_status_label }}
-                            </span>
-                        </td>
-                        <td class="table-cell table-actions">
-                            <div class="action-buttons">
-                                <a href="{{ route('products.show', $product) }}"
-                                   class="action-btn action-btn-view"
-                                   title="View">
-                                    <svg class="icon-small"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke="currentColor">
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              stroke-width="2"
-                                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              stroke-width="2"
-                                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </a>
-                                @can('manage products')
-                                <a href="{{ route('products.edit', $product) }}"
-                                   class="action-btn action-btn-edit"
-                                   title="Edit">
-                                    <svg class="icon-small"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke="currentColor">
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              stroke-width="2"
-                                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
-                                </a>
-                                @endcan
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="7"
-                            class="empty-state">
-                            <div class="empty-state-content">
-                                <svg class="empty-state-icon"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                </svg>
-                                <p class="empty-state-text">No products found</p>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+    <div class="desktop-only">
+        @php
+        $tableHeaders = [
+        ['label' => 'Product', 'render' => function($product) {
+        return '<div class="product-info">' .
+            '<div class="product-image-wrapper">' .
+                ($product->image_url ? '<img class="product-image"
+                     src="' . $product->image_url . '"
+                     alt="' . $product->name . '">' :
+                '<div class="product-image-placeholder"><svg class="placeholder-icon"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg></div>') .
+                '</div>' .
+            '<div class="product-details">' .
+                '<div class="product-name">' . $product->name . '</div>' .
+                ($product->barcode ? '<div class="product-barcode">' . $product->barcode . '</div>' : '') .
+                '</div>
+        </div>';
+        }],
+        ['label' => 'SKU', 'render' => fn($p) => '<span class="table-secondary">' . $p->sku . '</span>'],
+        ['label' => 'Category', 'render' => fn($p) => '<span class="table-secondary">' . ($p->category?->name ?? '-') .
+            '</span>'],
+        ['label' => 'Price', 'render' => fn($p) => '<div class="price-info">
+            <div class="selling-price">₱' . number_format($p->selling_price, 2) . '</div>
+            <div class="cost-price">Cost: ₱' . number_format($p->cost_price, 2) . '</div>
+        </div>'],
+        ['label' => 'Quantity', 'render' => fn($p) => '<span
+              class="quantity ' . ($p->quantity <= 0 ? 'quantity-out' : ($p->is_low_stock ? 'quantity-low' : 'quantity-normal')) . '">'
+            . number_format($p->quantity) . ' ' . $p->unit . '</span>'],
+        ['label' => 'Status', 'render' => fn($p) => '<x-status-badge type="' . $p->stock_status . '">' .
+            $p->stock_status_label . '</x-status-badge>'],
+        ['label' => 'Actions', 'render' => function($product) {
+        return '<div class="action-buttons">' .
+            '<x-button tag="link"
+                      href="' . route('products.show', $product) . '"
+                      variant="link"
+                      size="sm"
+                      title="View">View</x-button>' .
+            auth()->user()->can('manage products') ? '<x-button tag="link"
+                      href="' . route('products.edit', $product) . '"
+                      variant="link"
+                      size="sm"
+                      title="Edit">Edit</x-button>' : '' .
+            '</div>';
+        }],
+        ];
+        @endphp
 
-        @if($products->hasPages())
-        <div class="pagination-wrapper">
-            {{ $products->links() }}
-        </div>
-        @endif
+        <x-table :headers="$tableHeaders"
+                 :rows="$products"
+                 :pagination="$products->hasPages() ? $products->links() : null"
+                 emptyMessage="No products found." />
     </div>
 
     <!-- Mobile Card View -->
