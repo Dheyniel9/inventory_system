@@ -168,33 +168,33 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-<div class="space-y-6">
-    <div class="sm:flex sm:items-center">
-        <div class="sm:flex-auto">
-            <h1 class="text-2xl font-bold text-gray-900">Stock Out</h1>
-            <p class="mt-1 text-sm text-gray-500">Record outgoing inventory</p>
+<div class="stock-container">
+    <div class="stock-header">
+        <div class="stock-title">
+            <h1>Stock Out</h1>
+            <p>Record outgoing inventory</p>
         </div>
-        <div class="mt-4 sm:mt-0">
+        <div>
             <a href="<?php echo e(route('stock.index')); ?>"
-               class="text-sm font-medium text-primary-600 hover:text-primary-500">
+               class="stock-back-link">
                 ← Back to Transactions
             </a>
         </div>
     </div>
 
-    <div class="rounded-lg bg-white shadow">
+    <div class="stock-form-card">
         <form action="<?php echo e(route('stock.out.process')); ?>"
               method="POST"
-              class="space-y-6 p-6">
+              class="stock-form">
             <?php echo csrf_field(); ?>
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div class="sm:col-span-2">
+            <div class="stock-grid">
+                <div class="stock-form-group stock-grid-full">
                     <label for="product_id"
-                           class="block text-sm font-medium text-gray-700">Product *</label>
+                           class="stock-form-label">Product *</label>
                     <select name="product_id"
                             id="product_id"
                             required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                            class="stock-form-select">
                         <option value="">Select Product</option>
                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($product->id); ?>"
@@ -210,94 +210,94 @@
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
 
-                <div>
+                <div class="stock-form-group">
                     <label for="quantity"
-                           class="block text-sm font-medium text-gray-700">Quantity *</label>
+                           class="stock-form-label">Quantity *</label>
                     <input type="number"
                            name="quantity"
                            id="quantity"
                            required
                            min="1"
                            value="<?php echo e(old('quantity', 1)); ?>"
-                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                           class="stock-form-input">
                     <?php $__errorArgs = ['quantity'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
 
-                <div>
+                <div class="stock-form-group">
                     <label for="transaction_date"
-                           class="block text-sm font-medium text-gray-700">Transaction Date</label>
+                           class="stock-form-label">Transaction Date</label>
                     <input type="datetime-local"
                            name="transaction_date"
                            id="transaction_date"
                            value="<?php echo e(old('transaction_date', now()->format('Y-m-d\TH:i'))); ?>"
-                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                           class="stock-form-input">
                     <?php $__errorArgs = ['transaction_date'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
 
-                <div class="sm:col-span-2">
+                <div class="stock-form-group stock-grid-full">
                     <label for="reason"
-                           class="block text-sm font-medium text-gray-700">Reason</label>
+                           class="stock-form-label">Reason</label>
                     <input type="text"
                            name="reason"
                            id="reason"
                            value="<?php echo e(old('reason')); ?>"
                            placeholder="e.g., Sale, Transfer, Damaged"
-                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                           class="stock-form-input">
                     <?php $__errorArgs = ['reason'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
 
-                <div class="sm:col-span-2">
+                <div class="stock-form-group stock-grid-full">
                     <label for="notes"
-                           class="block text-sm font-medium text-gray-700">Notes</label>
+                           class="stock-form-label">Notes</label>
                     <textarea name="notes"
                               id="notes"
                               rows="3"
-                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"><?php echo e(old('notes')); ?></textarea>
+                              class="stock-form-textarea"><?php echo e(old('notes')); ?></textarea>
                     <?php $__errorArgs = ['notes'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
             </div>
 
-            <div class="flex justify-end gap-3 pt-4 border-t">
+            <div class="stock-form-actions">
                 <a href="<?php echo e(route('stock.index')); ?>"
-                   class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                   class="stock-btn stock-btn-cancel">
                     Cancel
                 </a>
                 <button type="submit"
-                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">
+                        class="stock-btn stock-btn-submit">
                     Record Stock Out
                 </button>
             </div>
