@@ -1,8 +1,8 @@
-@extends('layouts.app')
 
-@section('title', 'Point of Sale')
 
-@section('css')
+<?php $__env->startSection('title', 'Point of Sale'); ?>
+
+<?php $__env->startSection('css'); ?>
 <style>
     /* POS Terminal Layout */
     .pos-container {
@@ -686,9 +686,9 @@
         }
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div x-data="posTerminal()"
      class="pos-container">
     <div class="pos-products">
@@ -716,9 +716,9 @@
                         @change="filterProducts()"
                         class="pos-category-select">
                     <option value="">All Categories</option>
-                    @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
+                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($category->id); ?>"><?php echo e($category->name); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>
         </div>
@@ -726,9 +726,9 @@
         <!-- Products Grid -->
         <div class="pos-products-container">
             <div class="pos-products-grid">
-                @foreach($products as $product)
+                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <button type="button"
-                        @click="addToCart({{ json_encode([
+                        @click="addToCart(<?php echo e(json_encode([
                         'id' => $product->id,
                         'name' => $product->name,
                         'sku' => $product->sku,
@@ -736,14 +736,14 @@
                         'quantity' => $product->quantity,
                         'image' => $product->image_url,
                         'category_id' => $product->category_id,
-                    ]) }})"
-                        x-show="shouldShowProduct({{ $product->category_id ?? 'null' }}, '{{ strtolower($product->name) }}', '{{ strtolower($product->sku) }}')"
+                    ])); ?>)"
+                        x-show="shouldShowProduct(<?php echo e($product->category_id ?? 'null'); ?>, '<?php echo e(strtolower($product->name)); ?>', '<?php echo e(strtolower($product->sku)); ?>')"
                         class="pos-product-button">
                     <div class="pos-product-image">
-                        @if($product->image_url)
-                        <img src="{{ $product->image_url }}"
+                        <?php if($product->image_url): ?>
+                        <img src="<?php echo e($product->image_url); ?>"
                              alt="">
-                        @else
+                        <?php else: ?>
                         <svg fill="none"
                              viewBox="0 0 24 24"
                              stroke="currentColor">
@@ -752,16 +752,17 @@
                                   stroke-width="2"
                                   d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                         </svg>
-                        @endif
+                        <?php endif; ?>
                     </div>
-                    <span class="pos-product-name">{{ $product->name }}</span>
-                    <span class="pos-product-sku">{{ $product->sku }}</span>
-                    <span class="pos-product-price">${{ number_format($product->selling_price, 2) }}</span>
-                    <span class="pos-product-stock {{ $product->quantity <= $product->min_stock_level ? 'low' : '' }}">
-                        Stock: {{ $product->quantity }}
+                    <span class="pos-product-name"><?php echo e($product->name); ?></span>
+                    <span class="pos-product-sku"><?php echo e($product->sku); ?></span>
+                    <span class="pos-product-price">$<?php echo e(number_format($product->selling_price, 2)); ?></span>
+                    <span class="pos-product-stock <?php echo e($product->quantity <= $product->min_stock_level ? 'low' : ''); ?>">
+                        Stock: <?php echo e($product->quantity); ?>
+
                     </span>
                 </button>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
     </div>
@@ -1058,11 +1059,11 @@
 
         handleBarcodeSearch() {
             if (!this.searchQuery) return;
-            fetch(`{{ route('pos.search-product') }}?barcode=${encodeURIComponent(this.searchQuery)}`, {
+            fetch(`<?php echo e(route('pos.search-product')); ?>?barcode=${encodeURIComponent(this.searchQuery)}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                 },
             })
             .then(r => r.json())
@@ -1150,11 +1151,11 @@
             this.processing = true;
 
             try {
-                const response = await fetch('{{ route('pos.checkout') }}', {
+                const response = await fetch('<?php echo e(route('pos.checkout')); ?>', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                     },
                     body: JSON.stringify({
                         items: this.cart.map(item => ({
@@ -1199,4 +1200,6 @@
     };
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/pos/index.blade.php ENDPATH**/ ?>

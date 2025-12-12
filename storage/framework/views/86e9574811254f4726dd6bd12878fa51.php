@@ -1,13 +1,11 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', $product->name); ?>
 
-@section('title', $product->name)
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-responsive">
     <!-- Page Header -->
     <div class="page-header">
         <div class="header-content">
-            <a href="{{ route('products.index') }}"
+            <a href="<?php echo e(route('products.index')); ?>"
                class="back-link">
                 <svg class="icon-small"
                      fill="none"
@@ -20,11 +18,11 @@
                 </svg>
                 Back to Products
             </a>
-            <h1 class="page-title">{{ $product->name }}</h1>
+            <h1 class="page-title"><?php echo e($product->name); ?></h1>
         </div>
         <div class="header-actions">
-            @can('manage stock')
-            <a href="{{ route('stock.in') }}?product_id={{ $product->id }}"
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage stock')): ?>
+            <a href="<?php echo e(route('stock.in')); ?>?product_id=<?php echo e($product->id); ?>"
                class="btn-stock-in">
                 <svg class="icon-small"
                      fill="none"
@@ -37,7 +35,7 @@
                 </svg>
                 <span class="btn-text">Stock In</span>
             </a>
-            <a href="{{ route('stock.out') }}?product_id={{ $product->id }}"
+            <a href="<?php echo e(route('stock.out')); ?>?product_id=<?php echo e($product->id); ?>"
                class="btn-stock-out">
                 <svg class="icon-small"
                      fill="none"
@@ -50,9 +48,9 @@
                 </svg>
                 <span class="btn-text">Stock Out</span>
             </a>
-            @endcan
-            @can('manage products')
-            <a href="{{ route('products.edit', $product) }}"
+            <?php endif; ?>
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage products')): ?>
+            <a href="<?php echo e(route('products.edit', $product)); ?>"
                class="btn-primary">
                 <svg class="icon-small"
                      fill="none"
@@ -65,7 +63,7 @@
                 </svg>
                 <span class="btn-text">Edit</span>
             </a>
-            @endcan
+            <?php endif; ?>
         </div>
     </div>
 
@@ -75,11 +73,11 @@
         <div class="main-content">
             <!-- Product Image (Mobile) -->
             <div class="image-card mobile-only">
-                @if($product->image_url)
-                <img src="{{ $product->image_url }}"
-                     alt="{{ $product->name }}"
+                <?php if($product->image_url): ?>
+                <img src="<?php echo e($product->image_url); ?>"
+                     alt="<?php echo e($product->name); ?>"
                      class="product-image">
-                @else
+                <?php else: ?>
                 <div class="image-placeholder">
                     <svg class="placeholder-icon"
                          fill="none"
@@ -91,7 +89,7 @@
                               d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
                 </div>
-                @endif
+                <?php endif; ?>
             </div>
 
             <!-- Product Information Card -->
@@ -100,35 +98,36 @@
                 <dl class="info-grid">
                     <div class="info-item">
                         <dt class="info-label">SKU</dt>
-                        <dd class="info-value">{{ $product->sku }}</dd>
+                        <dd class="info-value"><?php echo e($product->sku); ?></dd>
                     </div>
                     <div class="info-item">
                         <dt class="info-label">Barcode</dt>
-                        <dd class="info-value">{{ $product->barcode ?? '-' }}</dd>
+                        <dd class="info-value"><?php echo e($product->barcode ?? '-'); ?></dd>
                     </div>
                     <div class="info-item">
                         <dt class="info-label">Category</dt>
-                        <dd class="info-value">{{ $product->category?->name ?? '-' }}</dd>
+                        <dd class="info-value"><?php echo e($product->category?->name ?? '-'); ?></dd>
                     </div>
                     <div class="info-item">
                         <dt class="info-label">Supplier</dt>
-                        <dd class="info-value">{{ $product->supplier?->name ?? '-' }}</dd>
+                        <dd class="info-value"><?php echo e($product->supplier?->name ?? '-'); ?></dd>
                     </div>
                     <div class="info-item">
                         <dt class="info-label">Location</dt>
-                        <dd class="info-value">{{ $product->location ?? '-' }}</dd>
+                        <dd class="info-value"><?php echo e($product->location ?? '-'); ?></dd>
                     </div>
                     <div class="info-item">
                         <dt class="info-label">Status</dt>
                         <dd class="info-value">
-                            <span class="badge {{ $product->is_active ? 'badge-active' : 'badge-inactive' }}">
-                                {{ $product->is_active ? 'Active' : 'Inactive' }}
+                            <span class="badge <?php echo e($product->is_active ? 'badge-active' : 'badge-inactive'); ?>">
+                                <?php echo e($product->is_active ? 'Active' : 'Inactive'); ?>
+
                             </span>
                         </dd>
                     </div>
                     <div class="info-item info-item-full">
                         <dt class="info-label">Description</dt>
-                        <dd class="info-value">{{ $product->description ?? 'No description' }}</dd>
+                        <dd class="info-value"><?php echo e($product->description ?? 'No description'); ?></dd>
                     </div>
                 </dl>
             </div>
@@ -137,13 +136,13 @@
             <div class="info-card">
                 <div class="card-header">
                     <h2 class="card-title">Recent Transactions</h2>
-                    <a href="{{ route('stock.history', $product) }}"
+                    <a href="<?php echo e(route('stock.history', $product)); ?>"
                        class="view-all-link">
                         View all
                     </a>
                 </div>
 
-                @if($product->stockTransactions && $product->stockTransactions->count() > 0)
+                <?php if($product->stockTransactions && $product->stockTransactions->count() > 0): ?>
                 <!-- Desktop Table View -->
                 <div class="table-wrapper desktop-only">
                     <table class="transactions-table">
@@ -156,57 +155,58 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($product->stockTransactions as $transaction)
+                            <?php $__currentLoopData = $product->stockTransactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr class="table-row">
                                 <td class="table-cell">
-                                    <span class="transaction-ref">{{ $transaction->reference_number }}</span>
+                                    <span class="transaction-ref"><?php echo e($transaction->reference_number); ?></span>
                                 </td>
                                 <td class="table-cell">
-                                    <span class="badge badge-{{ $transaction->type }}">
-                                        {{ $transaction->type_label }}
+                                    <span class="badge badge-<?php echo e($transaction->type); ?>">
+                                        <?php echo e($transaction->type_label); ?>
+
                                     </span>
                                 </td>
                                 <td class="table-cell">
-                                    <span class="transaction-qty">{{ $transaction->quantity_change }}</span>
+                                    <span class="transaction-qty"><?php echo e($transaction->quantity_change); ?></span>
                                 </td>
                                 <td class="table-cell">
-                                    <span class="transaction-date">{{ $transaction->created_at->format('M d, Y H:i')
-                                        }}</span>
+                                    <span class="transaction-date"><?php echo e($transaction->created_at->format('M d, Y H:i')); ?></span>
                                 </td>
                             </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Mobile Card View -->
                 <div class="transactions-list mobile-only">
-                    @foreach($product->stockTransactions as $transaction)
+                    <?php $__currentLoopData = $product->stockTransactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="transaction-card">
                         <div class="transaction-header">
-                            <span class="transaction-ref">{{ $transaction->reference_number }}</span>
-                            <span class="badge badge-{{ $transaction->type }}">
-                                {{ $transaction->type_label }}
+                            <span class="transaction-ref"><?php echo e($transaction->reference_number); ?></span>
+                            <span class="badge badge-<?php echo e($transaction->type); ?>">
+                                <?php echo e($transaction->type_label); ?>
+
                             </span>
                         </div>
                         <div class="transaction-details">
                             <div class="transaction-detail">
                                 <span class="detail-label">Quantity:</span>
-                                <span class="detail-value">{{ $transaction->quantity_change }}</span>
+                                <span class="detail-value"><?php echo e($transaction->quantity_change); ?></span>
                             </div>
                             <div class="transaction-detail">
                                 <span class="detail-label">Date:</span>
-                                <span class="detail-value">{{ $transaction->created_at->format('M d, Y H:i') }}</span>
+                                <span class="detail-value"><?php echo e($transaction->created_at->format('M d, Y H:i')); ?></span>
                             </div>
                         </div>
                     </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
-                @else
+                <?php else: ?>
                 <div class="empty-state">
                     <p class="empty-state-text">No transactions yet</p>
                 </div>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
 
@@ -214,11 +214,11 @@
         <div class="sidebar-content">
             <!-- Product Image (Desktop) -->
             <div class="image-card desktop-only">
-                @if($product->image_url)
-                <img src="{{ $product->image_url }}"
-                     alt="{{ $product->name }}"
+                <?php if($product->image_url): ?>
+                <img src="<?php echo e($product->image_url); ?>"
+                     alt="<?php echo e($product->name); ?>"
                      class="product-image">
-                @else
+                <?php else: ?>
                 <div class="image-placeholder">
                     <svg class="placeholder-icon"
                          fill="none"
@@ -230,7 +230,7 @@
                               d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
                 </div>
-                @endif
+                <?php endif; ?>
             </div>
 
             <!-- Stock Information Card -->
@@ -240,24 +240,26 @@
                     <div class="detail-row">
                         <dt class="detail-label">Current Stock</dt>
                         <dd
-                            class="detail-value detail-value-stock {{ $product->quantity <= 0 ? 'text-danger' : ($product->is_low_stock ? 'text-warning' : '') }}">
-                            {{ number_format($product->quantity) }} {{ $product->unit }}
+                            class="detail-value detail-value-stock <?php echo e($product->quantity <= 0 ? 'text-danger' : ($product->is_low_stock ? 'text-warning' : '')); ?>">
+                            <?php echo e(number_format($product->quantity)); ?> <?php echo e($product->unit); ?>
+
                         </dd>
                     </div>
                     <div class="detail-row">
                         <dt class="detail-label">Min Level</dt>
-                        <dd class="detail-value">{{ number_format($product->min_stock_level) }}</dd>
+                        <dd class="detail-value"><?php echo e(number_format($product->min_stock_level)); ?></dd>
                     </div>
                     <div class="detail-row">
                         <dt class="detail-label">Max Level</dt>
-                        <dd class="detail-value">{{ $product->max_stock_level ? number_format($product->max_stock_level)
-                            : '-' }}</dd>
+                        <dd class="detail-value"><?php echo e($product->max_stock_level ? number_format($product->max_stock_level)
+                            : '-'); ?></dd>
                     </div>
                     <div class="detail-row">
                         <dt class="detail-label">Status</dt>
                         <dd class="detail-value">
-                            <span class="badge badge-stock-{{ $product->stock_status }}">
-                                {{ $product->stock_status_label }}
+                            <span class="badge badge-stock-<?php echo e($product->stock_status); ?>">
+                                <?php echo e($product->stock_status_label); ?>
+
                             </span>
                         </dd>
                     </div>
@@ -270,20 +272,21 @@
                 <dl class="details-list">
                     <div class="detail-row">
                         <dt class="detail-label">Cost Price</dt>
-                        <dd class="detail-value">₱{{ number_format($product->cost_price, 2) }}</dd>
+                        <dd class="detail-value">₱<?php echo e(number_format($product->cost_price, 2)); ?></dd>
                     </div>
                     <div class="detail-row">
                         <dt class="detail-label">Selling Price</dt>
-                        <dd class="detail-value detail-value-emphasis">₱{{ number_format($product->selling_price, 2) }}
+                        <dd class="detail-value detail-value-emphasis">₱<?php echo e(number_format($product->selling_price, 2)); ?>
+
                         </dd>
                     </div>
                     <div class="detail-row">
                         <dt class="detail-label">Profit Margin</dt>
-                        <dd class="detail-value text-success">{{ number_format($product->profit_margin, 1) }}%</dd>
+                        <dd class="detail-value text-success"><?php echo e(number_format($product->profit_margin, 1)); ?>%</dd>
                     </div>
                     <div class="detail-row detail-row-total">
                         <dt class="detail-label detail-label-emphasis">Stock Value</dt>
-                        <dd class="detail-value detail-value-total">₱{{ number_format($product->stock_value, 2) }}</dd>
+                        <dd class="detail-value detail-value-total">₱<?php echo e(number_format($product->stock_value, 2)); ?></dd>
                     </div>
                 </dl>
             </div>
@@ -806,4 +809,6 @@
         flex-shrink: 0;
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/products/show.blade.php ENDPATH**/ ?>

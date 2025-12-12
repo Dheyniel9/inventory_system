@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Edit Product'); ?>
 
-@section('title', 'Edit Product')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-responsive">
     <!-- Page Header -->
     <div class="page-header">
@@ -11,7 +9,7 @@
             <p class="page-description">Update product information</p>
         </div>
         <div class="header-actions">
-            <a href="{{ route('products.index') }}"
+            <a href="<?php echo e(route('products.index')); ?>"
                class="btn-back">
                 <svg class="icon-small"
                      fill="none"
@@ -28,12 +26,12 @@
     </div>
 
     <!-- Form -->
-    <form action="{{ route('products.update', $product) }}"
+    <form action="<?php echo e(route('products.update', $product)); ?>"
           method="POST"
           enctype="multipart/form-data"
           class="form-container">
-        @csrf
-        @method('PUT')
+        <?php echo csrf_field(); ?>
+        <?php echo method_field('PUT'); ?>
 
         <!-- Basic Information Section -->
         <div class="form-section">
@@ -50,19 +48,33 @@
                            name="name"
                            id="name"
                            required
-                           value="{{ old('name', $product->name) }}"
+                           value="<?php echo e(old('name', $product->name)); ?>"
                            placeholder="Enter product name"
-                           class="form-input @error('name') input-error @enderror">
-                    @error('name')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                           class="form-input <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                    <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- SKU (Read-only) -->
                 <div class="form-group">
                     <label class="form-label">SKU</label>
                     <input type="text"
-                           value="{{ $product->sku }}"
+                           value="<?php echo e($product->sku); ?>"
                            disabled
                            class="form-input-disabled">
                     <p class="help-text">SKU cannot be changed</p>
@@ -75,12 +87,26 @@
                     <input type="text"
                            name="barcode"
                            id="barcode"
-                           value="{{ old('barcode', $product->barcode) }}"
+                           value="<?php echo e(old('barcode', $product->barcode)); ?>"
                            placeholder="Enter barcode"
-                           class="form-input @error('barcode') input-error @enderror">
-                    @error('barcode')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                           class="form-input <?php $__errorArgs = ['barcode'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                    <?php $__errorArgs = ['barcode'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Description -->
@@ -91,10 +117,24 @@
                               id="description"
                               rows="3"
                               placeholder="Enter product description"
-                              class="form-textarea @error('description') input-error @enderror">{{ old('description', $product->description) }}</textarea>
-                    @error('description')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                              class="form-textarea <?php $__errorArgs = ['description'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"><?php echo e(old('description', $product->description)); ?></textarea>
+                    <?php $__errorArgs = ['description'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Category -->
@@ -103,20 +143,34 @@
                            class="form-label">Category</label>
                     <select name="category_id"
                             id="category_id"
-                            class="form-select @error('category_id') input-error @enderror">
+                            class="form-select <?php $__errorArgs = ['category_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
                         <option value="">Select Category</option>
-                        @foreach($categories as $category)
-                        <option value="{{ $category['id'] }}"
-                                {{
-                                old('category_id',
-                                $product->category_id) == $category['id'] ? 'selected' : '' }}>
-                            {{ $category['name'] }}
+                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($category['id']); ?>"
+                                <?php echo e(old('category_id',
+                                $product->category_id) == $category['id'] ? 'selected' : ''); ?>>
+                            <?php echo e($category['name']); ?>
+
                         </option>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
-                    @error('category_id')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                    <?php $__errorArgs = ['category_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Supplier -->
@@ -125,20 +179,34 @@
                            class="form-label">Supplier</label>
                     <select name="supplier_id"
                             id="supplier_id"
-                            class="form-select @error('supplier_id') input-error @enderror">
+                            class="form-select <?php $__errorArgs = ['supplier_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
                         <option value="">Select Supplier</option>
-                        @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}"
-                                {{
-                                old('supplier_id',
-                                $product->supplier_id) == $supplier->id ? 'selected' : '' }}>
-                            {{ $supplier->name }}
+                        <?php $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($supplier->id); ?>"
+                                <?php echo e(old('supplier_id',
+                                $product->supplier_id) == $supplier->id ? 'selected' : ''); ?>>
+                            <?php echo e($supplier->name); ?>
+
                         </option>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
-                    @error('supplier_id')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                    <?php $__errorArgs = ['supplier_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
             </div>
         </div>
@@ -162,12 +230,26 @@
                                required
                                step="0.01"
                                min="0"
-                               value="{{ old('cost_price', $product->cost_price) }}"
-                               class="form-input input-with-prefix-field @error('cost_price') input-error @enderror">
+                               value="<?php echo e(old('cost_price', $product->cost_price)); ?>"
+                               class="form-input input-with-prefix-field <?php $__errorArgs = ['cost_price'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
                     </div>
-                    @error('cost_price')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                    <?php $__errorArgs = ['cost_price'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Selling Price -->
@@ -184,19 +266,33 @@
                                required
                                step="0.01"
                                min="0"
-                               value="{{ old('selling_price', $product->selling_price) }}"
-                               class="form-input input-with-prefix-field @error('selling_price') input-error @enderror">
+                               value="<?php echo e(old('selling_price', $product->selling_price)); ?>"
+                               class="form-input input-with-prefix-field <?php $__errorArgs = ['selling_price'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
                     </div>
-                    @error('selling_price')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                    <?php $__errorArgs = ['selling_price'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Current Quantity (Read-only) -->
                 <div class="form-group">
                     <label class="form-label">Current Quantity</label>
                     <input type="text"
-                           value="{{ number_format($product->quantity) }} {{ $product->unit }}"
+                           value="<?php echo e(number_format($product->quantity)); ?> <?php echo e($product->unit); ?>"
                            disabled
                            class="form-input-disabled">
                     <p class="help-text">Use Stock Management to adjust</p>
@@ -213,11 +309,25 @@
                            id="min_stock_level"
                            required
                            min="0"
-                           value="{{ old('min_stock_level', $product->min_stock_level) }}"
-                           class="form-input @error('min_stock_level') input-error @enderror">
-                    @error('min_stock_level')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                           value="<?php echo e(old('min_stock_level', $product->min_stock_level)); ?>"
+                           class="form-input <?php $__errorArgs = ['min_stock_level'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                    <?php $__errorArgs = ['min_stock_level'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Max Stock Level -->
@@ -228,11 +338,25 @@
                            name="max_stock_level"
                            id="max_stock_level"
                            min="0"
-                           value="{{ old('max_stock_level', $product->max_stock_level) }}"
-                           class="form-input @error('max_stock_level') input-error @enderror">
-                    @error('max_stock_level')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                           value="<?php echo e(old('max_stock_level', $product->max_stock_level)); ?>"
+                           class="form-input <?php $__errorArgs = ['max_stock_level'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                    <?php $__errorArgs = ['max_stock_level'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Unit -->
@@ -244,35 +368,43 @@
                     <select name="unit"
                             id="unit"
                             required
-                            class="form-select @error('unit') input-error @enderror">
+                            class="form-select <?php $__errorArgs = ['unit'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
                         <option value="pcs"
-                                {{
-                                old('unit',
-                                $product->unit) === 'pcs' ? 'selected' : '' }}>Pieces (pcs)</option>
+                                <?php echo e(old('unit',
+                                $product->unit) === 'pcs' ? 'selected' : ''); ?>>Pieces (pcs)</option>
                         <option value="box"
-                                {{
-                                old('unit',
-                                $product->unit) === 'box' ? 'selected' : '' }}>Box</option>
+                                <?php echo e(old('unit',
+                                $product->unit) === 'box' ? 'selected' : ''); ?>>Box</option>
                         <option value="kg"
-                                {{
-                                old('unit',
-                                $product->unit) === 'kg' ? 'selected' : '' }}>Kilogram (kg)</option>
+                                <?php echo e(old('unit',
+                                $product->unit) === 'kg' ? 'selected' : ''); ?>>Kilogram (kg)</option>
                         <option value="ltr"
-                                {{
-                                old('unit',
-                                $product->unit) === 'ltr' ? 'selected' : '' }}>Liter (ltr)</option>
+                                <?php echo e(old('unit',
+                                $product->unit) === 'ltr' ? 'selected' : ''); ?>>Liter (ltr)</option>
                         <option value="m"
-                                {{
-                                old('unit',
-                                $product->unit) === 'm' ? 'selected' : '' }}>Meter (m)</option>
+                                <?php echo e(old('unit',
+                                $product->unit) === 'm' ? 'selected' : ''); ?>>Meter (m)</option>
                         <option value="ream"
-                                {{
-                                old('unit',
-                                $product->unit) === 'ream' ? 'selected' : '' }}>Ream</option>
+                                <?php echo e(old('unit',
+                                $product->unit) === 'ream' ? 'selected' : ''); ?>>Ream</option>
                     </select>
-                    @error('unit')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                    <?php $__errorArgs = ['unit'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
             </div>
         </div>
@@ -289,12 +421,26 @@
                     <input type="text"
                            name="location"
                            id="location"
-                           value="{{ old('location', $product->location) }}"
+                           value="<?php echo e(old('location', $product->location)); ?>"
                            placeholder="e.g., Warehouse A - Shelf 1"
-                           class="form-input @error('location') input-error @enderror">
-                    @error('location')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                           class="form-input <?php $__errorArgs = ['location'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                    <?php $__errorArgs = ['location'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Product Image -->
@@ -302,10 +448,10 @@
                     <label for="image"
                            class="form-label">Product Image</label>
 
-                    @if($product->image_url)
+                    <?php if($product->image_url): ?>
                     <div class="image-preview-container">
-                        <img src="{{ $product->image_url }}"
-                             alt="{{ $product->name }}"
+                        <img src="<?php echo e($product->image_url); ?>"
+                             alt="<?php echo e($product->name); ?>"
                              class="image-preview">
                         <div class="checkbox-container">
                             <input type="checkbox"
@@ -319,19 +465,33 @@
                             </label>
                         </div>
                     </div>
-                    @endif
+                    <?php endif; ?>
 
                     <input type="file"
                            name="image"
                            id="image"
                            accept="image/*"
-                           class="form-file @error('image') input-error @enderror">
-                    @if($product->image_url)
+                           class="form-file <?php $__errorArgs = ['image'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> input-error <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                    <?php if($product->image_url): ?>
                     <p class="help-text">Upload a new image to replace the current one</p>
-                    @endif
-                    @error('image')
-                    <p class="error-message">{{ $message }}</p>
-                    @enderror
+                    <?php endif; ?>
+                    <?php $__errorArgs = ['image'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="error-message"><?php echo e($message); ?></p>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <!-- Active Status -->
@@ -344,9 +504,9 @@
                                name="is_active"
                                id="is_active"
                                value="1"
-                               {{
-                               old('is_active',
-                               $product->is_active) ? 'checked' : '' }}
+                               <?php echo e(old('is_active',
+                               $product->is_active) ? 'checked' : ''); ?>
+
                         class="form-checkbox">
                         <label for="is_active"
                                class="checkbox-label">
@@ -359,7 +519,7 @@
 
         <!-- Form Actions -->
         <div class="form-actions">
-            <a href="{{ route('products.index') }}"
+            <a href="<?php echo e(route('products.index')); ?>"
                class="btn-secondary">
                 Cancel
             </a>
@@ -781,4 +941,6 @@
         flex-shrink: 0;
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/products/edit.blade.php ENDPATH**/ ?>

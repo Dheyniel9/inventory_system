@@ -1,8 +1,8 @@
-@extends('layouts.app')
 
-@section('title', 'Suppliers')
 
-@section('css')
+<?php $__env->startSection('title', 'Suppliers'); ?>
+
+<?php $__env->startSection('css'); ?>
 <style>
   /* Reset and Override Global Styles */
   .suppliers-page {
@@ -501,9 +501,9 @@
     }
   }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="suppliers-page">
   <div class="suppliers-container">
 
@@ -514,7 +514,7 @@
           <h1 class="suppliers-title">Suppliers Management</h1>
           <p class="suppliers-subtitle">Manage your business suppliers and vendor relationships efficiently</p>
         </div>
-        <a href="{{ route('suppliers.create') }}"
+        <a href="<?php echo e(route('suppliers.create')); ?>"
            class="btn-add-supplier">
           <i class="bi bi-plus-circle"></i>
           Add New Supplier
@@ -533,7 +533,7 @@
           <label class="form-label">🔍 Search</label>
           <input type="text"
                  name="search"
-                 value="{{ request('search') }}"
+                 value="<?php echo e(request('search')); ?>"
                  placeholder="Search by name, email, or phone..."
                  class="form-input">
         </div>
@@ -544,17 +544,13 @@
                   class="form-select">
             <option value="">All Status</option>
             <option value="1"
-                    {{
-                    request('is_active')=='1'
+                    <?php echo e(request('is_active')=='1'
                     ? 'selected'
-                    : ''
-                    }}>Active</option>
+                    : ''); ?>>Active</option>
             <option value="0"
-                    {{
-                    request('is_active')=='0'
+                    <?php echo e(request('is_active')=='0'
                     ? 'selected'
-                    : ''
-                    }}>Inactive</option>
+                    : ''); ?>>Inactive</option>
           </select>
         </div>
 
@@ -562,7 +558,7 @@
           <label class="form-label">🏙️ City</label>
           <input type="text"
                  name="city"
-                 value="{{ request('city') }}"
+                 value="<?php echo e(request('city')); ?>"
                  placeholder="Filter by city"
                  class="form-input">
         </div>
@@ -571,7 +567,7 @@
           <label class="form-label">🌍 Country</label>
           <input type="text"
                  name="country"
-                 value="{{ request('country') }}"
+                 value="<?php echo e(request('country')); ?>"
                  placeholder="Filter by country"
                  class="form-input">
         </div>
@@ -581,7 +577,7 @@
                   class="btn-filter btn-filter-primary">
             Apply Filters
           </button>
-          <a href="{{ route('suppliers.index') }}"
+          <a href="<?php echo e(route('suppliers.index')); ?>"
              class="btn-filter btn-filter-secondary">
             Reset All
           </a>
@@ -607,79 +603,82 @@
             </tr>
           </thead>
           <tbody>
-            @forelse($suppliers as $supplier)
+            <?php $__empty_1 = true; $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <tr>
               <td>
-                <div class="supplier-name">{{ $supplier->name }}</div>
-                @if($supplier->address)
-                <div class="supplier-address">{{ $supplier->address }}</div>
-                @endif
+                <div class="supplier-name"><?php echo e($supplier->name); ?></div>
+                <?php if($supplier->address): ?>
+                <div class="supplier-address"><?php echo e($supplier->address); ?></div>
+                <?php endif; ?>
               </td>
 
               <td>
                 <div class="contact-info">
-                  @if($supplier->email)
-                  <a href="mailto:{{ $supplier->email }}"
+                  <?php if($supplier->email): ?>
+                  <a href="mailto:<?php echo e($supplier->email); ?>"
                      class="contact-email">
-                    📧 {{ $supplier->email }}
+                    📧 <?php echo e($supplier->email); ?>
+
                   </a>
-                  @endif
-                  @if($supplier->phone)
-                  <span class="contact-phone">📱 {{ $supplier->phone }}</span>
-                  @endif
-                  @if(!$supplier->email && !$supplier->phone)
+                  <?php endif; ?>
+                  <?php if($supplier->phone): ?>
+                  <span class="contact-phone">📱 <?php echo e($supplier->phone); ?></span>
+                  <?php endif; ?>
+                  <?php if(!$supplier->email && !$supplier->phone): ?>
                   <span class="text-muted">No contact info</span>
-                  @endif
+                  <?php endif; ?>
                 </div>
               </td>
 
               <td>
-                @if($supplier->city || $supplier->country)
-                <span style="font-weight: 500;">{{ collect([$supplier->city, $supplier->country])->filter()->implode(',
-                  ') }}</span>
-                @else
+                <?php if($supplier->city || $supplier->country): ?>
+                <span style="font-weight: 500;"><?php echo e(collect([$supplier->city, $supplier->country])->filter()->implode(',
+                  ')); ?></span>
+                <?php else: ?>
                 <span class="text-muted">—</span>
-                @endif
+                <?php endif; ?>
               </td>
 
               <td>
-                <span style="font-weight: 500;">{{ $supplier->contact_person ?? '—' }}</span>
+                <span style="font-weight: 500;"><?php echo e($supplier->contact_person ?? '—'); ?></span>
               </td>
 
               <td>
-                <span class="status-badge {{ $supplier->is_active ? 'status-active' : 'status-inactive' }}">
-                  {{ $supplier->is_active ? '✓ Active' : '✗ Inactive' }}
+                <span class="status-badge <?php echo e($supplier->is_active ? 'status-active' : 'status-inactive'); ?>">
+                  <?php echo e($supplier->is_active ? '✓ Active' : '✗ Inactive'); ?>
+
                 </span>
               </td>
 
               <td>
                 <div class="table-actions">
-                  <a href="{{ route('suppliers.show', $supplier) }}"
+                  <a href="<?php echo e(route('suppliers.show', $supplier)); ?>"
                      class="action-link">
                     View
                   </a>
-                  <a href="{{ route('suppliers.edit', $supplier) }}"
+                  <a href="<?php echo e(route('suppliers.edit', $supplier)); ?>"
                      class="action-link">
                     Edit
                   </a>
 
                   <form method="POST"
-                        action="{{ route('suppliers.toggle-status', $supplier) }}"
+                        action="<?php echo e(route('suppliers.toggle-status', $supplier)); ?>"
                         style="display: inline;">
-                    @csrf
-                    @method('PATCH')
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('PATCH'); ?>
                     <button type="submit"
                             class="action-button action-toggle">
-                      {{ $supplier->is_active ? 'Deactivate' : 'Activate' }}
+                      <?php echo e($supplier->is_active ? 'Deactivate' : 'Activate'); ?>
+
                     </button>
                   </form>
 
                   <form method="POST"
-                        action="{{ route('suppliers.destroy', $supplier) }}"
+                        action="<?php echo e(route('suppliers.destroy', $supplier)); ?>"
                         style="display: inline;"
                         onsubmit="return confirm('⚠️ Are you sure you want to delete this supplier? This action cannot be undone.')">
-                    @csrf
-                    @method('DELETE')
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('DELETE'); ?>
                     <button type="submit"
                             class="action-button action-delete">
                       Delete
@@ -688,7 +687,7 @@
                 </div>
               </td>
             </tr>
-            @empty
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <tr>
               <td colspan="6">
                 <div class="empty-state">
@@ -701,18 +700,21 @@
                 </div>
               </td>
             </tr>
-            @endforelse
+            <?php endif; ?>
           </tbody>
         </table>
       </div>
 
-      @if($suppliers->hasPages())
+      <?php if($suppliers->hasPages()): ?>
       <div class="table-pagination">
-        {{ $suppliers->links() }}
+        <?php echo e($suppliers->links()); ?>
+
       </div>
-      @endif
+      <?php endif; ?>
     </section>
 
   </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/suppliers/index.blade.php ENDPATH**/ ?>

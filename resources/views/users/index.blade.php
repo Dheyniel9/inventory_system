@@ -2,41 +2,352 @@
 
 @section('title', 'Users')
 
-@section('content')
-<div class="space-y-6">
-  <div class="sm:flex sm:items-center sm:justify-between">
-    <div>
-      <h1 class="text-2xl font-bold text-gray-900">Users</h1>
-      <p class="mt-1 text-sm text-gray-500">Manage system users and their permissions</p>
-    </div>
-    <div class="mt-4 sm:mt-0">
-      <a href="{{ route('users.create') }}"
-         class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500">
-        <svg class="-ml-0.5 mr-1.5 h-5 w-5"
-             viewBox="0 0 20 20"
-             fill="currentColor">
-          <path
-                d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-        </svg>
-        Add User
-      </a>
-    </div>
-  </div>
+@section('css')
+<style>
+  .user-container {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
 
-  <!-- Search and Filters -->
-  <div class="rounded-lg bg-white p-4 shadow">
+  .user-filters {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+  }
+
+  .user-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .user-search-wrapper {
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .user-filter-input,
+  .user-filter-select {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .user-filter-input:focus,
+  .user-filter-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .user-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+  }
+
+  .user-filter-submit {
+    background-color: #3b82f6;
+    color: white;
+  }
+
+  .user-filter-submit:hover {
+    background-color: #2563eb;
+    color: white;
+  }
+
+  .user-filter-reset {
+    background-color: #f3f4f6;
+    color: #4b5563;
+  }
+
+  .user-filter-reset:hover {
+    background-color: #e5e7eb;
+    color: #4b5563;
+    text-decoration: none;
+  }
+
+  .user-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    margin-left: auto;
+  }
+
+  .user-add-btn:hover {
+    background-color: #2563eb;
+    color: white;
+    text-decoration: none;
+  }
+
+  .user-table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .user-table {
+    width: 100%;
+    margin-bottom: 0;
+    background-color: white;
+    border-collapse: collapse;
+  }
+
+  .user-table thead {
+    background-color: #f9fafb;
+  }
+
+  .user-table thead th {
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+    padding: 16px;
+    border-bottom: 2px solid #e5e7eb;
+    text-align: left;
+  }
+
+  .user-table thead th.text-end {
+    text-align: right;
+  }
+
+  .user-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.15s;
+  }
+
+  .user-table tbody tr:hover {
+    background-color: #f9fafb;
+  }
+
+  .user-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .user-table tbody td {
+    padding: 16px;
+    font-size: 14px;
+    color: #4b5563;
+    vertical-align: middle;
+  }
+
+  .d-flex {
+    display: flex;
+  }
+
+  .align-items-center {
+    align-items: center;
+  }
+
+  .d-inline {
+    display: inline;
+  }
+
+  .text-end {
+    text-align: right;
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .user-info {
+    margin-left: 12px;
+  }
+
+  .user-name {
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 2px;
+  }
+
+  .user-email {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 9999px;
+    line-height: 1.5;
+  }
+
+  .bg-primary {
+    background-color: #3b82f6;
+    color: white;
+  }
+
+  .bg-success {
+    background-color: #10b981;
+    color: white;
+  }
+
+  .bg-secondary {
+    background-color: #6b7280;
+    color: white;
+  }
+
+  .action-links {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .action-link {
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .text-primary {
+    color: #3b82f6;
+  }
+
+  .text-primary:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .action-btn {
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .text-warning {
+    color: #f59e0b;
+  }
+
+  .text-warning:hover {
+    color: #d97706;
+    text-decoration: underline;
+  }
+
+  .text-danger {
+    color: #ef4444;
+  }
+
+  .text-danger:hover {
+    color: #dc2626;
+    text-decoration: underline;
+  }
+
+  .empty-state {
+    padding: 48px 16px;
+    text-align: center;
+    color: #6b7280;
+  }
+
+  .pagination-wrapper {
+    padding: 16px 24px;
+    border-top: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+  }
+
+  @media (max-width: 768px) {
+    .user-container {
+      padding: 16px;
+    }
+
+    .user-filters {
+      padding: 16px;
+    }
+
+    .user-filter-form {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .user-search-wrapper,
+    .user-filter-select,
+    .user-filter-btn,
+    .user-add-btn {
+      width: 100%;
+    }
+
+    .user-add-btn {
+      margin-left: 0;
+    }
+
+    .user-table thead th,
+    .user-table tbody td {
+      padding: 12px 8px;
+      font-size: 12px;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+    }
+
+    .user-info {
+      margin-left: 8px;
+    }
+
+    .action-links {
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+  }
+</style>
+@endsection
+
+@section('content')
+<div class="user-container">
+  <div class="user-filters">
     <form method="GET"
-          class="flex flex-col gap-4 sm:flex-row">
-      <div class="flex-1">
+          class="user-filter-form">
+      <div class="user-search-wrapper">
         <input type="text"
                name="search"
                value="{{ request('search') }}"
-               placeholder="Search users..."
-               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+               placeholder="🔍 Search users..."
+               class="user-filter-input">
       </div>
+
       <div>
         <select name="is_active"
-                class="block rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                class="user-filter-select">
           <option value="">All Status</option>
           <option value="1"
                   {{
@@ -52,9 +363,10 @@
                   }}>Inactive</option>
         </select>
       </div>
+
       <div>
         <select name="role"
-                class="block rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                class="user-filter-select">
           <option value="">All Roles</option>
           @foreach($roles as $role)
           <option value="{{ $role->name }}"
@@ -65,93 +377,94 @@
           @endforeach
         </select>
       </div>
+
       <button type="submit"
-              class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500">
+              class="user-filter-btn user-filter-submit">
         Search
       </button>
+
       <a href="{{ route('users.index') }}"
-         class="inline-flex items-center rounded-md bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-200">
+         class="user-filter-btn user-filter-reset">
         Reset
+      </a>
+
+      <a href="{{ route('users.create') }}"
+         class="user-add-btn">
+        <i class="bi bi-plus-circle"></i>
+        Add User
       </a>
     </form>
   </div>
 
-  <!-- Table -->
-  <div class="overflow-hidden rounded-lg bg-white shadow">
-    <table class="min-w-full divide-y divide-gray-300">
-      <thead class="bg-gray-50">
+  <div class="user-table-container">
+    <table class="user-table">
+      <thead>
         <tr>
-          <th scope="col"
-              class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">User</th>
-          <th scope="col"
-              class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Contact</th>
-          <th scope="col"
-              class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
-          <th scope="col"
-              class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-          <th scope="col"
-              class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Joined</th>
-          <th scope="col"
-              class="relative py-3.5 pl-3 pr-4 sm:pr-6"><span class="sr-only">Actions</span></th>
+          <th>User</th>
+          <th>Contact</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th class="text-end">Actions</th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-200 bg-white">
+      <tbody>
         @forelse($users as $user)
         <tr>
-          <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
-            <div class="flex items-center">
-              <div class="h-10 w-10 flex-shrink-0">
-                <img class="h-10 w-10 rounded-full"
-                     src="{{ $user->avatar_url }}"
-                     alt="">
-              </div>
-              <div class="ml-4">
-                <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
-                <div class="text-sm text-gray-500">{{ $user->email }}</div>
+          <td>
+            <div class="d-flex align-items-center">
+              <img src="{{ $user->avatar_url }}"
+                   alt="{{ $user->name }}"
+                   class="user-avatar">
+              <div class="user-info">
+                <div class="user-name">{{ $user->name }}</div>
+                <div class="user-email">{{ $user->email }}</div>
               </div>
             </div>
           </td>
-          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-            {{ $user->phone ?? '-' }}
-          </td>
-          <td class="whitespace-nowrap px-3 py-4 text-sm">
-            <span
-                  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-800">
+          <td>{{ $user->phone ?? '-' }}</td>
+          <td>
+            <span class="badge bg-primary">
               {{ ucfirst($user->roles->first()->name ?? 'No Role') }}
             </span>
           </td>
-          <td class="whitespace-nowrap px-3 py-4 text-sm">
-            <span
-                  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+          <td>
+            <span class="badge {{ $user->is_active ? 'bg-success' : 'bg-secondary' }}">
               {{ $user->is_active ? 'Active' : 'Inactive' }}
             </span>
           </td>
-          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-            {{ $user->created_at->format('M j, Y') }}
-          </td>
-          <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-            <div class="flex items-center justify-end gap-2">
+          <td>{{ $user->created_at->format('M j, Y') }}</td>
+          <td>
+            <div class="action-links">
               <a href="{{ route('users.show', $user) }}"
-                 class="text-primary-600 hover:text-primary-900">View</a>
+                 class="action-link text-primary">
+                View
+              </a>
               <a href="{{ route('users.edit', $user) }}"
-                 class="text-primary-600 hover:text-primary-900">Edit</a>
+                 class="action-link text-primary">
+                Edit
+              </a>
               @if($user->id !== auth()->id())
               <form method="POST"
                     action="{{ route('users.toggle-status', $user) }}"
-                    class="inline">
-                @csrf @method('PATCH')
+                    class="d-inline">
+                @csrf
+                @method('PATCH')
                 <button type="submit"
-                        class="text-yellow-600 hover:text-yellow-900">
+                        class="action-btn text-warning">
                   {{ $user->is_active ? 'Deactivate' : 'Activate' }}
                 </button>
               </form>
               <form method="POST"
                     action="{{ route('users.destroy', $user) }}"
-                    class="inline"
-                    onsubmit="return confirm('Are you sure?')">
-                @csrf @method('DELETE')
+                    class="d-inline"
+                    onsubmit="return confirm('Are you sure you want to delete this user?')">
+                @csrf
+                @method('DELETE')
                 <button type="submit"
-                        class="text-red-600 hover:text-red-900">Delete</button>
+                        class="action-btn text-danger">
+                  Delete
+                </button>
               </form>
               @endif
             </div>
@@ -160,13 +473,18 @@
         @empty
         <tr>
           <td colspan="6"
-              class="px-6 py-12 text-center text-sm text-gray-500">No users found.</td>
+              class="empty-state">
+            No users found.
+          </td>
         </tr>
         @endforelse
       </tbody>
     </table>
+
     @if($users->hasPages())
-    <div class="border-t border-gray-200 px-4 py-3 sm:px-6">{{ $users->links() }}</div>
+    <div class="pagination-wrapper">
+      {{ $users->links() }}
+    </div>
     @endif
   </div>
 </div>

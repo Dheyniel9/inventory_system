@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Add Category'); ?>
 
-@section('title', 'Edit Category')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     .category-container {
         display: flex;
@@ -150,19 +148,19 @@
 <div class="category-container">
     <div class="category-header">
         <div class="category-header-content">
-            <h1 class="category-title">Edit Category</h1>
-            <p class="category-subtitle">Update category details</p>
+            <h1 class="category-title">Add Category</h1>
+            <p class="category-subtitle">Create a new category</p>
         </div>
         <div>
-            <a href="{{ route('categories.index') }}"
+            <a href="<?php echo e(route('categories.index')); ?>"
                class="back-link">← Back</a>
         </div>
     </div>
 
-    <form action="{{ route('categories.update', $category) }}"
+    <form action="<?php echo e(route('categories.store')); ?>"
           method="POST"
           class="category-form">
-        @csrf @method('PUT')
+        <?php echo csrf_field(); ?>
         <div class="form-content">
             <div class="form-group">
                 <label for="name">Name *</label>
@@ -170,9 +168,16 @@
                        name="name"
                        id="name"
                        required
-                       value="{{ old('name', $category->name) }}"
+                       value="<?php echo e(old('name')); ?>"
                        class="form-input">
-                @error('name') <p class="error-message">{{ $message }}</p> @enderror
+                <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="error-message"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <div class="form-group">
@@ -181,14 +186,19 @@
                         id="parent_id"
                         class="form-input">
                     <option value="">None (Top Level)</option>
-                    @foreach($parentCategories as $parent)
-                    <option value="{{ $parent->id }}"
-                            {{
-                            old('parent_id',
-                            $category->parent_id) == $parent->id ? 'selected' : '' }}>{{ $parent->name }}</option>
-                    @endforeach
+                    <?php $__currentLoopData = $parentCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $parent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($parent->id); ?>"
+                            <?php echo e(old('parent_id')==$parent->id ? 'selected' : ''); ?>><?php echo e($parent->name); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
-                @error('parent_id') <p class="error-message">{{ $message }}</p> @enderror
+                <?php $__errorArgs = ['parent_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="error-message"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <div class="form-group">
@@ -196,8 +206,15 @@
                 <textarea name="description"
                           id="description"
                           rows="3"
-                          class="form-input">{{ old('description', $category->description) }}</textarea>
-                @error('description') <p class="error-message">{{ $message }}</p> @enderror
+                          class="form-input"><?php echo e(old('description')); ?></textarea>
+                <?php $__errorArgs = ['description'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="error-message"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <div class="checkbox-group">
@@ -208,20 +225,25 @@
                        name="is_active"
                        id="is_active"
                        value="1"
-                       {{
-                       old('is_active',
-                       $category->is_active) ? 'checked' : '' }} class="checkbox-input">
+                       <?php echo e(old('is_active',
+                       true)
+                       ? 'checked'
+                       : ''); ?>
+
+                       class="checkbox-input">
                 <label for="is_active"
                        class="checkbox-label">Active</label>
             </div>
         </div>
 
         <div class="form-actions">
-            <a href="{{ route('categories.index') }}"
+            <a href="<?php echo e(route('categories.index')); ?>"
                class="btn-cancel">Cancel</a>
             <button type="submit"
-                    class="btn-submit">Update</button>
+                    class="btn-submit">Create</button>
         </div>
     </form>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/categories/create.blade.php ENDPATH**/ ?>

@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Categories'); ?>
 
-@section('title', 'Categories')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     .categories-container {
         display: flex;
@@ -258,7 +256,7 @@
             <p class="categories-subtitle">Organize your products with categories</p>
         </div>
         <div>
-            <a href="{{ route('categories.create') }}"
+            <a href="<?php echo e(route('categories.create')); ?>"
                class="btn-add">
                 <svg viewBox="0 0 20 20"
                      fill="currentColor">
@@ -277,7 +275,7 @@
             <div class="search-input-wrapper">
                 <input type="text"
                        name="search"
-                       value="{{ request('search') }}"
+                       value="<?php echo e(request('search')); ?>"
                        placeholder="Search categories..."
                        class="search-input">
             </div>
@@ -285,7 +283,7 @@
                     class="btn-search">
                 Search
             </button>
-            <a href="{{ route('categories.index') }}"
+            <a href="<?php echo e(route('categories.index')); ?>"
                class="btn-reset">
                 Reset
             </a>
@@ -305,47 +303,51 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($categories as $category)
+                <?php $__empty_1 = true; $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <tr>
                     <td>
-                        {{ $category->name }}
-                        @if($category->description)
-                        <p class="category-description">{{ $category->description }}</p>
-                        @endif
+                        <?php echo e($category->name); ?>
+
+                        <?php if($category->description): ?>
+                        <p class="category-description"><?php echo e($category->description); ?></p>
+                        <?php endif; ?>
                     </td>
-                    <td>{{ $category->parent?->name ?? '-' }}</td>
-                    <td>{{ $category->products_count }}</td>
+                    <td><?php echo e($category->parent?->name ?? '-'); ?></td>
+                    <td><?php echo e($category->products_count); ?></td>
                     <td>
-                        <span class="status-badge {{ $category->is_active ? 'status-active' : 'status-inactive' }}">
-                            {{ $category->is_active ? 'Active' : 'Inactive' }}
+                        <span class="status-badge <?php echo e($category->is_active ? 'status-active' : 'status-inactive'); ?>">
+                            <?php echo e($category->is_active ? 'Active' : 'Inactive'); ?>
+
                         </span>
                     </td>
                     <td>
                         <div class="action-buttons">
-                            <a href="{{ route('categories.edit', $category) }}"
+                            <a href="<?php echo e(route('categories.edit', $category)); ?>"
                                class="btn-edit">Edit</a>
                             <form method="POST"
-                                  action="{{ route('categories.destroy', $category) }}"
+                                  action="<?php echo e(route('categories.destroy', $category)); ?>"
                                   class="delete-form"
                                   onsubmit="return confirm('Are you sure?')">
-                                @csrf @method('DELETE')
+                                <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
                                 <button type="submit"
                                         class="btn-delete">Delete</button>
                             </form>
                         </div>
                     </td>
                 </tr>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <tr>
                     <td colspan="5"
                         class="empty-state">No categories found.</td>
                 </tr>
-                @endforelse
+                <?php endif; ?>
             </tbody>
         </table>
-        @if($categories->hasPages())
-        <div class="pagination-wrapper">{{ $categories->links() }}</div>
-        @endif
+        <?php if($categories->hasPages()): ?>
+        <div class="pagination-wrapper"><?php echo e($categories->links()); ?></div>
+        <?php endif; ?>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/categories/index.blade.php ENDPATH**/ ?>

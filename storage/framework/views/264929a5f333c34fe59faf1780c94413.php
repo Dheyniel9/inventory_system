@@ -1,8 +1,8 @@
-@extends('layouts.app')
 
-@section('title', 'Edit Supplier')
 
-@section('css')
+<?php $__env->startSection('title', 'Add Supplier'); ?>
+
+<?php $__env->startSection('css'); ?>
 <style>
        .supplier-container {
               display: flex;
@@ -165,26 +165,25 @@
               }
        }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="supplier-container">
        <div class="supplier-header">
               <div class="supplier-title">
-                     <h1>Edit Supplier</h1>
-                     <p>Update supplier information</p>
+                     <h1>Add Supplier</h1>
+                     <p>Create a new supplier</p>
               </div>
               <div>
-                     <a href="{{ route('suppliers.index') }}"
+                     <a href="<?php echo e(route('suppliers.index')); ?>"
                         class="supplier-back-link">← Back</a>
               </div>
        </div>
 
-       <form action="{{ route('suppliers.update', $supplier) }}"
+       <form action="<?php echo e(route('suppliers.store')); ?>"
              method="POST"
              class="supplier-form-card">
-              @csrf
-              @method('PUT')
+              <?php echo csrf_field(); ?>
               <div class="supplier-form">
                      <div class="supplier-grid">
                             <div class="supplier-grid-full">
@@ -195,9 +194,16 @@
                                                  name="name"
                                                  id="name"
                                                  required
-                                                 value="{{ old('name', $supplier->name) }}"
+                                                 value="<?php echo e(old('name')); ?>"
                                                  class="supplier-form-input">
-                                          @error('name') <p class="supplier-form-error">{{ $message }}</p> @enderror
+                                          <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="supplier-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                    </div>
                             </div>
 
@@ -208,9 +214,16 @@
                                           <input type="email"
                                                  name="email"
                                                  id="email"
-                                                 value="{{ old('email', $supplier->email) }}"
+                                                 value="<?php echo e(old('email')); ?>"
                                                  class="supplier-form-input">
-                                          @error('email') <p class="supplier-form-error">{{ $message }}</p> @enderror
+                                          <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="supplier-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                    </div>
                             </div>
 
@@ -221,9 +234,16 @@
                                           <input type="text"
                                                  name="phone"
                                                  id="phone"
-                                                 value="{{ old('phone', $supplier->phone) }}"
+                                                 value="<?php echo e(old('phone')); ?>"
                                                  class="supplier-form-input">
-                                          @error('phone') <p class="supplier-form-error">{{ $message }}</p> @enderror
+                                          <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="supplier-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                    </div>
                             </div>
 
@@ -234,10 +254,17 @@
                                           <input type="text"
                                                  name="contact_person"
                                                  id="contact_person"
-                                                 value="{{ old('contact_person', $supplier->contact_person) }}"
+                                                 value="<?php echo e(old('contact_person')); ?>"
                                                  class="supplier-form-input">
-                                          @error('contact_person') <p class="supplier-form-error">{{ $message }}</p>
-                                          @enderror
+                                          <?php $__errorArgs = ['contact_person'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="supplier-form-error"><?php echo e($message); ?></p>
+                                          <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                    </div>
                             </div>
 
@@ -248,9 +275,16 @@
                                           <input type="text"
                                                  name="city"
                                                  id="city"
-                                                 value="{{ old('city', $supplier->city) }}"
+                                                 value="<?php echo e(old('city')); ?>"
                                                  class="supplier-form-input">
-                                          @error('city') <p class="supplier-form-error">{{ $message }}</p> @enderror
+                                          <?php $__errorArgs = ['city'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="supplier-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                    </div>
                             </div>
 
@@ -261,9 +295,16 @@
                                           <input type="text"
                                                  name="country"
                                                  id="country"
-                                                 value="{{ old('country', $supplier->country) }}"
+                                                 value="<?php echo e(old('country')); ?>"
                                                  class="supplier-form-input">
-                                          @error('country') <p class="supplier-form-error">{{ $message }}</p> @enderror
+                                          <?php $__errorArgs = ['country'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="supplier-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                    </div>
                             </div>
 
@@ -274,8 +315,15 @@
                                           <textarea name="address"
                                                     id="address"
                                                     rows="3"
-                                                    class="supplier-form-textarea">{{ old('address', $supplier->address) }}</textarea>
-                                          @error('address') <p class="supplier-form-error">{{ $message }}</p> @enderror
+                                                    class="supplier-form-textarea"><?php echo e(old('address')); ?></textarea>
+                                          <?php $__errorArgs = ['address'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="supplier-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                    </div>
                             </div>
 
@@ -288,10 +336,12 @@
                                                  name="is_active"
                                                  id="is_active"
                                                  value="1"
-                                                 {{
-                                                 old('is_active',
-                                                 $supplier->is_active) ? 'checked' : '' }}
-                                          style="width: 1rem; height: 1rem;">
+                                                 <?php echo e(old('is_active',
+                                                 true)
+                                                 ? 'checked'
+                                                 : ''); ?>
+
+                                                 style="width: 1rem; height: 1rem;">
                                           <label for="is_active"
                                                  style="margin-left: 0.5rem; font-size: 0.875rem;">Active</label>
                                    </div>
@@ -299,11 +349,13 @@
                      </div>
 
                      <div class="supplier-form-actions">
-                            <a href="{{ route('suppliers.index') }}"
+                            <a href="<?php echo e(route('suppliers.index')); ?>"
                                class="supplier-btn supplier-btn-cancel">Cancel</a>
                             <button type="submit"
-                                    class="supplier-btn supplier-btn-submit">Update</button>
+                                    class="supplier-btn supplier-btn-submit">Create</button>
                      </div>
        </form>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/suppliers/create.blade.php ENDPATH**/ ?>

@@ -1,8 +1,8 @@
-@extends('layouts.app')
 
-@section('title', 'Stock Adjustment')
 
-@section('css')
+<?php $__env->startSection('title', 'Stock Adjustment'); ?>
+
+<?php $__env->startSection('css'); ?>
 <style>
   .stock-header {
     display: flex;
@@ -226,9 +226,9 @@
     }
   }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="stock-container">
   <div class="stock-header">
     <div class="stock-title">
@@ -236,7 +236,7 @@
       <p>Adjust inventory quantities to match physical counts</p>
     </div>
     <div>
-      <a href="{{ route('stock.index') }}"
+      <a href="<?php echo e(route('stock.index')); ?>"
          class="stock-back-link">
         ← Back to Transactions
       </a>
@@ -244,11 +244,11 @@
   </div>
 
   <div class="stock-form-card">
-    <form action="{{ route('stock.adjustment.process') }}"
+    <form action="<?php echo e(route('stock.adjustment.process')); ?>"
           method="POST"
           class="stock-form"
           x-data="stockAdjustment()">
-      @csrf
+      <?php echo csrf_field(); ?>
       <div class="stock-grid">
         <div class="stock-grid-full">
           <label for="product_id"
@@ -260,19 +260,26 @@
                   @change="updateCurrentStock()"
                   class="stock-form-select">
             <option value="">Select Product</option>
-            @foreach($products as $product)
-            <option value="{{ $product->id }}"
-                    data-current-stock="{{ $product->quantity }}"
-                    data-product-name="{{ $product->name }}"
-                    {{
-                    (old('product_id')
+            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($product->id); ?>"
+                    data-current-stock="<?php echo e($product->quantity); ?>"
+                    data-product-name="<?php echo e($product->name); ?>"
+                    <?php echo e((old('product_id')
                     ??
-                    request('product_id'))==$product->id ? 'selected' : '' }}>
-              {{ $product->name }} ({{ $product->sku }}) - Current: {{ $product->quantity }}
+                    request('product_id'))==$product->id ? 'selected' : ''); ?>>
+              <?php echo e($product->name); ?> (<?php echo e($product->sku); ?>) - Current: <?php echo e($product->quantity); ?>
+
             </option>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </select>
-          @error('product_id') <p class="stock-form-error">{{ $message }}</p> @enderror
+          <?php $__errorArgs = ['product_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
         </div>
 
         <!-- Current Stock Display -->
@@ -305,10 +312,17 @@
                  id="new_quantity"
                  required
                  min="0"
-                 value="{{ old('new_quantity', 0) }}"
+                 value="<?php echo e(old('new_quantity', 0)); ?>"
                  x-model="newQuantity"
                  class="stock-form-input">
-          @error('new_quantity') <p class="stock-form-error">{{ $message }}</p> @enderror
+          <?php $__errorArgs = ['new_quantity'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
           <!-- Adjustment Preview -->
           <div x-show="currentStock !== null && newQuantity !== ''"
@@ -332,9 +346,16 @@
           <input type="datetime-local"
                  name="transaction_date"
                  id="transaction_date"
-                 value="{{ old('transaction_date', now()->format('Y-m-d\TH:i')) }}"
+                 value="<?php echo e(old('transaction_date', now()->format('Y-m-d\TH:i'))); ?>"
                  class="stock-form-input">
-          @error('transaction_date') <p class="stock-form-error">{{ $message }}</p> @enderror
+          <?php $__errorArgs = ['transaction_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
         </div>
 
         <div class="stock-grid-full">
@@ -344,10 +365,17 @@
                  name="reason"
                  id="reason"
                  required
-                 value="{{ old('reason') }}"
+                 value="<?php echo e(old('reason')); ?>"
                  placeholder="e.g., Physical count adjustment, Damaged goods, Inventory correction"
                  class="stock-form-input">
-          @error('reason') <p class="stock-form-error">{{ $message }}</p> @enderror
+          <?php $__errorArgs = ['reason'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
         </div>
 
         <div class="stock-grid-full">
@@ -357,13 +385,20 @@
                     id="notes"
                     rows="3"
                     placeholder="Additional details about the adjustment..."
-                    class="stock-form-textarea">{{ old('notes') }}</textarea>
-          @error('notes') <p class="stock-form-error">{{ $message }}</p> @enderror
+                    class="stock-form-textarea"><?php echo e(old('notes')); ?></textarea>
+          <?php $__errorArgs = ['notes'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="stock-form-error"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
         </div>
       </div>
 
       <div class="stock-form-actions">
-        <a href="{{ route('stock.index') }}"
+        <a href="<?php echo e(route('stock.index')); ?>"
            class="stock-btn stock-btn-cancel">
           Cancel
         </a>
@@ -379,9 +414,9 @@
 <script>
   function stockAdjustment() {
     return {
-        selectedProduct: '{{ old('product_id') ?? request('product_id') }}',
+        selectedProduct: '<?php echo e(old('product_id') ?? request('product_id')); ?>',
         currentStock: null,
-        newQuantity: '{{ old('new_quantity', '') }}',
+        newQuantity: '<?php echo e(old('new_quantity', '')); ?>',
         productName: '',
 
         get adjustmentDifference() {
@@ -411,4 +446,6 @@
     }
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/stock/adjustment.blade.php ENDPATH**/ ?>

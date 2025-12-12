@@ -2,167 +2,343 @@
 
 @section('title', 'Supplier Details')
 
+@section('css')
+<style>
+  .supplier-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .supplier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .supplier-title h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+  }
+
+  .supplier-title p {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .supplier-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .supplier-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+
+  .supplier-btn-primary {
+    background-color: #3b82f6;
+    color: white;
+  }
+
+  .supplier-btn-primary:hover {
+    background-color: #2563eb;
+  }
+
+  .supplier-btn-secondary {
+    background-color: white;
+    color: #111827;
+    border: 1px solid #d1d5db;
+  }
+
+  .supplier-btn-secondary:hover {
+    background-color: #f9fafb;
+  }
+
+  .supplier-info-card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+  }
+
+  .supplier-info-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+  }
+
+  .supplier-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .supplier-info-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .supplier-info-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+
+  .supplier-info-value {
+    font-size: 0.875rem;
+    color: #111827;
+  }
+
+  .supplier-info-link {
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  .supplier-info-link:hover {
+    color: #1d4ed8;
+  }
+
+  .supplier-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .supplier-status-active {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+
+  .supplier-status-inactive {
+    background-color: #f3f4f6;
+    color: #4b5563;
+  }
+
+  .supplier-products-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+
+  .supplier-products-table thead {
+    background-color: #f9fafb;
+  }
+
+  .supplier-products-table th {
+    padding: 0.75rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #111827;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .supplier-products-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+
+  .supplier-products-table tbody tr:hover {
+    background-color: #f9fafb;
+  }
+
+  .supplier-empty-state {
+    padding: 2rem;
+    text-align: center;
+    color: #6b7280;
+  }
+
+  @media (max-width: 768px) {
+    .supplier-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .supplier-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .supplier-actions .supplier-btn {
+      width: 100%;
+    }
+
+    .supplier-info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+@endsection
+
 @section('content')
-<div class="space-y-6">
-  <div class="sm:flex sm:items-center sm:justify-between">
-    <div class="sm:flex-auto">
-      <h1 class="text-2xl font-bold text-gray-900">{{ $supplier->name }}</h1>
-      <p class="mt-1 text-sm text-gray-500">Supplier details and information</p>
+<div class="supplier-container">
+  <div class="supplier-header">
+    <div class="supplier-title">
+      <h1>{{ $supplier->name }}</h1>
+      <p>Supplier details and information</p>
     </div>
-    <div class="mt-4 sm:mt-0 sm:flex sm:gap-3">
+    <div class="supplier-actions">
       <a href="{{ route('suppliers.edit', $supplier) }}"
-         class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500">
-        <svg class="-ml-0.5 mr-1.5 h-5 w-5"
-             fill="none"
-             viewBox="0 0 24 24"
-             stroke-width="1.5"
-             stroke="currentColor">
-          <path stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-        </svg>
+         class="supplier-btn supplier-btn-primary">
+        <i class="bi bi-pencil-square"></i>
         Edit
       </a>
       <a href="{{ route('suppliers.index') }}"
-         class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">←
-        Back</a>
+         class="supplier-btn supplier-btn-secondary">← Back</a>
     </div>
   </div>
 
   <!-- Supplier Information -->
-  <div class="overflow-hidden rounded-lg bg-white shadow">
-    <div class="px-4 py-5 sm:p-6">
-      <h3 class="text-base font-semibold leading-6 text-gray-900 mb-4">Supplier Information</h3>
-      <div class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Name</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $supplier->name }}</dd>
-        </div>
+  <div class="supplier-info-card">
+    <h3 class="supplier-info-title">Supplier Information</h3>
+    <div class="supplier-info-grid">
+      <div class="supplier-info-item">
+        <dt class="supplier-info-label">Name</dt>
+        <dd class="supplier-info-value">{{ $supplier->name }}</dd>
+      </div>
 
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Status</dt>
-          <dd class="mt-1">
-            <span
-                  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {{ $supplier->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-              {{ $supplier->is_active ? 'Active' : 'Inactive' }}
-            </span>
-          </dd>
-        </div>
+      <div class="supplier-info-item">
+        <dt class="supplier-info-label">Status</dt>
+        <dd>
+          <span
+                class="supplier-status-badge {{ $supplier->is_active ? 'supplier-status-active' : 'supplier-status-inactive' }}">
+            {{ $supplier->is_active ? 'Active' : 'Inactive' }}
+          </span>
+        </dd>
+      </div>
 
-        @if($supplier->email)
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Email</dt>
-          <dd class="mt-1 text-sm text-gray-900">
-            <a href="mailto:{{ $supplier->email }}"
-               class="text-primary-600 hover:text-primary-500">{{ $supplier->email }}</a>
-          </dd>
-        </div>
-        @endif
+      @if($supplier->email)
+      <div class="supplier-info-item">
+        <dt class="supplier-info-label">Email</dt>
+        <dd class="supplier-info-value">
+          <a href="mailto:{{ $supplier->email }}"
+             class="supplier-info-link">{{ $supplier->email }}</a>
+        </dd>
+      </div>
+      @endif
 
-        @if($supplier->phone)
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Phone</dt>
-          <dd class="mt-1 text-sm text-gray-900">
-            <a href="tel:{{ $supplier->phone }}"
-               class="text-primary-600 hover:text-primary-500">{{ $supplier->phone }}</a>
-          </dd>
-        </div>
-        @endif
+      @if($supplier->phone)
+      <div class="supplier-info-item">
+        <dt class="supplier-info-label">Phone</dt>
+        <dd class="supplier-info-value">
+          <a href="tel:{{ $supplier->phone }}"
+             class="supplier-info-link">{{ $supplier->phone }}</a>
+        </dd>
+      </div>
+      @endif
 
-        @if($supplier->contact_person)
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Contact Person</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $supplier->contact_person }}</dd>
-        </div>
-        @endif
+      @if($supplier->contact_person)
+      <div class="supplier-info-item">
+        <dt class="supplier-info-label">Contact Person</dt>
+        <dd class="supplier-info-value">{{ $supplier->contact_person }}</dd>
+      </div>
+      @endif
 
-        @if($supplier->city)
-        <div>
-          <dt class="text-sm font-medium text-gray-500">City</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $supplier->city }}</dd>
-        </div>
-        @endif
+      @if($supplier->city)
+      <div class="supplier-info-item">
+        <dt class="supplier-info-label">City</dt>
+        <dd class="supplier-info-value">{{ $supplier->city }}</dd>
+      </div>
+      @endif
 
-        @if($supplier->country)
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Country</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $supplier->country }}</dd>
-        </div>
-        @endif
+      @if($supplier->country)
+      <div class="supplier-info-item">
+        <dt class="supplier-info-label">Country</dt>
+        <dd class="supplier-info-value">{{ $supplier->country }}</dd>
+      </div>
+      @endif
 
-        @if($supplier->address)
-        <div class="sm:col-span-2">
-          <dt class="text-sm font-medium text-gray-500">Address</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $supplier->address }}</dd>
-        </div>
-        @endif
+      @if($supplier->address)
+      <div class="supplier-info-item"
+           style="grid-column: 1 / -1;">
+        <dt class="supplier-info-label">Address</dt>
+        <dd class="supplier-info-value">{{ $supplier->address }}</dd>
+      </div>
+      @endif
 
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Created</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $supplier->created_at->format('M j, Y') }}</dd>
-        </div>
+      <div class="supplier-info-item">
+        <dt class="supplier-info-label">Created</dt>
+        <dd class="supplier-info-value">{{ $supplier->created_at->format('M j, Y') }}</dd>
+      </div>
 
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
-          <dd class="mt-1 text-sm text-gray-900">{{ $supplier->updated_at->format('M j, Y') }}</dd>
-        </div>
+      <div class="supplier-info-item">
+        <dt class="supplier-info-label">Last Updated</dt>
+        <dd class="supplier-info-value">{{ $supplier->updated_at->format('M j, Y') }}</dd>
       </div>
     </div>
   </div>
 
   <!-- Products from this Supplier (if any) -->
   @if(isset($supplier->products) && $supplier->products->count() > 0)
-  <div class="overflow-hidden rounded-lg bg-white shadow">
-    <div class="px-4 py-5 sm:p-6">
-      <h3 class="text-base font-semibold leading-6 text-gray-900 mb-4">Products from this Supplier</h3>
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-300">
-          <thead>
-            <tr>
-              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
-              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">SKU</th>
-              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Stock</th>
-              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Price</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200">
-            @foreach($supplier->products as $product)
-            <tr>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
-                <a href="{{ route('products.show', $product) }}"
-                   class="text-primary-600 hover:text-primary-500">{{ $product->name }}</a>
-              </td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $product->sku }}</td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $product->stock_quantity }}</td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">₱{{ number_format($product->price, 2) }}
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <div class="supplier-info-card">
+    <h3 class="supplier-info-title">Products from this Supplier</h3>
+    <table class="supplier-products-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>SKU</th>
+          <th>Stock</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($supplier->products as $product)
+        <tr>
+          <td>
+            <a href="{{ route('products.show', $product) }}"
+               class="supplier-table-link">{{ $product->name }}</a>
+          </td>
+          <td>{{ $product->sku }}</td>
+          <td>{{ $product->stock_quantity }}</td>
+          <td>₱{{ number_format($product->price, 2) }}</td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
   @endif
 
   <!-- Actions -->
-  <div class="flex justify-end gap-3">
+  <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
     <form method="POST"
           action="{{ route('suppliers.toggle-status', $supplier) }}"
-          class="inline">
+          style="display: inline;">
       @csrf @method('PATCH')
       <button type="submit"
-              class="rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500">
+              style="padding: 0.5rem 0.75rem; background-color: #f59e0b; color: white; border-radius: 0.375rem; border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">
         {{ $supplier->is_active ? 'Deactivate' : 'Activate' }} Supplier
       </button>
     </form>
     <form method="POST"
           action="{{ route('suppliers.destroy', $supplier) }}"
-          class="inline"
+          style="display: inline;"
           onsubmit="return confirm('Are you sure you want to delete this supplier? This action cannot be undone.')">
       @csrf @method('DELETE')
       <button type="submit"
-              class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">Delete
+              style="padding: 0.5rem 0.75rem; background-color: #dc2626; color: white; border-radius: 0.375rem; border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">Delete
         Supplier</button>
     </form>
   </div>

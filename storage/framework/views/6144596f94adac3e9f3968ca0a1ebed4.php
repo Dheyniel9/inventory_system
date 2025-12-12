@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Stock Transactions'); ?>
 
-@section('title', 'Stock Transactions')
-
-@section('css')
+<?php $__env->startSection('css'); ?>
 <style>
     .stock-header {
         display: flex;
@@ -308,31 +306,31 @@
         }
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="stock-container">
     <div class="stock-header">
         <div class="stock-title">
             <h1>Stock Transactions</h1>
             <p>View all stock movements</p>
         </div>
-        @can('manage stock')
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage stock')): ?>
         <div class="stock-actions">
-            <a href="{{ route('stock.in') }}"
+            <a href="<?php echo e(route('stock.in')); ?>"
                class="stock-btn stock-btn-in">
                 Stock In
             </a>
-            <a href="{{ route('stock.out') }}"
+            <a href="<?php echo e(route('stock.out')); ?>"
                class="stock-btn stock-btn-out">
                 Stock Out
             </a>
-            <a href="{{ route('stock.adjustment') }}"
+            <a href="<?php echo e(route('stock.adjustment')); ?>"
                class="stock-btn stock-btn-adjustment">
                 Adjustment
             </a>
         </div>
-        @endcan
+        <?php endif; ?>
     </div>
 
     <!-- Filters -->
@@ -345,7 +343,7 @@
                 <input type="text"
                        name="search"
                        id="search"
-                       value="{{ request('search') }}"
+                       value="<?php echo e(request('search')); ?>"
                        placeholder="Reference, Product..."
                        class="stock-filter-input">
             </div>
@@ -357,29 +355,21 @@
                         class="stock-filter-select">
                     <option value="">All Types</option>
                     <option value="in"
-                            {{
-                            request('type')==='in'
+                            <?php echo e(request('type')==='in'
                             ? 'selected'
-                            : ''
-                            }}>Stock In</option>
+                            : ''); ?>>Stock In</option>
                     <option value="out"
-                            {{
-                            request('type')==='out'
+                            <?php echo e(request('type')==='out'
                             ? 'selected'
-                            : ''
-                            }}>Stock Out</option>
+                            : ''); ?>>Stock Out</option>
                     <option value="adjustment"
-                            {{
-                            request('type')==='adjustment'
+                            <?php echo e(request('type')==='adjustment'
                             ? 'selected'
-                            : ''
-                            }}>Adjustment</option>
+                            : ''); ?>>Adjustment</option>
                     <option value="return"
-                            {{
-                            request('type')==='return'
+                            <?php echo e(request('type')==='return'
                             ? 'selected'
-                            : ''
-                            }}>Return</option>
+                            : ''); ?>>Return</option>
                 </select>
             </div>
             <div class="stock-filter-group">
@@ -388,7 +378,7 @@
                 <input type="date"
                        name="start_date"
                        id="start_date"
-                       value="{{ request('start_date') }}"
+                       value="<?php echo e(request('start_date')); ?>"
                        class="stock-filter-input">
             </div>
             <div class="stock-filter-group">
@@ -397,7 +387,7 @@
                 <input type="date"
                        name="end_date"
                        id="end_date"
-                       value="{{ request('end_date') }}"
+                       value="<?php echo e(request('end_date')); ?>"
                        class="stock-filter-input">
             </div>
             <div class="stock-filter-buttons">
@@ -405,7 +395,7 @@
                         class="stock-filter-btn stock-filter-btn-submit">
                     Filter
                 </button>
-                <a href="{{ route('stock.index') }}"
+                <a href="<?php echo e(route('stock.index')); ?>"
                    class="stock-filter-btn stock-filter-btn-reset">
                     Reset
                 </a>
@@ -429,56 +419,69 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($transactions as $transaction)
+                    <?php $__empty_1 = true; $__currentLoopData = $transactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <tr>
                         <td class="stock-table td nowrap">
-                            {{ $transaction->reference_number }}
+                            <?php echo e($transaction->reference_number); ?>
+
                         </td>
                         <td class="stock-table td nowrap">
-                            <a href="{{ route('products.show', $transaction->product) }}"
+                            <a href="<?php echo e(route('products.show', $transaction->product)); ?>"
                                class="stock-table-link">
-                                {{ $transaction->product->name }}
+                                <?php echo e($transaction->product->name); ?>
+
                             </a>
                         </td>
                         <td class="stock-table td nowrap">
                             <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                                    {{ $transaction->type === 'in' ? 'bg-green-100 text-green-800' : '' }}
-                                    {{ $transaction->type === 'out' ? 'bg-red-100 text-red-800' : '' }}
-                                    {{ $transaction->type === 'adjustment' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                    {{ $transaction->type === 'return' ? 'bg-blue-100 text-blue-800' : '' }}">
-                                {{ $transaction->type_label }}
+                                    <?php echo e($transaction->type === 'in' ? 'bg-green-100 text-green-800' : ''); ?>
+
+                                    <?php echo e($transaction->type === 'out' ? 'bg-red-100 text-red-800' : ''); ?>
+
+                                    <?php echo e($transaction->type === 'adjustment' ? 'bg-yellow-100 text-yellow-800' : ''); ?>
+
+                                    <?php echo e($transaction->type === 'return' ? 'bg-blue-100 text-blue-800' : ''); ?>">
+                                <?php echo e($transaction->type_label); ?>
+
                             </span>
                         </td>
                         <td
-                            class="whitespace-nowrap px-3 py-4 text-sm font-medium {{ $transaction->is_stock_in ? 'text-green-600' : 'text-red-600' }}">
-                            {{ $transaction->quantity_change }}
+                            class="whitespace-nowrap px-3 py-4 text-sm font-medium <?php echo e($transaction->is_stock_in ? 'text-green-600' : 'text-red-600'); ?>">
+                            <?php echo e($transaction->quantity_change); ?>
+
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ $transaction->quantity_before }} → {{ $transaction->quantity_after }}
+                            <?php echo e($transaction->quantity_before); ?> → <?php echo e($transaction->quantity_after); ?>
+
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ $transaction->user->name }}
+                            <?php echo e($transaction->user->name); ?>
+
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ $transaction->transaction_date->format('M d, Y H:i') }}
+                            <?php echo e($transaction->transaction_date->format('M d, Y H:i')); ?>
+
                         </td>
                     </tr>
-                    @empty
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <tr>
                         <td colspan="7"
                             class="px-6 py-12 text-center text-sm text-gray-500">
                             No transactions found.
                         </td>
                     </tr>
-                    @endforelse
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
-        @if($transactions->hasPages())
+        <?php if($transactions->hasPages()): ?>
         <div class="border-t border-gray-200 px-4 py-3 sm:px-6">
-            {{ $transactions->links() }}
+            <?php echo e($transactions->links()); ?>
+
         </div>
-        @endif
+        <?php endif; ?>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/stock/index.blade.php ENDPATH**/ ?>

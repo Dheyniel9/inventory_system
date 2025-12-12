@@ -2,22 +2,288 @@
 
 @section('title', 'Sale Details')
 
+@section('css')
+<style>
+    .sale-details-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .sale-back-link {
+        color: #2563eb;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .sale-back-link:hover {
+        color: #1d4ed8;
+    }
+
+    .sale-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .sale-title-section h1 {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #111827;
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+    }
+
+    .sale-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .sale-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .sale-action-btn.secondary {
+        background-color: #f3f4f6;
+        color: #4b5563;
+    }
+
+    .sale-action-btn.secondary:hover {
+        background-color: #e5e7eb;
+    }
+
+    .sale-action-btn.danger {
+        background-color: #dc2626;
+        color: white;
+    }
+
+    .sale-action-btn.danger:hover {
+        background-color: #b91c1c;
+    }
+
+    .sale-content-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .sale-grid-span2 {
+        grid-column: 1 / -1;
+    }
+
+    @media (min-width: 1024px) {
+        .sale-content-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .sale-grid-span2 {
+            grid-column: 1 / 3;
+        }
+    }
+
+    .sale-info-card {
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .sale-info-header {
+        padding: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .sale-info-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin: 0;
+    }
+
+    .sale-info-body {
+        padding: 1.5rem;
+    }
+
+    .sale-items-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+    }
+
+    .sale-items-table thead {
+        border-bottom: 2px solid #111827;
+    }
+
+    .sale-items-table th {
+        padding: 0.75rem;
+        text-align: left;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .sale-items-table td {
+        padding: 1rem 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .sale-items-table td.text-right {
+        text-align: right;
+    }
+
+    .sale-items-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .sale-item-name {
+        font-weight: 600;
+        color: #111827;
+        margin: 0;
+    }
+
+    .sale-item-sku {
+        font-size: 0.75rem;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    .sale-tfoot-row {
+        border-top: 1px solid #111827;
+    }
+
+    .sale-tfoot-label {
+        color: #4b5563;
+    }
+
+    .sale-tfoot-value {
+        color: #111827;
+    }
+
+    .sale-tfoot-value.highlight {
+        font-weight: 600;
+    }
+
+    .sale-tfoot-value.discount {
+        color: #dc2626;
+    }
+
+    .sale-tfoot-value.primary {
+        color: #2563eb;
+        font-weight: 700;
+        font-size: 1.125rem;
+    }
+
+    .sale-info-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .sale-info-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .sale-info-label {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .sale-info-value {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #111827;
+    }
+
+    .sale-info-value.highlight {
+        color: #16a34a;
+        font-weight: 600;
+    }
+
+    .sale-status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .sale-status-badge.paid {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    .sale-status-badge.pending {
+        background-color: #fef3c7;
+        color: #92400e;
+    }
+
+    .sale-status-badge.cancelled {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    .sale-notes {
+        white-space: pre-line;
+        color: #4b5563;
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+
+    /* Utility Classes */
+    .text-right {
+        text-align: right;
+    }
+
+    .sale-tfoot-row .text-right {
+        font-weight: 600;
+        color: #111827;
+    }
+
+    @media (max-width: 768px) {
+        .sale-content-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .sale-grid-span2 {
+            grid-column: auto;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
-<div class="space-y-6">
-    <div class="sm:flex sm:items-center sm:justify-between">
-        <div>
+<div class="sale-details-container">
+    <div class="sale-header">
+        <div class="sale-title-section">
             <a href="{{ route('pos.sales') }}"
-               class="text-sm font-medium text-primary-600 hover:text-primary-500">← Back to Sales</a>
-            <h1 class="mt-2 text-2xl font-bold text-gray-900">Invoice {{ $sale->invoice_number }}</h1>
+               class="sale-back-link">← Back to Sales</a>
+            <h1>Invoice {{ $sale->invoice_number }}</h1>
         </div>
-        <div class="mt-4 flex gap-3 sm:mt-0">
+        <div class="sale-actions">
             <a href="{{ route('pos.receipt', $sale) }}"
                target="_blank"
-               class="inline-flex items-center rounded-md bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200">
-                <svg class="-ml-0.5 mr-1.5 h-5 w-5"
-                     fill="none"
+               class="sale-action-btn secondary">
+                <svg fill="none"
                      viewBox="0 0 24 24"
-                     stroke="currentColor">
+                     stroke="currentColor"
+                     style="width: 1.25rem; height: 1.25rem;">
                     <path stroke-linecap="round"
                           stroke-linejoin="round"
                           stroke-width="2"
@@ -29,10 +295,11 @@
             @can('cancel sales')
             <form method="POST"
                   action="{{ route('pos.cancel', $sale) }}"
-                  onsubmit="return confirm('Cancel this sale? Stock will be restored.')">
+                  onsubmit="return confirm('Cancel this sale? Stock will be restored.');"
+                  style="display: inline;">
                 @csrf
                 <button type="submit"
-                        class="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-500">
+                        class="sale-action-btn danger">
                     Cancel Sale
                 </button>
             </form>
@@ -41,69 +308,68 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+    <div class="sale-content-grid">
         <!-- Sale Items -->
-        <div class="lg:col-span-2">
-            <div class="overflow-hidden rounded-lg bg-white shadow">
-                <div class="px-4 py-5 sm:p-6">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Items</h3>
-                    <table class="min-w-full divide-y divide-gray-200">
+        <div class="sale-grid-span2">
+            <div class="sale-info-card">
+                <div class="sale-info-header">
+                    <h3 class="sale-info-title">Items</h3>
+                </div>
+                <div class="sale-info-body">
+                    <table class="sale-items-table">
                         <thead>
                             <tr>
-                                <th class="py-3 text-left text-sm font-semibold text-gray-900">Product</th>
-                                <th class="px-3 py-3 text-right text-sm font-semibold text-gray-900">Price</th>
-                                <th class="px-3 py-3 text-right text-sm font-semibold text-gray-900">Qty</th>
-                                <th class="px-3 py-3 text-right text-sm font-semibold text-gray-900">Total</th>
+                                <th>Product</th>
+                                <th class="text-right">Price</th>
+                                <th class="text-right">Qty</th>
+                                <th class="text-right">Total</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody>
                             @foreach($sale->items as $item)
                             <tr>
-                                <td class="py-4">
-                                    <div class="font-medium text-gray-900">{{ $item->product_name }}</div>
-                                    <div class="text-sm text-gray-500">{{ $item->product_sku }}</div>
+                                <td>
+                                    <p class="sale-item-name">{{ $item->product_name }}</p>
+                                    <p class="sale-item-sku">{{ $item->product_sku }}</p>
                                 </td>
-                                <td class="px-3 py-4 text-right text-sm text-gray-500">₱{{
-                                    number_format($item->unit_price, 2) }}</td>
-                                <td class="px-3 py-4 text-right text-sm text-gray-500">{{ $item->quantity }}</td>
-                                <td class="px-3 py-4 text-right text-sm font-medium text-gray-900">₱{{
-                                    number_format($item->total, 2) }}</td>
+                                <td class="text-right">₱{{ number_format($item->unit_price, 2) }}</td>
+                                <td class="text-right">{{ $item->quantity }}</td>
+                                <td class="text-right sale-tfoot-value highlight">₱{{ number_format($item->total, 2) }}
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
-                        <tfoot class="border-t-2">
-                            <tr>
+                        <tfoot>
+                            <tr class="sale-tfoot-row">
                                 <td colspan="3"
-                                    class="py-3 text-right text-sm text-gray-600">Subtotal</td>
-                                <td class="px-3 py-3 text-right text-sm text-gray-900">₱{{
-                                    number_format($sale->subtotal, 2) }}</td>
+                                    class="text-right sale-tfoot-label">Subtotal</td>
+                                <td class="text-right sale-tfoot-value">₱{{ number_format($sale->subtotal, 2) }}</td>
                             </tr>
                             @if($sale->discount_amount > 0)
                             <tr>
                                 <td colspan="3"
-                                    class="py-2 text-right text-sm text-gray-600">
+                                    class="text-right sale-tfoot-label">
                                     Discount
                                     @if($sale->discount_type === 'percentage')
                                     ({{ $sale->discount_value }}%)
                                     @endif
                                 </td>
-                                <td class="px-3 py-2 text-right text-sm text-red-600">-₱{{
+                                <td class="text-right sale-tfoot-value discount">-₱{{
                                     number_format($sale->discount_amount, 2) }}</td>
                             </tr>
                             @endif
                             @if($sale->tax_amount > 0)
                             <tr>
                                 <td colspan="3"
-                                    class="py-2 text-right text-sm text-gray-600">Tax ({{ $sale->tax_rate }}%)</td>
-                                <td class="px-3 py-2 text-right text-sm text-gray-900">₱{{
-                                    number_format($sale->tax_amount, 2) }}</td>
+                                    class="text-right sale-tfoot-label">Tax ({{ $sale->tax_rate }}%)</td>
+                                <td class="text-right sale-tfoot-value">₱{{ number_format($sale->tax_amount, 2) }}</td>
                             </tr>
                             @endif
-                            <tr class="border-t">
+                            <tr class="sale-tfoot-row">
                                 <td colspan="3"
-                                    class="py-3 text-right text-lg font-semibold text-gray-900">Total</td>
-                                <td class="px-3 py-3 text-right text-lg font-bold text-primary-600">₱{{
-                                    number_format($sale->total, 2) }}</td>
+                                    class="text-right">Total</td>
+                                <td class="text-right sale-tfoot-value primary">₱{{ number_format($sale->total, 2) }}
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
@@ -112,87 +378,90 @@
         </div>
 
         <!-- Sale Info -->
-        <div class="space-y-6">
-            <div class="overflow-hidden rounded-lg bg-white shadow">
-                <div class="px-4 py-5 sm:p-6">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Sale Information</h3>
-                    <dl class="space-y-3">
-                        <div class="flex justify-between">
-                            <dt class="text-sm text-gray-500">Status</dt>
-                            <dd>
-                                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                                    {{ $sale->payment_status === 'paid' ? 'bg-green-100 text-green-800' : '' }}
-                                    {{ $sale->payment_status === 'pending' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                    {{ $sale->payment_status === 'cancelled' ? 'bg-red-100 text-red-800' : '' }}">
-                                    {{ $sale->payment_status_label }}
-                                </span>
-                            </dd>
+        <div>
+            <div class="sale-info-card">
+                <div class="sale-info-header">
+                    <h3 class="sale-info-title">Sale Information</h3>
+                </div>
+                <div class="sale-info-body">
+                    <div class="sale-info-list">
+                        <div class="sale-info-row">
+                            <span class="sale-info-label">Status</span>
+                            <span class="sale-status-badge {{ $sale->payment_status }}">
+                                {{ $sale->payment_status_label }}
+                            </span>
                         </div>
-                        <div class="flex justify-between">
-                            <dt class="text-sm text-gray-500">Payment Method</dt>
-                            <dd class="text-sm font-medium text-gray-900">{{ $sale->payment_method_label }}</dd>
+                        <div class="sale-info-row">
+                            <span class="sale-info-label">Payment Method</span>
+                            <span class="sale-info-value">{{ $sale->payment_method_label }}</span>
                         </div>
-                        <div class="flex justify-between">
-                            <dt class="text-sm text-gray-500">Amount Paid</dt>
-                            <dd class="text-sm font-medium text-gray-900">₱{{ number_format($sale->amount_paid, 2) }}
-                            </dd>
+                        <div class="sale-info-row">
+                            <span class="sale-info-label">Amount Paid</span>
+                            <span class="sale-info-value">₱{{ number_format($sale->amount_paid, 2) }}</span>
                         </div>
                         @if($sale->change_amount > 0)
-                        <div class="flex justify-between">
-                            <dt class="text-sm text-gray-500">Change</dt>
-                            <dd class="text-sm font-medium text-green-600">₱{{ number_format($sale->change_amount, 2) }}
-                            </dd>
+                        <div class="sale-info-row">
+                            <span class="sale-info-label">Change</span>
+                            <span class="sale-info-value highlight">₱{{ number_format($sale->change_amount, 2) }}</span>
                         </div>
                         @endif
-                        <div class="flex justify-between">
-                            <dt class="text-sm text-gray-500">Date</dt>
-                            <dd class="text-sm text-gray-900">{{ $sale->sale_date->format('M d, Y H:i') }}</dd>
+                        <div class="sale-info-row">
+                            <span class="sale-info-label">Date</span>
+                            <span class="sale-info-value">{{ $sale->sale_date->format('M d, Y H:i') }}</span>
                         </div>
-                        <div class="flex justify-between">
-                            <dt class="text-sm text-gray-500">Cashier</dt>
-                            <dd class="text-sm text-gray-900">{{ $sale->user->name }}</dd>
+                        <div class="sale-info-row">
+                            <span class="sale-info-label">Cashier</span>
+                            <span class="sale-info-value">{{ $sale->user->name }}</span>
                         </div>
-                    </dl>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            @if($sale->customer_name || $sale->customer_phone || $sale->customer_email)
-            <div class="overflow-hidden rounded-lg bg-white shadow">
-                <div class="px-4 py-5 sm:p-6">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Customer</h3>
-                    <dl class="space-y-2">
+        @if($sale->customer_name || $sale->customer_phone || $sale->customer_email)
+        <div>
+            <div class="sale-info-card">
+                <div class="sale-info-header">
+                    <h3 class="sale-info-title">Customer</h3>
+                </div>
+                <div class="sale-info-body">
+                    <div class="sale-info-list">
                         @if($sale->customer_name)
                         <div>
-                            <dt class="text-sm text-gray-500">Name</dt>
-                            <dd class="text-sm font-medium text-gray-900">{{ $sale->customer_name }}</dd>
+                            <div class="sale-info-label">Name</div>
+                            <div class="sale-info-value">{{ $sale->customer_name }}</div>
                         </div>
                         @endif
                         @if($sale->customer_phone)
                         <div>
-                            <dt class="text-sm text-gray-500">Phone</dt>
-                            <dd class="text-sm text-gray-900">{{ $sale->customer_phone }}</dd>
+                            <div class="sale-info-label">Phone</div>
+                            <div class="sale-info-value">{{ $sale->customer_phone }}</div>
                         </div>
                         @endif
                         @if($sale->customer_email)
                         <div>
-                            <dt class="text-sm text-gray-500">Email</dt>
-                            <dd class="text-sm text-gray-900">{{ $sale->customer_email }}</dd>
+                            <div class="sale-info-label">Email</div>
+                            <div class="sale-info-value">{{ $sale->customer_email }}</div>
                         </div>
                         @endif
-                    </dl>
+                    </div>
                 </div>
             </div>
-            @endif
-
-            @if($sale->notes)
-            <div class="overflow-hidden rounded-lg bg-white shadow">
-                <div class="px-4 py-5 sm:p-6">
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">Notes</h3>
-                    <p class="text-sm text-gray-600 whitespace-pre-line">{{ $sale->notes }}</p>
-                </div>
-            </div>
-            @endif
         </div>
+        @endif
+
+        @if($sale->notes)
+        <div>
+            <div class="sale-info-card">
+                <div class="sale-info-header">
+                    <h3 class="sale-info-title">Notes</h3>
+                </div>
+                <div class="sale-info-body">
+                    <p class="sale-notes">{{ $sale->notes }}</p>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 @endsection

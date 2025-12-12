@@ -152,6 +152,7 @@
         padding: 0 0.5rem;
         font-size: 0.875rem;
         color: #6B7280;
+        white-space: nowrap
     }
 
     .demo-credentials {

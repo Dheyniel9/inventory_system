@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Stock In'); ?>
 
-@section('title', 'Stock In')
-
-@section('css')
+<?php $__env->startSection('css'); ?>
 <style>
     .stock-header {
         display: flex;
@@ -186,9 +184,9 @@
         }
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="space-y-6">
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
@@ -196,7 +194,7 @@
             <p class="mt-1 text-sm text-gray-500">Record incoming inventory</p>
         </div>
         <div class="mt-4 sm:mt-0">
-            <a href="{{ route('stock.index') }}"
+            <a href="<?php echo e(route('stock.index')); ?>"
                class="text-sm font-medium text-primary-600 hover:text-primary-500">
                 ← Back to Transactions
             </a>
@@ -204,10 +202,10 @@
     </div>
 
     <div class="rounded-lg bg-white shadow">
-        <form action="{{ route('stock.in.process') }}"
+        <form action="<?php echo e(route('stock.in.process')); ?>"
               method="POST"
               class="space-y-6 p-6">
-            @csrf
+            <?php echo csrf_field(); ?>
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div class="sm:col-span-2">
                     <label for="product_id"
@@ -217,17 +215,24 @@
                             required
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
                         <option value="">Select Product</option>
-                        @foreach($products as $product)
-                        <option value="{{ $product->id }}"
-                                {{
-                                (old('product_id')
+                        <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($product->id); ?>"
+                                <?php echo e((old('product_id')
                                 ??
-                                request('product_id'))==$product->id ? 'selected' : '' }}>
-                            {{ $product->name }} ({{ $product->sku }}) - Current: {{ $product->quantity }}
+                                request('product_id'))==$product->id ? 'selected' : ''); ?>>
+                            <?php echo e($product->name); ?> (<?php echo e($product->sku); ?>) - Current: <?php echo e($product->quantity); ?>
+
                         </option>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
-                    @error('product_id') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <?php $__errorArgs = ['product_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <div>
@@ -238,9 +243,16 @@
                            id="quantity"
                            required
                            min="1"
-                           value="{{ old('quantity', 1) }}"
+                           value="<?php echo e(old('quantity', 1)); ?>"
                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-                    @error('quantity') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <?php $__errorArgs = ['quantity'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <div>
@@ -255,11 +267,18 @@
                                id="unit_cost"
                                step="0.01"
                                min="0"
-                               value="{{ old('unit_cost') }}"
+                               value="<?php echo e(old('unit_cost')); ?>"
                                placeholder="Uses product cost if empty"
                                class="block w-full rounded-md border-gray-300 pl-7 focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
                     </div>
-                    @error('unit_cost') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <?php $__errorArgs = ['unit_cost'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <div>
@@ -268,9 +287,16 @@
                     <input type="datetime-local"
                            name="transaction_date"
                            id="transaction_date"
-                           value="{{ old('transaction_date', now()->format('Y-m-d\TH:i')) }}"
+                           value="<?php echo e(old('transaction_date', now()->format('Y-m-d\TH:i'))); ?>"
                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-                    @error('transaction_date') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <?php $__errorArgs = ['transaction_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <div>
@@ -279,10 +305,17 @@
                     <input type="text"
                            name="reason"
                            id="reason"
-                           value="{{ old('reason') }}"
+                           value="<?php echo e(old('reason')); ?>"
                            placeholder="e.g., Purchase order #123"
                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-                    @error('reason') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <?php $__errorArgs = ['reason'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <div class="sm:col-span-2">
@@ -291,13 +324,20 @@
                     <textarea name="notes"
                               id="notes"
                               rows="3"
-                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">{{ old('notes') }}</textarea>
-                    @error('notes') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"><?php echo e(old('notes')); ?></textarea>
+                    <?php $__errorArgs = ['notes'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
             </div>
 
             <div class="flex justify-end gap-3 pt-4 border-t">
-                <a href="{{ route('stock.index') }}"
+                <a href="<?php echo e(route('stock.index')); ?>"
                    class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                     Cancel
                 </a>
@@ -309,4 +349,6 @@
         </form>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\cnucum_projects\inventory-system\resources\views/stock/stock-in.blade.php ENDPATH**/ ?>
