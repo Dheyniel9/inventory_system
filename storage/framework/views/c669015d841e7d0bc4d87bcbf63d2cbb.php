@@ -181,11 +181,11 @@
   }
 </style>
 
-<div class="navbar">
+<div class="navbar"
+     x-data="{}">
   <button type="button"
           class="mobile-menu-button"
-          @click="sidebarOpen = true">
-    <span class="sr-only">Open sidebar</span>
+          @click="$dispatch('sidebar-toggle')">
     <svg fill="none"
          viewBox="0 0 24 24"
          stroke-width="1.5"

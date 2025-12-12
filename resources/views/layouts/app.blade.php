@@ -127,38 +127,8 @@
 </head>
 
 <body>
-    <div class="app-layout"
-         x-data="{ sidebarOpen: false }">
-        <!-- Mobile sidebar -->
-        <div class="mobile-sidebar-overlay"
-             :class="{ 'visible': sidebarOpen, 'hidden': !sidebarOpen }">
-            <div class="sidebar-backdrop"
-                 @click="sidebarOpen = false"></div>
-            <div class="sidebar-container">
-                <div class="sidebar-content">
-                    <div class="sidebar-close-button">
-                        <button type="button"
-                                @click="sidebarOpen = false">
-                            <span class="sr-only">Close sidebar</span>
-                            <svg fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    @include('layouts.sidebar')
-                </div>
-            </div>
-        </div>
-
-        <!-- Static sidebar for desktop -->
-        <div class="desktop-sidebar">
-            @include('layouts.sidebar')
-        </div>
+    <div class="app-layout">
+        @include('layouts.sidebar')
 
         <!-- Main content -->
         <div class="main-content">
@@ -215,8 +185,10 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-            defer></script>
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 
 </html>

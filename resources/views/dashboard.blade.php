@@ -419,7 +419,9 @@
         <div class="card">
             <div class="card-header">
                 <h3>Low Stock Alert</h3>
+                @if($lowStockProducts->count() > 0)
                 <a href="{{ route('products.low-stock') }}">View all</a>
+                @endif
             </div>
             <div class="card-body">
                 <div class="table-wrapper">
@@ -456,7 +458,9 @@
         <div class="card">
             <div class="card-header">
                 <h3>Recent Transactions</h3>
+                @if($recentTransactions->count() > 0)
                 <a href="{{ route('stock.index') }}">View all</a>
+                @endif
             </div>
             <div class="card-body">
                 <div class="table-wrapper">

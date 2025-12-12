@@ -419,7 +419,9 @@
         <div class="card">
             <div class="card-header">
                 <h3>Low Stock Alert</h3>
+                <?php if($lowStockProducts->count() > 0): ?>
                 <a href="<?php echo e(route('products.low-stock')); ?>">View all</a>
+                <?php endif; ?>
             </div>
             <div class="card-body">
                 <div class="table-wrapper">
@@ -455,7 +457,9 @@
         <div class="card">
             <div class="card-header">
                 <h3>Recent Transactions</h3>
+                <?php if($recentTransactions->count() > 0): ?>
                 <a href="<?php echo e(route('stock.index')); ?>">View all</a>
+                <?php endif; ?>
             </div>
             <div class="card-body">
                 <div class="table-wrapper">
