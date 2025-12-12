@@ -240,7 +240,7 @@
 
     .empty-state {
         padding: 3rem 1.5rem;
-        text-align: center;
+        text-align: center !important;
         font-size: 0.875rem;
         color: #6b7280;
     }
